@@ -1,0 +1,52 @@
+file:
+  /usr/local/etc/php/conf.d/php.ini:
+    filetype: file
+    exists: true
+    owner: www-data
+    group: www-data
+    contains:
+      - "date.timezone = UTC"
+  /usr/local/etc/php/conf.d/opcache.ini:
+    filetype: file
+    exists: true
+    owner: www-data
+    group: www-data
+    contains:
+      - "opcache.memory_consumption = 256"
+group:
+  www-data:
+    exists: true
+user:
+  www-data:
+    exists: true
+    groups:
+      - www-data
+package:
+  curl:
+    installed: true
+command:
+  "php -v":
+    stdout:
+      - "PHP 8.0"
+    stderr:
+      - "!/Unable to load dynamic library/"
+    exit-status: 0
+  "php -m":
+    stdout:
+      - bcmath
+      - bz2
+      - decimal
+      - intl
+      - OPcache
+      - pcntl
+      - pdo_mysql
+      - pdo_pgsql
+      - redis
+      - sockets
+      - zip
+    exit-status: 0
+  "php --info":
+    stdout:
+      - opcache.enable => On => On
+      - opcache.enable_cli => On => On
+    exit-status: 0

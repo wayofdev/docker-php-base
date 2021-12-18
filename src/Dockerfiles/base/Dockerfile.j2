@@ -1,0 +1,112 @@
+{{ edit_comment_base }}
+
+FROM php:{{ php_version }}-{{ php_type }}-alpine
+
+# Labels
+# https://github.com/opencontainers/image-spec/blob/main/annotations.md
+LABEL "maintainer"="lotyp <lotyp7@gmail.com>"
+LABEL "vendor"="wayofdev"
+LABEL "org.opencontainers.image.authors"="lotyp <lotyp7@gmail.com>"
+LABEL "org.opencontainers.image.url"="https://hub.docker.com/r/wayofdev/php-{{ level }}"
+LABEL "org.opencontainers.image.documentation"="https://github.com/wayofdev/docker-php-{{ level }}"
+LABEL "org.opencontainers.image.source"="https://github.com/wayofdev/docker-php-{{ level }}"
+LABEL "org.opencontainers.image.vendor"="wayofdev"
+LABEL "org.opencontainers.image.licenses"="MIT"
+LABEL "org.opencontainers.image.ref.name"="{{ php_version }}-{{ level }}"
+LABEL "org.opencontainers.image.title"="PHP-{{ php_type|upper }} {{ php_version }}-{{ level }}"
+LABEL "org.opencontainers.image.description"="PHP-{{ php_type|upper }} {{ php_version }}-{{ level }}"
+
+ENV LANG="en_US.UTF-8"
+ENV LC_ALL="en_US.UTF-8"
+ENV LANGUAGE="en_US.UTF-8"
+
+ENV PHP_OPCACHE_ENABLE="{{ settings_opcache_ini.php_opcache_enable }}"
+ENV PHP_OPCACHE_ENABLE_CLI="{{ settings_opcache_ini.php_opcache_enable_cli }}"
+ENV PHP_TIMEZONE="{{ settings_php_ini.php_timezone }}"
+ENV PHP_POST_MAX_SIZE="{{ settings_php_ini.php_post_max_size }}"
+ENV PHP_MEMORY_LIMIT="{{ settings_php_ini.php_memory_limit }}"
+{% if php_type == 'fpm' %}
+ENV PHPFPM_SLOWLOG_TIMEOUT="5s"
+{% endif %}
+
+RUN set -eux; \
+    apk -U upgrade -a \
+    # Add production dependencies
+    && apk add --update --no-cache \
+        curl \
+    # Temporary build dependencies for compiling Pecl extensions
+    && apk add --update --no-cache --virtual .temp-build-deps \
+        $PHPIZE_DEPS \
+    # Intl - Internationalization; "icu-dev" is temporary build dependency
+{% if 'intl' in ext_native_enabled %}
+    && apk add --update --no-cache \
+        icu-libs \
+        icu-dev \
+    && docker-php-ext-install -j$(nproc) intl \
+    && apk del icu-dev \
+{% endif %}
+    # Pcntl - Process control support
+{% if 'pcntl' in ext_native_enabled %}
+    && docker-php-ext-install -j$(nproc) pcntl \
+{% endif %}
+{% if 'sockets' in ext_native_enabled %}
+    && docker-php-ext-install -j$(nproc) --ini-name docker-php-ext-00-sockets.ini sockets \
+{% endif %}
+    # MySQL
+{% if 'pdo_mysql' in ext_native_enabled %}
+    && docker-php-ext-install -j$(nproc) pdo_mysql \
+{% endif %}
+    # Postgres; "postgresql-dev" is temporary build dependency
+{% if 'pdo_pgsql' in ext_native_enabled %}
+    && apk add --no-cache -X https://dl-cdn.alpinelinux.org/alpine/edge/main postgresql-dev \
+    && apk add --no-cache -X https://dl-cdn.alpinelinux.org/alpine/edge/main postgresql-libs \
+    && docker-php-ext-install -j$(nproc) pdo_pgsql \
+    && apk del postgresql-dev \
+{% endif %}
+    # Opcache
+{% if 'OPcache' in ext_native_enabled %}
+    && docker-php-ext-install -j$(nproc) opcache \
+{% endif %}
+    # Zip
+{% if 'zip' in ext_native_enabled %}
+    && apk add --update --no-cache \
+        libzip \
+        libzip-dev zlib-dev \
+    && docker-php-ext-install -j$(nproc) zip \
+    && apk del libzip-dev zlib-dev \
+{% endif %}
+    # Bz2
+{% if 'bz2' in ext_native_enabled %}
+    && apk add --update --no-cache \
+        libbz2 \
+        bzip2-dev \
+    && docker-php-ext-install -j$(nproc) bz2 \
+    && apk del bzip2-dev \
+{% endif %}
+    # Bcmath - Arbitrary Precision Mathematics
+{% if 'bcmath' in ext_native_enabled %}
+    && docker-php-ext-install -j$(nproc) bcmath \
+{% endif %}
+    ####################################################################################################################
+    # Pecl Dependencies
+    # Redis - In-memory data structure store driver; zstd-dev is temporary build dependency
+{% if 'redis' in ext_pecl_enabled %}
+    && apk add --update --no-cache \
+        zstd-libs \
+        zstd-dev \
+    && pecl install redis-{{ ext_pecl_versions.redis }} \
+    && docker-php-ext-enable redis \
+    && apk del zstd-dev \
+{% endif %}
+    # Decimal - Correctly-rounded arbitrary precision decimal floating point arithmetic
+{% if 'decimal' in ext_pecl_enabled %}
+    && apk add --update --no-cache \
+        mpdecimal-dev \
+        mpdecimal \
+    && pecl install decimal-{{ ext_pecl_versions.decimal }} \
+    && docker-php-ext-enable decimal \
+    && apk del mpdecimal-dev \
+{% endif %}
+    && apk del -f .temp-build-deps
+
+COPY --chown=www-data ./configs/ /usr/local/etc/php/conf.d/

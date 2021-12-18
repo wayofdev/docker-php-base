@@ -1,0 +1,90 @@
+---
+
+# Ansible specific definitions
+########################################################################################################################
+edit_comment_base: "# Auto-generated via Ansible: edit src/ansible/Dockerfiles/base/Dockerfile.j2 instead."
+
+
+
+# Available PHP versions (see inventory)
+########################################################################################################################
+php_versions:
+  - 7.4
+  - 8.0
+  - 8.1
+
+
+
+# Configuration Settings
+########################################################################################################################
+settings_opcache_ini:
+  php_opcache_enable: 1
+  php_opcache_enable_cli: 1
+
+settings_php_ini:
+  php_timezone: "UTC"
+  php_post_max_size: "16M"
+  php_memory_limit: "256M"
+
+
+
+# Base dist directories
+########################################################################################################################
+tpl_directories:
+  # For "base" create only fpm and cli versions
+  - path: "../dist/base/{{ php_version }}-{{ php_type }}-{{ os_version }}/"
+
+tpl_config_directories:
+  # Additionally, configs directory
+  - path: "../dist/base/{{ php_version }}-{{ php_type }}-{{ os_version }}/configs/"
+
+
+
+# Dockerfile paths for cli and fpm Dockerfiles
+########################################################################################################################
+tpl_dockerfiles:
+  - src: Dockerfiles/base/Dockerfile.j2
+    dst: "../dist/base/{{ php_version }}-{{ php_type }}-{{ os_version }}/Dockerfile"
+
+
+
+# Additional configuration files
+########################################################################################################################
+tpl_configs:
+  # php.ini
+  - src: config/base/php.ini.j2
+    dst: "../dist/base/{{ php_version }}-{{ php_type }}-{{ os_version }}/configs/php.ini"
+  # opcache.ini
+  - src: config/base/opcache.ini.j2
+    dst: "../dist/base/{{ php_version }}-{{ php_type }}-{{ os_version }}/configs/opcache.ini"
+
+
+
+# Dgoss tests
+########################################################################################################################
+tpl_docker_tests:
+  - src: Dockerfiles/base/goss.yaml.j2
+    dst: "../dist/base/{{ php_version }}-{{ php_type }}-{{ os_version }}/goss.yaml"
+
+
+
+# Enabled extensions
+########################################################################################################################
+ext_native_enabled:
+  - intl
+  - pcntl
+  - sockets
+  - pdo_mysql
+  - pdo_pgsql
+  - OPcache
+  - zip
+  - bz2
+  - bcmath
+
+ext_pecl_enabled:
+  - redis
+  - decimal
+
+ext_pecl_versions:
+  redis: "5.3.5RC1"
+  decimal: "1.4.0"

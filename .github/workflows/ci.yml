@@ -17,8 +17,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php_version: [ '7.4']
-        php_type: [ 'fpm']
+        php_version: ['7.4', '8.0', '8.1']
+        php_type: ['fpm', 'cli']
         os_version: ['alpine']
     steps:
       - uses: e1himself/goss-installation-action@v1.0.4
@@ -47,6 +47,7 @@ jobs:
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
           flavor: |
+            latest=false
             prefix=${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_version }}-
 
       - name: Login to DockerHub

@@ -17,8 +17,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php_version: ['7.4', '8.0', '8.1']
-        php_type: ['fpm', 'cli']
+        php_version: ['7.4']
+        php_type: ['fpm']
+#        php_version: ['7.4', '8.0', '8.1']
+#        php_type: ['fpm', 'cli']
         os_version: ['alpine']
     steps:
       - uses: e1himself/goss-installation-action@v1.0.4
@@ -42,7 +44,7 @@ jobs:
         with:
           images: ${{ env.IMAGE_NAMESPACE }}
           tags: |
-            type=ref,event=branch,prefix=${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_version }}-
+            type=raw,event=branch,value=${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_version }}-latest
             type=ref,event=pr
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
@@ -88,7 +90,7 @@ jobs:
       - name: Test Docker Master Image
         if: success() && ! startsWith(github.ref, 'refs/tags/')
         run: |
-          IMAGE_TAG=${{ env.IMAGE_NAMESPACE }}:${{ env.TEMPLATE }}-master make test
+          IMAGE_TAG=${{ env.IMAGE_NAMESPACE }}:${{ env.TEMPLATE }}-latest make test
 
       - name: Push Docker Image
         uses: docker/build-push-action@v2

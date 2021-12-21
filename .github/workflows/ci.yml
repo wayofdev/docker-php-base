@@ -44,7 +44,7 @@ jobs:
         with:
           images: ${{ env.IMAGE_NAMESPACE }}
           tags: |
-            type=raw,event=branch,value=${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_version }}-latest
+            type=raw,event=branch,value=latest
             type=ref,event=pr
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}

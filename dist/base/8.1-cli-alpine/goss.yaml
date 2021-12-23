@@ -34,12 +34,10 @@ command:
   "php -m":
     stdout:
       - bcmath
-      - bz2
       - decimal
       - intl
       - OPcache
       - pcntl
-      - pdo_mysql
       - pdo_pgsql
       - redis
       - sockets

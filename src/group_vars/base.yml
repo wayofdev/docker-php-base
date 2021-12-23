@@ -2,16 +2,7 @@
 
 # Ansible specific definitions
 ########################################################################################################################
-edit_comment_base: "# Auto-generated via Ansible: edit src/ansible/Dockerfiles/base/Dockerfile.j2 instead."
-
-
-
-# Available PHP versions (see inventory)
-########################################################################################################################
-php_versions:
-  - 7.4
-  - 8.0
-  - 8.1
+edit_comment_base: "# Auto-generated via Ansible: edit src/Dockerfiles/base/Dockerfile.j2 instead."
 
 
 
@@ -74,11 +65,11 @@ ext_native_enabled:
   - intl
   - pcntl
   - sockets
-  - pdo_mysql
+  # - pdo_mysql
   - pdo_pgsql
   - OPcache
   - zip
-  - bz2
+  # - bz2
   - bcmath
 
 ext_pecl_enabled:

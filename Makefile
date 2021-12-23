@@ -17,12 +17,12 @@ all: build test
 PHONY: all
 
 build:
-	cd $(CURRENT_DIR)/$(DOCKERFILE_DIR); \
+	cd $(CURRENT_DIR)$(DOCKERFILE_DIR); \
 	docker build . -t $(IMAGE_TAG)
 PHONY: build
 
 build-from-cache:
-	cd $(CURRENT_DIR)/$(DOCKERFILE_DIR); \
+	cd $(CURRENT_DIR)$(DOCKERFILE_DIR); \
 	docker build --cache-from $(CACHE_FROM) . -t $(IMAGE_TAG)
 PHONY: build-from-cache
 

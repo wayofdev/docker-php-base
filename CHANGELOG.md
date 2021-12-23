@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://github.com/wayofdev/docker-php-base/compare/v1.0.6...v1.1.0) (2021-12-23)
+
+
+### Features
+
+* removed bz2, pdo_mysql. minor fixes in templates ([7948539](https://github.com/wayofdev/docker-php-base/commit/79485391d338d7a075b38648f23cb894c78a4df6))
+
 ### [1.0.6](https://github.com/wayofdev/docker-php-base/compare/v1.0.5...v1.0.6) (2021-12-21)
 
 ### [1.0.5](https://github.com/wayofdev/docker-php-base/compare/v1.0.4...v1.0.5) (2021-12-21)

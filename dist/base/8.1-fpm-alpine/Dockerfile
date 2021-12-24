@@ -74,7 +74,7 @@ RUN set -eux; \
     && pecl install decimal-1.4.0 \
     && docker-php-ext-enable decimal \
     && apk del mpdecimal-dev \
-    && chown -R www-data /usr/local/etc/php/conf.d/ \
+    && chown -R www-data:www-data /usr/local/etc/php/conf.d/ \
     && apk del -f .temp-build-deps
 
 COPY --chown=www-data ./configs/ /usr/local/etc/php/conf.d/

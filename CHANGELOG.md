@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.1](https://github.com/wayofdev/docker-php-base/compare/v1.1.0...v1.1.1) (2021-12-24)
+
+
+### Bug Fixes
+
+* chown configs directory ([04e2f30](https://github.com/wayofdev/docker-php-base/commit/04e2f309adb78dc85109d6ed1aa007f4b0b8a4eb))
+
 ## [1.1.0](https://github.com/wayofdev/docker-php-base/compare/v1.0.6...v1.1.0) (2021-12-23)
 
 

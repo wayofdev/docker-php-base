@@ -5,7 +5,7 @@
     path: "{{ item.path }}"
     state: directory
     mode: 0775
-    recurse: yes
+    recurse: true
   with_items:
     - "{{ tpl_directories }}"
 
@@ -14,7 +14,7 @@
     path: "{{ item.path }}"
     state: directory
     mode: 0775
-    recurse: yes
+    recurse: true
   with_items:
     - "{{ tpl_config_directories }}"
 
@@ -44,3 +44,5 @@
     mode:  0644
   with_items:
     - "{{ tpl_docker_tests }}"
+
+...

@@ -5,7 +5,6 @@
 edit_comment_base: "# Auto-generated via Ansible: edit src/Dockerfiles/base/Dockerfile.j2 instead."
 
 
-
 # Configuration Settings
 ########################################################################################################################
 settings_opcache_ini:
@@ -18,25 +17,22 @@ settings_php_ini:
   php_memory_limit: "256M"
 
 
-
 # Base dist directories
 ########################################################################################################################
 tpl_directories:
   # For "base" create only fpm and cli versions
-  - path: "../dist/base/{{ php_version }}-{{ php_type }}-{{ os_version }}/"
+  - path: "../dist/base/{{ php_version }}-{{ php_type }}-{{ os_name }}/"
 
 tpl_config_directories:
   # Additionally, configs directory
-  - path: "../dist/base/{{ php_version }}-{{ php_type }}-{{ os_version }}/configs/"
-
+  - path: "../dist/base/{{ php_version }}-{{ php_type }}-{{ os_name }}/configs/"
 
 
 # Dockerfile paths for cli and fpm Dockerfiles
 ########################################################################################################################
 tpl_dockerfiles:
   - src: Dockerfiles/base/Dockerfile.j2
-    dst: "../dist/base/{{ php_version }}-{{ php_type }}-{{ os_version }}/Dockerfile"
-
+    dst: "../dist/base/{{ php_version }}-{{ php_type }}-{{ os_name }}/Dockerfile"
 
 
 # Additional configuration files
@@ -44,19 +40,17 @@ tpl_dockerfiles:
 tpl_configs:
   # php.ini
   - src: config/base/php.ini.j2
-    dst: "../dist/base/{{ php_version }}-{{ php_type }}-{{ os_version }}/configs/php.ini"
+    dst: "../dist/base/{{ php_version }}-{{ php_type }}-{{ os_name }}/configs/php.ini"
   # opcache.ini
   - src: config/base/opcache.ini.j2
-    dst: "../dist/base/{{ php_version }}-{{ php_type }}-{{ os_version }}/configs/opcache.ini"
-
+    dst: "../dist/base/{{ php_version }}-{{ php_type }}-{{ os_name }}/configs/opcache.ini"
 
 
 # Dgoss tests
 ########################################################################################################################
 tpl_docker_tests:
   - src: Dockerfiles/base/goss.yaml.j2
-    dst: "../dist/base/{{ php_version }}-{{ php_type }}-{{ os_version }}/goss.yaml"
-
+    dst: "../dist/base/{{ php_version }}-{{ php_type }}-{{ os_name }}/goss.yaml"
 
 
 # Enabled extensions
@@ -79,3 +73,5 @@ ext_pecl_enabled:
 ext_pecl_versions:
   redis: "5.3.5RC1"
   decimal: "1.4.0"
+
+...

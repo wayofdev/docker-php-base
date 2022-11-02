@@ -55,8 +55,8 @@ RUN set -eux; \
 {% endif %}
     # Postgres; "postgresql-dev" is temporary build dependency
 {% if 'pdo_pgsql' in ext_native_enabled %}
-    && apk add --no-cache -X https://dl-cdn.alpinelinux.org/alpine/edge/main postgresql-dev \
-    && apk add --no-cache -X https://dl-cdn.alpinelinux.org/alpine/edge/main postgresql-libs \
+    && apk add --no-cache -X https://dl-cdn.alpinelinux.org/alpine/{{ os_version }}/main postgresql-dev \
+    && apk add --no-cache -X https://dl-cdn.alpinelinux.org/alpine/{{ os_version }}/main postgresql-libs \
     && docker-php-ext-install -j$(nproc) pdo_pgsql \
     && apk del postgresql-dev \
 {% endif %}

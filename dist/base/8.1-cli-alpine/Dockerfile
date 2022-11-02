@@ -42,8 +42,8 @@ RUN set -eux; \
     && docker-php-ext-install -j$(nproc) --ini-name docker-php-ext-00-sockets.ini sockets \
     # MySQL
     # Postgres; "postgresql-dev" is temporary build dependency
-    && apk add --no-cache -X https://dl-cdn.alpinelinux.org/alpine/edge/main postgresql-dev \
-    && apk add --no-cache -X https://dl-cdn.alpinelinux.org/alpine/edge/main postgresql-libs \
+    && apk add --no-cache -X https://dl-cdn.alpinelinux.org/alpine/3.16/main postgresql-dev \
+    && apk add --no-cache -X https://dl-cdn.alpinelinux.org/alpine/3.16/main postgresql-libs \
     && docker-php-ext-install -j$(nproc) pdo_pgsql \
     && apk del postgresql-dev \
     # Opcache

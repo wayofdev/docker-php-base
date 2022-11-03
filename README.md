@@ -12,10 +12,11 @@
 <div align="center">
 <a href="https://actions-badge.atrox.dev/wayofdev/docker-php-base/goto"><img alt="Build Status" src="https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fwayofdev%2Fdocker-php-base%2Fbadge&style=flat-square"/></a>
 <a href="https://github.com/wayofdev/docker-php-base/tags"><img src="https://img.shields.io/github/v/tag/wayofdev/docker-php-base?sort=semver&style=flat-square" alt="Latest Version"></a>
-<a href="https://hub.docker.com/repository/docker/wayofdev/postgres"><img alt="Docker Pulls" src="https://img.shields.io/docker/pulls/wayofdev/postgres?style=flat-square"></a>
+<a href="https://hub.docker.com/repository/docker/wayofdev/php-base"><img alt="Docker Pulls" src="https://img.shields.io/docker/pulls/wayofdev/php-base?style=flat-square"></a>
 <a href="LICENSE"><img src="https://img.shields.io/github/license/wayofdev/docker-php-base.svg?style=flat-square&color=blue" alt="Software License"/></a>
 <a href="#"><img alt="Commits since latest release" src="https://img.shields.io/github/commits-since/wayofdev/docker-php-base/latest?style=flat-square"></a>
 </div>
+
 <br>
 
 # Docker Image: PHP Base

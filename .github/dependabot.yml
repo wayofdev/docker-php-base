@@ -12,3 +12,5 @@ updates:
     labels:
       - "deps"
     open-pull-requests-limit: 10
+
+...

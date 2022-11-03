@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.0.1](https://github.com/wayofdev/docker-php-base/compare/v2.0.0...v2.0.1) (2022-11-03)
+
+
+### Documentation
+
+* added readme, bump redis version ([b7f4c5b](https://github.com/wayofdev/docker-php-base/commit/b7f4c5b7d2c321cdd8c968b01ffc09ff5035b646))
+
+
+### Miscellaneous
+
+* fix in docs ([aa6823b](https://github.com/wayofdev/docker-php-base/commit/aa6823b9dedb5e4ea772594ecc10238df01d2179))
+
 ## [2.0.0](https://github.com/wayofdev/docker-php-base/compare/v1.1.1...v2.0.0) (2022-11-02)
 
 

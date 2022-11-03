@@ -30,7 +30,7 @@ Enabled extensions by default:
 | [pcntl](https://www.php.net/manual/en/book.pcntl.php)        | Process control                                              | native |
 | [sockets](https://www.php.net/manual/en/book.sockets.php)    | Socket communication functions                               | native |
 | [pdo_pgsql](https://www.php.net/manual/en/ref.pdo-pgsql.php) | PostgreSQL functions                                         | native |
-| [opcache](https://www.php.net/manual/en/book.opcache.php)    | OPcache improves PHP performance by storing precompiled script bytecode in shared memory | native |
+| [opcache](https://www.php.net/manual/en/book.opcache.php)    | Improves PHP performance by storing precompiled script bytecode in shared memory | native |
 | [zip](https://www.php.net/manual/en/book.zip.php)            | Read/write functions for ZIP archives                        | native |
 | [bcmath](https://www.php.net/manual/en/book.bc.php)          | For arbitrary precision mathematics                          | native |
 | [redis](https://pecl.php.net/package/redis)                  | Functions for interfacing with Redis                         | pecl   |

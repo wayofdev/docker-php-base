@@ -71,7 +71,7 @@ ext_pecl_enabled:
   - decimal
 
 ext_pecl_versions:
-  redis: "5.3.5RC1"
+  redis: "5.3.7"
   decimal: "1.4.0"
 
 ...

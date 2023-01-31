@@ -77,7 +77,7 @@ jobs:
           install: true
 
       - name: Build and Export to Docker
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           context: ./dist/base/${{ env.TEMPLATE }}
           load: true
@@ -97,7 +97,7 @@ jobs:
           IMAGE_TAG=${{ env.IMAGE_NAMESPACE }}:${{ env.TEMPLATE }}-latest make test
 
       - name: Push Docker Image
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           context: ./dist/base/${{ env.TEMPLATE }}
           ### For Cross Platform OSX builds uncomment these lines

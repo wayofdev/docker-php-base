@@ -42,6 +42,7 @@ RUN set -eux; \
     && docker-php-ext-install -j$(nproc) pcntl \
     && docker-php-ext-install -j$(nproc) --ini-name docker-php-ext-00-sockets.ini sockets \
     # MySQL
+    && docker-php-ext-install -j$(nproc) pdo_mysql \
     # Postgres; "postgresql-dev" is temporary build dependency
     && apk add --no-cache -X https://dl-cdn.alpinelinux.org/alpine/3.16/main postgresql-dev \
     && apk add --no-cache -X https://dl-cdn.alpinelinux.org/alpine/3.16/main postgresql-libs \
@@ -64,7 +65,7 @@ RUN set -eux; \
     && apk add --no-cache \
         zstd-libs \
         zstd-dev \
-    && pecl install redis-5.3.5RC1 \
+    && pecl install redis-5.3.7 \
     && docker-php-ext-enable redis \
     && apk del zstd-dev \
     # Decimal - Correctly-rounded arbitrary precision decimal floating point arithmetic

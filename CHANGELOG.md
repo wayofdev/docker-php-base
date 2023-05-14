@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.1.0](https://github.com/wayofdev/docker-php-base/compare/v2.0.1...v2.1.0) (2023-05-14)
+
+
+### Features
+
+* add mysql pdo support ([224a26f](https://github.com/wayofdev/docker-php-base/commit/224a26f123ccc470bfdd00eea998e0e39fc55589))
+
+
+### Documentation
+
+* fix link to docker images ([a872d2a](https://github.com/wayofdev/docker-php-base/commit/a872d2a30bb5f7ba89d2846a715b4b1d0655c779))
+
 ## [2.0.1](https://github.com/wayofdev/docker-php-base/compare/v2.0.0...v2.0.1) (2022-11-03)
 
 

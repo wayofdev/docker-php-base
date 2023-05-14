@@ -40,6 +40,7 @@ command:
       - intl
       - OPcache
       - pcntl
+      - pdo_mysql
       - pdo_pgsql
       - redis
       - sockets

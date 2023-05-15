@@ -31,11 +31,20 @@ Enabled extensions by default:
 | [pcntl](https://www.php.net/manual/en/book.pcntl.php)        | Process control                                              | native |
 | [sockets](https://www.php.net/manual/en/book.sockets.php)    | Socket communication functions                               | native |
 | [pdo_pgsql](https://www.php.net/manual/en/ref.pdo-pgsql.php) | PostgreSQL functions                                         | native |
+| [pdo_mysql](https://www.php.net/manual/en/ref.pdo-mysql.php) | Mysql functions                                              | native |
 | [opcache](https://www.php.net/manual/en/book.opcache.php)    | Improves PHP performance by storing precompiled script bytecode in shared memory | native |
 | [zip](https://www.php.net/manual/en/book.zip.php)            | Read/write functions for ZIP archives                        | native |
 | [bcmath](https://www.php.net/manual/en/book.bc.php)          | For arbitrary precision mathematics                          | native |
+| [exif](https://www.php.net/manual/en/book.exif.php)          | Exchangeable image information                               | native |
+| [gd](https://www.php.net/manual/en/book.image.php)           | Image processing and manipulation library                    | native |
+| [soap](https://www.php.net/manual/en/book.soap.php)          | SOAP (Simple Object Access Protocol) functions               | native |
 | [redis](https://pecl.php.net/package/redis)                  | Functions for interfacing with Redis                         | pecl   |
 | [decimal](https://pecl.php.net/package/decimal)              | Arbitrary precision floating-point decimal                   | pecl   |
+| [imagick](https://pecl.php.net/package/imagick)              | ImageMagick library for image manipulation                   | pecl   |
+| [rdkafka](https://pecl.php.net/package/rdkafka)              | Kafka client library for PHP                                 | pecl   |
+| [amqp](https://pecl.php.net/package/amqp)                    | Advanced Message Queuing Protocol (AMQP) library             | pecl   |
+| [protobuf](https://pecl.php.net/package/protobuf)            | Protocol Buffers serialization format library                | pecl   |
+| [yaml](https://pecl.php.net/package/yaml)                    | YAML (YAML Ain't Markup Language) library                    | pecl   |
 
 <br>
 
@@ -67,18 +76,32 @@ ext_native_enabled:
   - intl
   - pcntl
   - sockets
+  - pdo_mysql
   - pdo_pgsql
   - OPcache
   - zip
   - bcmath
+  - exif
+  - gd
+  - soap
 
 ext_pecl_enabled:
   - redis
   - decimal
+  - imagick
+  - rdkafka
+  - amqp
+  - protobuf
+  - yaml
 
 ext_pecl_versions:
   redis: "5.3.7"
   decimal: "1.4.0"
+  imagick: "3.7.0"
+  rdkafka: "6.0.3"
+  amqp: "1.11.0"
+  protobuf: "3.22.5"
+  yaml: "2.2.3"
 ```
 
 <br>
@@ -129,10 +152,16 @@ Building all images:
 ```bash
 $ make build IMAGE_TEMPLATE="7.4-cli-alpine"
 $ make build IMAGE_TEMPLATE="7.4-fpm-alpine"
+$ make build IMAGE_TEMPLATE="7.4-supervisord-alpine"
 $ make build IMAGE_TEMPLATE="8.0-cli-alpine"
 $ make build IMAGE_TEMPLATE="8.0-fpm-alpine"
+$ make build IMAGE_TEMPLATE="8.0-supervisord-alpine"
 $ make build IMAGE_TEMPLATE="8.1-cli-alpine"
 $ make build IMAGE_TEMPLATE="8.1-fpm-alpine"
+$ make build IMAGE_TEMPLATE="8.1-supervisord-alpine"
+$ make build IMAGE_TEMPLATE="8.2-cli-alpine"
+$ make build IMAGE_TEMPLATE="8.2-fpm-alpine"
+$ make build IMAGE_TEMPLATE="8.2-supervisord-alpine"
 ```
 
 <br>
@@ -152,10 +181,16 @@ To test all images:
 ```bash
 $ make test IMAGE_TEMPLATE="7.4-cli-alpine"
 $ make test IMAGE_TEMPLATE="7.4-fpm-alpine"
+$ make test IMAGE_TEMPLATE="7.4-supervisord-alpine"
 $ make test IMAGE_TEMPLATE="8.0-cli-alpine"
 $ make test IMAGE_TEMPLATE="8.0-fpm-alpine"
+$ make test IMAGE_TEMPLATE="8.0-supervisord-alpine"
 $ make test IMAGE_TEMPLATE="8.1-cli-alpine"
 $ make test IMAGE_TEMPLATE="8.1-fpm-alpine"
+$ make test IMAGE_TEMPLATE="8.1-supervisord-alpine"
+$ make test IMAGE_TEMPLATE="8.2-cli-alpine"
+$ make test IMAGE_TEMPLATE="8.2-fpm-alpine"
+$ make test IMAGE_TEMPLATE="8.2-supervisord-alpine"
 ```
 
 <br>
@@ -165,13 +200,19 @@ $ make test IMAGE_TEMPLATE="8.1-fpm-alpine"
 Run **yamllint** to validate all yaml files in project:
 
 ```bash
-$ make lint
+$ make lint-yaml
 ```
 
 Run hadolint to validate created Dockerfiles:
 
 ```bash
-$ make hadolint
+$ make lint-docker
+```
+
+Run ansible-lint to validate ansible project files:
+
+```bash
+$ make lint-ansible
 ```
 
 <br>

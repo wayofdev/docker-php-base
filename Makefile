@@ -2,6 +2,7 @@
 # to decrease build times and increase productivity for free.
 # https://docs.docker.com/compose/environment-variables/envvars/
 export DOCKER_BUILDKIT ?= 1
+export COMPOSE_DOCKER_CLI_BUILD ?= 1
 
 IMAGE_NAMESPACE ?= wayofdev/php-base
 IMAGE_TEMPLATE ?= 7.4-cli-alpine

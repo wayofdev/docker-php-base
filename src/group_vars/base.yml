@@ -1,12 +1,12 @@
 ---
 
 # Ansible specific definitions
-########################################################################################################################
+#######################################
 edit_comment_base: "# Auto-generated via Ansible: edit src/Dockerfiles/base/Dockerfile.j2 instead."
 
 
 # Configuration Settings
-########################################################################################################################
+#######################################
 settings_opcache_ini:
   php_opcache_enable: 1
   php_opcache_enable_cli: 1
@@ -18,7 +18,7 @@ settings_php_ini:
 
 
 # Base dist directories
-########################################################################################################################
+#######################################
 tpl_directories:
   # For "base" create only fpm and cli versions
   - path: "../dist/base/{{ php_version }}-{{ php_type }}-{{ os_name }}/"
@@ -27,16 +27,20 @@ tpl_config_directories:
   # Additionally, configs directory
   - path: "../dist/base/{{ php_version }}-{{ php_type }}-{{ os_name }}/configs/"
 
+tpl_fpm_config_directories:
+  # Additionally, for "prod", create "php-fpm.d" directory
+  - path: "../dist/base/{{ php_version }}-fpm-{{ os_name }}/configs/php-fpm.d/"
+
 
 # Dockerfile paths for cli and fpm Dockerfiles
-########################################################################################################################
+#######################################
 tpl_dockerfiles:
   - src: Dockerfiles/base/Dockerfile.j2
     dst: "../dist/base/{{ php_version }}-{{ php_type }}-{{ os_name }}/Dockerfile"
 
 
 # Additional configuration files
-########################################################################################################################
+#######################################
 tpl_configs:
   # php.ini
   - src: config/base/php.ini.j2
@@ -45,33 +49,62 @@ tpl_configs:
   - src: config/base/opcache.ini.j2
     dst: "../dist/base/{{ php_version }}-{{ php_type }}-{{ os_name }}/configs/opcache.ini"
 
+tpl_fpm_configs:
+  # php-fpm.d/docker.conf
+  - src: config/php-fpm.d/docker.conf
+    dst: "../dist/base/{{ php_version }}-fpm-{{ os_name }}/configs/php-fpm.d/docker.conf"
+  # php-fpm.d/www.conf
+  - src: config/php-fpm.d/www.conf
+    dst: "../dist/base/{{ php_version }}-fpm-{{ os_name }}/configs/php-fpm.d/www.conf"
+  # php-fpm.d/zz-docker.conf
+  - src: config/php-fpm.d/zz-docker.conf
+    dst: "../dist/base/{{ php_version }}-fpm-{{ os_name }}/configs/php-fpm.d/zz-docker.conf"
+
+tpl_supervisord_configs:
+  # supervisord.conf
+  - src: config/supervisord.conf
+    dst: "../dist/base/{{ php_version }}-supervisord-{{ os_name }}/configs/supervisord.conf"
+
 
 # Dgoss tests
-########################################################################################################################
+#######################################
 tpl_docker_tests:
   - src: Dockerfiles/base/goss.yaml.j2
     dst: "../dist/base/{{ php_version }}-{{ php_type }}-{{ os_name }}/goss.yaml"
-
+  - src: Dockerfiles/base/goss_wait.yaml
+    dst: "../dist/base/{{ php_version }}-supervisord-{{ os_name }}/goss_wait.yaml"
 
 # Enabled extensions
-########################################################################################################################
+#######################################
 ext_native_enabled:
   - intl
   - pcntl
   - sockets
-  # - pdo_mysql
+  - pdo_mysql
   - pdo_pgsql
   - OPcache
   - zip
-  # - bz2
   - bcmath
+  - exif
+  - gd
+  - soap
 
 ext_pecl_enabled:
   - redis
   - decimal
+  - imagick
+  - rdkafka
+  - amqp
+  - protobuf
+  - yaml
 
 ext_pecl_versions:
   redis: "5.3.7"
   decimal: "1.4.0"
+  imagick: "3.7.0"
+  rdkafka: "6.0.3"
+  amqp: "1.11.0"
+  protobuf: "3.22.5"
+  yaml: "2.2.3"
 
 ...

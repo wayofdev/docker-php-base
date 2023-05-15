@@ -18,6 +18,15 @@
   with_items:
     - "{{ tpl_config_directories }}"
 
+- name: Create fpm config directories
+  ansible.builtin.file:
+    path: "{{ item.path }}"
+    state: directory
+    mode: "0775"
+    recurse: true
+  with_items:
+    - "{{ tpl_fpm_config_directories }}"
+
 - name: Generate Dockerfiles
   ansible.builtin.template:
     src: "{{ item.src }}"
@@ -35,6 +44,26 @@
     mode: "0644"
   with_items:
     - "{{ tpl_configs }}"
+
+- name: Generate PHP configuration files for FPM builds
+  when: php_type == "fpm"
+  ansible.builtin.template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dst }}"
+    force: true
+    mode: 0644
+  with_items:
+    - "{{ tpl_fpm_configs }}"
+
+- name: Generate PHP configuration files for Supervisord builds
+  when: php_type == "supervisord"
+  ansible.builtin.template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dst }}"
+    force: true
+    mode: 0644
+  with_items:
+    - "{{ tpl_supervisord_configs }}"
 
 - name: Generate Dockerfile Goss tests
   ansible.builtin.template:

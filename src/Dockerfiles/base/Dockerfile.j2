@@ -1,6 +1,10 @@
 {{ edit_comment_base }}
 
+{% if 'supervisord' == php_type %}
+FROM php:{{ php_version }}-cli-alpine
+{% else %}
 FROM php:{{ php_version }}-{{ php_type }}-alpine
+{% endif %}
 
 # Labels
 # https://github.com/opencontainers/image-spec/blob/main/annotations.md

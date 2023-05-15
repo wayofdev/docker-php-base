@@ -28,10 +28,10 @@ jobs:
       - name: 📦 Check out the codebase
         uses: actions/checkout@v3
 
-      - name: 🛠️ Setup goss and dependencies
+      - name: 🛠️ Install goss and dgoss
         uses: e1himself/goss-installation-action@v1.1.0
 
-      - name: 🛠️ Set environment variables
+      - name: 🌎 Set environment variables
         env:
           IMAGE_NAMESPACE: wayofdev/php-base
           IMAGE_TEMPLATE: ${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_name }}
@@ -41,7 +41,10 @@ jobs:
           echo "IMAGE_TEMPLATE=${IMAGE_TEMPLATE}" >> $GITHUB_ENV
           echo "IMAGE_TAG=${IMAGE_TAG}" >> $GITHUB_ENV
 
-      - name: 📦 Extract docker meta data
+      - name: 🤖 Generate dist files
+        run: make generate
+
+      - name: 🐳 Extract docker meta data
         id: meta
         uses: docker/metadata-action@v4
         with:
@@ -55,14 +58,14 @@ jobs:
             latest=false
             prefix=${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_name }}-
 
-      - name: 🔑 Login to DockerHub
+      - name: 🔑 Login to docker-hub
         if: github.event_name != 'pull_request'
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_TOKEN }}
 
-      - name: 🛠️ Setup QEMU
+      - name: 🖥️ Setup QEMU
         uses: docker/setup-qemu-action@v2
         with:
           platforms: arm64

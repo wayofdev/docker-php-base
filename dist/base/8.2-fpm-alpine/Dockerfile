@@ -1,6 +1,6 @@
 # Auto-generated via Ansible: edit src/Dockerfiles/base/Dockerfile.j2 instead.
 
-FROM php:7.4-fpm-alpine
+FROM php:8.2-fpm-alpine
 
 # Labels
 # https://github.com/opencontainers/image-spec/blob/main/annotations.md
@@ -12,9 +12,9 @@ LABEL "org.opencontainers.image.documentation"="https://github.com/wayofdev/dock
 LABEL "org.opencontainers.image.source"="https://github.com/wayofdev/docker-php-base"
 LABEL "org.opencontainers.image.vendor"="wayofdev"
 LABEL "org.opencontainers.image.licenses"="MIT"
-LABEL "org.opencontainers.image.ref.name"="7.4-base"
-LABEL "org.opencontainers.image.title"="PHP-FPM 7.4-base"
-LABEL "org.opencontainers.image.description"="PHP-FPM 7.4-base"
+LABEL "org.opencontainers.image.ref.name"="8.2-base"
+LABEL "org.opencontainers.image.title"="PHP-FPM 8.2-base"
+LABEL "org.opencontainers.image.description"="PHP-FPM 8.2-base"
 
 ENV LANG="en_US.UTF-8"
 ENV LC_ALL="en_US.UTF-8"

@@ -1,47 +1,47 @@
 ---
 
 - name: Create dist directories
-  file:
+  ansible.builtin.file:
     path: "{{ item.path }}"
     state: directory
-    mode: 0775
+    mode: "0775"
     recurse: true
   with_items:
     - "{{ tpl_directories }}"
 
 - name: Create config directories
-  file:
+  ansible.builtin.file:
     path: "{{ item.path }}"
     state: directory
-    mode: 0775
+    mode: "0775"
     recurse: true
   with_items:
     - "{{ tpl_config_directories }}"
 
 - name: Generate Dockerfiles
-  template:
+  ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ item.dst }}"
     force: true
-    mode: 0644
+    mode: "0644"
   with_items:
     - "{{ tpl_dockerfiles }}"
 
 - name: Generate PHP configuration files
-  template:
+  ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ item.dst }}"
     force: true
-    mode: 0644
+    mode: "0644"
   with_items:
     - "{{ tpl_configs }}"
 
 - name: Generate Dockerfile Goss tests
-  template:
+  ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ item.dst }}"
     force: true
-    mode:  0644
+    mode: "0644"
   with_items:
     - "{{ tpl_docker_tests }}"
 

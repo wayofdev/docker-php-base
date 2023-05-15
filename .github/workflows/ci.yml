@@ -37,11 +37,11 @@ jobs:
       - name: Set Environment Variables
         env:
           IMAGE_NAMESPACE: wayofdev/php-base
-          TEMPLATE: ${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_name }}
+          IMAGE_TEMPLATE: ${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_name }}
         run: |
           export RELEASE_VERSION=${GITHUB_REF#refs/*/}
           echo "IMAGE_NAMESPACE=${IMAGE_NAMESPACE}" >> $GITHUB_ENV
-          echo "TEMPLATE=${TEMPLATE}" >> $GITHUB_ENV
+          echo "IMAGE_TEMPLATE=${IMAGE_TEMPLATE}" >> $GITHUB_ENV
           echo "VERSION=${RELEASE_VERSION:1}" >> $GITHUB_ENV
 
       - name: Docker Meta
@@ -79,7 +79,7 @@ jobs:
       - name: Build and Export to Docker
         uses: docker/build-push-action@v3
         with:
-          context: ./dist/base/${{ env.TEMPLATE }}
+          context: ./dist/base/${{ env.IMAGE_TEMPLATE }}
           load: true
           tags: ${{ steps.meta.outputs.tags }}
           cache-from: type=registry,ref=${{ env.IMAGE_TAG }}
@@ -89,17 +89,17 @@ jobs:
       - name: Test Docker Release Image
         if: success() && startsWith(github.ref, 'refs/tags/')
         run: |
-          IMAGE_TAG=${{ env.IMAGE_NAMESPACE }}:${{ env.TEMPLATE }}-${{ env.VERSION }} make test
+          IMAGE_TAG=${{ env.IMAGE_NAMESPACE }}:${{ env.IMAGE_TEMPLATE }}-${{ env.VERSION }} make test
 
       - name: Test Docker Master Image
         if: success() && ! startsWith(github.ref, 'refs/tags/')
         run: |
-          IMAGE_TAG=${{ env.IMAGE_NAMESPACE }}:${{ env.TEMPLATE }}-latest make test
+          IMAGE_TAG=${{ env.IMAGE_NAMESPACE }}:${{ env.IMAGE_TEMPLATE }}-latest make test
 
       - name: Push Docker Image
         uses: docker/build-push-action@v3
         with:
-          context: ./dist/base/${{ env.TEMPLATE }}
+          context: ./dist/base/${{ env.IMAGE_TEMPLATE }}
           ### For Cross Platform OSX builds uncomment these lines
           platforms: linux/amd64,linux/arm64
           push: ${{ github.event_name != 'pull_request' }}

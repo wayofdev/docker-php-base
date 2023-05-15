@@ -1,6 +1,6 @@
 # Auto-generated via Ansible: edit src/Dockerfiles/base/Dockerfile.j2 instead.
 
-FROM php:7.4-fpm-alpine
+FROM php:7.4-supervisord-alpine
 
 # Labels
 # https://github.com/opencontainers/image-spec/blob/main/annotations.md
@@ -13,8 +13,8 @@ LABEL "org.opencontainers.image.source"="https://github.com/wayofdev/docker-php-
 LABEL "org.opencontainers.image.vendor"="wayofdev"
 LABEL "org.opencontainers.image.licenses"="MIT"
 LABEL "org.opencontainers.image.ref.name"="7.4-base"
-LABEL "org.opencontainers.image.title"="PHP-FPM 7.4-base"
-LABEL "org.opencontainers.image.description"="PHP-FPM 7.4-base"
+LABEL "org.opencontainers.image.title"="PHP-SUPERVISORD 7.4-base"
+LABEL "org.opencontainers.image.description"="PHP-SUPERVISORD 7.4-base"
 
 ENV LANG="en_US.UTF-8"
 ENV LC_ALL="en_US.UTF-8"
@@ -25,7 +25,6 @@ ENV PHP_OPCACHE_ENABLE_CLI="1"
 ENV PHP_TIMEZONE="UTC"
 ENV PHP_POST_MAX_SIZE="16M"
 ENV PHP_MEMORY_LIMIT="256M"
-ENV PHPFPM_SLOWLOG_TIMEOUT="5s"
 
 RUN set -eux; \
     apk -U upgrade -a \

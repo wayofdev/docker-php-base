@@ -2,9 +2,6 @@
 
 extends: "default"
 
-ignore: |
-  .build/
-  vendor/
 # Overwrite above default rules
 rules:
   braces:

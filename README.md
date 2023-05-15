@@ -127,12 +127,12 @@ $ make
 Building all images:
 
 ```bash
-$ make build TEMPLATE="7.4-cli-alpine"
-$ make build TEMPLATE="7.4-fpm-alpine"
-$ make build TEMPLATE="8.0-cli-alpine"
-$ make build TEMPLATE="8.0-fpm-alpine"
-$ make build TEMPLATE="8.1-cli-alpine"
-$ make build TEMPLATE="8.1-fpm-alpine"
+$ make build IMAGE_TEMPLATE="7.4-cli-alpine"
+$ make build IMAGE_TEMPLATE="7.4-fpm-alpine"
+$ make build IMAGE_TEMPLATE="8.0-cli-alpine"
+$ make build IMAGE_TEMPLATE="8.0-fpm-alpine"
+$ make build IMAGE_TEMPLATE="8.1-cli-alpine"
+$ make build IMAGE_TEMPLATE="8.1-fpm-alpine"
 ```
 
 <br>
@@ -150,12 +150,12 @@ $ make test
 To test all images:
 
 ```bash
-$ make test TEMPLATE="7.4-cli-alpine"
-$ make test TEMPLATE="7.4-fpm-alpine"
-$ make test TEMPLATE="8.0-cli-alpine"
-$ make test TEMPLATE="8.0-fpm-alpine"
-$ make test TEMPLATE="8.1-cli-alpine"
-$ make test TEMPLATE="8.1-fpm-alpine"
+$ make test IMAGE_TEMPLATE="7.4-cli-alpine"
+$ make test IMAGE_TEMPLATE="7.4-fpm-alpine"
+$ make test IMAGE_TEMPLATE="8.0-cli-alpine"
+$ make test IMAGE_TEMPLATE="8.0-fpm-alpine"
+$ make test IMAGE_TEMPLATE="8.1-cli-alpine"
+$ make test IMAGE_TEMPLATE="8.1-fpm-alpine"
 ```
 
 <br>

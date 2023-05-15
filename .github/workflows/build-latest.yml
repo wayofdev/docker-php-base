@@ -78,7 +78,7 @@ jobs:
       - name: 🚀 Build and Export to Docker
         uses: docker/build-push-action@v3
         with:
-          context: ./dist/base/${{ env.TEMPLATE }}
+          context: ./dist/base/${{ env.IMAGE_TEMPLATE }}
           load: true
           tags: ${{ steps.meta.outputs.tags }}
           cache-from: type=registry,ref=${{ env.IMAGE_TAG }}
@@ -92,7 +92,7 @@ jobs:
       - name: 📤 Push Docker image
         uses: docker/build-push-action@v3
         with:
-          context: ./dist/base/${{ env.TEMPLATE }}
+          context: ./dist/base/${{ env.IMAGE_TEMPLATE }}
           platforms: linux/amd64,linux/arm64
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}

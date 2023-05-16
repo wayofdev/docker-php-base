@@ -83,7 +83,6 @@ jobs:
           context: ./dist/base/${{ env.IMAGE_TEMPLATE }}
           platforms: linux/amd64,linux/arm64
           push: ${{ github.event_name != 'pull_request' }}
-          # load: true
           tags: ${{ steps.meta.outputs.tags }}
           cache-from: type=gha
           cache-to: type=gha,mode=max

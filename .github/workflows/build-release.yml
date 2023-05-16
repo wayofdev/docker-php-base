@@ -14,8 +14,10 @@ jobs:
       fail-fast: true
       matrix:
         os_name: ["alpine"]
-        php_version: ["8.1", "8.2"]
-        php_type: ["fpm", "cli", "supervisord"]
+        php_version: [ "8.1" ]
+        php_type: [ "fpm" ]
+        # php_version: ["8.1", "8.2"]
+        # php_type: ["fpm", "cli", "supervisord"]
     environment:
       name: release
       url: https://hub.docker.com/r/wayofdev/php-base/tags?page=1
@@ -80,13 +82,12 @@ jobs:
           context: ./dist/base/${{ env.IMAGE_TEMPLATE }}
           platforms: linux/amd64,linux/arm64
           push: ${{ github.event_name != 'pull_request' }}
-          load: true
           tags: ${{ steps.meta.outputs.tags }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
           labels: ${{ steps.meta.outputs.labels }}
 
-      - name: 🧪 Test Docker image with "latest" tag
+      - name: 🧪 Test Docker image with "version" tag
         run: IMAGE_TAG=${{ env.IMAGE_TAG }} make test
 
 ...

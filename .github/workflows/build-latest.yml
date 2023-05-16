@@ -20,15 +20,18 @@ jobs:
         os_name: ["alpine"]
         php_version: ["8.1", "8.2"]
         php_type: ["fpm", "cli", "supervisord"]
-    uses: wayofdev/gh-actions/.github/workflows/build-image.yml@master
-    with:
-      os: "ubuntu-latest"
-      push-to-hub: ${{ github.event_name != 'pull_request' }}
-      image-namespace: "wayofdev/php-base"
-      image-template: ${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_name }}
-      image-version: latest
-    secrets:
-      docker-username: ${{ secrets.DOCKER_USERNAME }}
-      docker-password: ${{ secrets.DOCKER_TOKEN }}
+
+    steps:
+      - name: 🚀 Build
+        uses: wayofdev/gh-actions/.github/workflows/build-image.yml@master
+        with:
+          os: "ubuntu-latest"
+          push-to-hub: ${{ github.event_name != 'pull_request' }}
+          image-namespace: "wayofdev/php-base"
+          image-template: ${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_name }}
+          image-version: latest
+        secrets:
+          docker-username: ${{ secrets.DOCKER_USERNAME }}
+          docker-password: ${{ secrets.DOCKER_TOKEN }}
 
 ...

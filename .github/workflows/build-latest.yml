@@ -87,6 +87,12 @@ jobs:
           cache-to: type=inline
           labels: ${{ steps.meta.outputs.labels }}
 
+      - name: Debug Vars
+        run: |
+          echo ${{ env.IMAGE_NAMESPACE }}
+          echo ${{ env.IMAGE_TEMPLATE }}
+          echo ${{ env.IMAGE_TAG }}
+
       - name: 🧪 Test Docker image with "latest" tag
         run: IMAGE_TAG=${{ env.IMAGE_TAG }} make test
 

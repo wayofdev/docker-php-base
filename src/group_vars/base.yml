@@ -59,7 +59,7 @@ ext_native_enabled:
   - intl
   - pcntl
   - sockets
-  # - pdo_mysql
+  - pdo_mysql
   - pdo_pgsql
   - OPcache
   - zip

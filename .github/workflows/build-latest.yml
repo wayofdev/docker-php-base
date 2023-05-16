@@ -24,9 +24,7 @@ jobs:
 
   build:
     needs: prepare
-    runs-on: "ubuntu-latest"
     strategy:
-      fail-fast: true
       matrix: ${{ fromJson(needs.prepare.outputs.matrix )}}
     uses: wayofdev/gh-actions/.github/workflows/build-image.yml@master
     with:

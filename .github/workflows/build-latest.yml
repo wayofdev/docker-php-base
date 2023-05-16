@@ -12,26 +12,31 @@ on:  # yamllint disable-line rule:truthy
 name: 🚀 Build docker images with latest tag
 
 jobs:
+  # https://docs.github.com/en/enterprise-cloud@latest/actions/learn-github-actions/expressions#example-returning-a-json-object
+  prepare:
+    runs-on: "ubuntu-latest"
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - id: set-matrix
+        run: |
+          echo "::set-output name=matrix::{\"os_name\": [\"alpine\"], \"php_version\": [\"8.1\", \"8.2\"], \"php_type\": [\"fpm\", \"cli\", \"supervisord\"]}"
+
   build:
+    needs: prepare
     runs-on: "ubuntu-latest"
     strategy:
       fail-fast: true
-      matrix:
-        os_name: ["alpine"]
-        php_version: ["8.1", "8.2"]
-        php_type: ["fpm", "cli", "supervisord"]
-
-    steps:
-      - name: 🚀 Build
-        uses: wayofdev/gh-actions/.github/workflows/build-image.yml@master
-        with:
-          os: "ubuntu-latest"
-          push-to-hub: ${{ github.event_name != 'pull_request' }}
-          image-namespace: "wayofdev/php-base"
-          image-template: ${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_name }}
-          image-version: latest
-        secrets:
-          docker-username: ${{ secrets.DOCKER_USERNAME }}
-          docker-password: ${{ secrets.DOCKER_TOKEN }}
+      matrix: ${{ fromJson(needs.prepare.outputs.matrix )}}
+    uses: wayofdev/gh-actions/.github/workflows/build-image.yml@master
+    with:
+      os: "ubuntu-latest"
+      push-to-hub: ${{ github.event_name != 'pull_request' }}
+      image-namespace: "wayofdev/php-base"
+      image-template: ${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_name }}
+      image-version: latest
+    secrets:
+      docker-username: ${{ secrets.DOCKER_USERNAME }}
+      docker-password: ${{ secrets.DOCKER_TOKEN }}
 
 ...

@@ -1,15 +1,11 @@
 ---
 
 on:  # yamllint disable-line rule:truthy
-  workflow_dispatch:
-  push:
-    branches:
-      - master
-  pull_request:
-    branches:
-      - master
+  release:
+    types:
+      - released
 
-name: 🚀 Build docker images with latest tag
+name: 🚀 Build docker images with release tag
 
 jobs:
   build:
@@ -18,13 +14,13 @@ jobs:
       fail-fast: true
       matrix:
         os_name: ["alpine"]
-        php_version: ["8.1"]
-        php_type: ["fpm"]
+        php_version: [ "8.1" ]
+        php_type: [ "fpm" ]
         # php_version: ["8.1", "8.2"]
         # php_type: ["fpm", "cli", "supervisord"]
     environment:
-      name: latest
-      url: https://hub.docker.com/r/wayofdev/php-base/tags?page=1&name=latest
+      name: release
+      url: https://hub.docker.com/r/wayofdev/php-base/tags?page=1
 
     steps:
       - name: 📦 Check out the codebase
@@ -37,11 +33,14 @@ jobs:
         env:
           IMAGE_NAMESPACE: wayofdev/php-base
           IMAGE_TEMPLATE: ${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_name }}
-          IMAGE_TAG: wayofdev/php-base:${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_name }}-latest
+          IMAGE_TAG: wayofdev/php-base:${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_name }}-${{ env.VERSION }}
         run: |
-          echo "IMAGE_NAMESPACE=${IMAGE_NAMESPACE}" >> $GITHUB_ENV
-          echo "IMAGE_TEMPLATE=${IMAGE_TEMPLATE}" >> $GITHUB_ENV
-          echo "IMAGE_TAG=${IMAGE_TAG}" >> $GITHUB_ENV
+          export RELEASE_VERSION="${GITHUB_REF#refs/*/}" \
+          && { \
+            echo "IMAGE_NAMESPACE=${IMAGE_NAMESPACE}"; \
+            echo "IMAGE_TEMPLATE=${IMAGE_TEMPLATE}"; \
+            echo "VERSION=${RELEASE_VERSION:1}"; \
+          } >> "$GITHUB_ENV"
 
       - name: 🤖 Generate dist files
         run: make generate
@@ -88,7 +87,7 @@ jobs:
           cache-to: type=gha,mode=max
           labels: ${{ steps.meta.outputs.labels }}
 
-      - name: 🧪 Test Docker image with "latest" tag
+      - name: 🧪 Test Docker image with "version" tag
         run: IMAGE_TAG=${{ env.IMAGE_TAG }} make test
 
 ...

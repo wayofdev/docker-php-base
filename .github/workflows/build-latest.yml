@@ -76,7 +76,7 @@ jobs:
           install: true
 
       - name: 🚀 Build and Export to Docker
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           context: ./dist/base/${{ env.IMAGE_TEMPLATE }}
           load: true
@@ -89,7 +89,7 @@ jobs:
         run: IMAGE_TAG=${{ env.IMAGE_TAG }} make test
 
       - name: 📤 Push Docker image
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with:
           context: ./dist/base/${{ env.IMAGE_TEMPLATE }}
           platforms: linux/amd64,linux/arm64

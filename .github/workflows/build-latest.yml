@@ -81,8 +81,8 @@ jobs:
           context: ./dist/base/${{ env.IMAGE_TEMPLATE }}
           load: true
           tags: ${{ steps.meta.outputs.tags }}
-          cache-from: type=registry,ref=${{ env.IMAGE_TAG }}
-          cache-to: type=inline
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: 🧪 Test Docker image with "latest" tag
@@ -95,7 +95,7 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
-          cache-from: type=registry,ref=${{ env.IMAGE_TAG }}
-          cache-to: type=inline
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
 ...

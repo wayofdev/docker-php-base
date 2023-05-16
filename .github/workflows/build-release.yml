@@ -1,15 +1,11 @@
 ---
 
 on:  # yamllint disable-line rule:truthy
-  workflow_dispatch:
-  push:
-    branches:
-      - master
-  pull_request:
-    branches:
-      - master
+  release:
+    types:
+      - released
 
-name: 🚀 Build docker images with latest tag
+name: 🚀 Build docker images with release tag
 
 jobs:
   # https://docs.github.com/en/enterprise-cloud@latest/actions/learn-github-actions/expressions#example-returning-a-json-object
@@ -18,13 +14,19 @@ jobs:
     outputs:
       matrix: ${{ steps.matrix.outputs.matrix }}
     steps:
-      - id: matrix
+      - name: ⚙️ Generate matrix
+        id: matrix
         run: |
           echo 'matrix={
             "os_name": ["alpine"],
             "php_version": ["8.1", "8.2"],
             "php_type": ["fpm", "cli", "supervisord"]
           }' >> $GITHUB_OUTPUT
+
+      - name: ⚙️ Get version for image tag
+        id: version
+        run: |
+          echo "version=$(echo ${GITHUB_REF#refs/*/} | cut -c 2-)" >> $GITHUB_OUTPUT
 
   build:
     needs: prepare
@@ -33,10 +35,10 @@ jobs:
     uses: wayofdev/gh-actions/.github/workflows/build-image.yml@master
     with:
       os: "ubuntu-latest"
-      push-to-hub: ${{ github.event_name != 'pull_request' }}
+      push-to-hub: true
       image-namespace: "wayofdev/php-base"
       image-template: ${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_name }}
-      image-version: latest
+      image-version: ${{ needs.prepare.outputs.version }}
     secrets:
       docker-username: ${{ secrets.DOCKER_USERNAME }}
       docker-password: ${{ secrets.DOCKER_TOKEN }}

@@ -32,7 +32,7 @@ jobs:
       - uses: e1himself/goss-installation-action@v1.0.4
 
       - name: Checkout
-        uses: actions/checkout@v3.1.0
+        uses: actions/checkout@v3.5.2
 
       - name: Set Environment Variables
         env:

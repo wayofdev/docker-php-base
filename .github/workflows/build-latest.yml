@@ -18,77 +18,17 @@ jobs:
       fail-fast: true
       matrix:
         os_name: ["alpine"]
-        php_version: ["8.1"]
-        php_type: ["fpm"]
-        # php_version: ["8.1", "8.2"]
-        # php_type: ["fpm", "cli", "supervisord"]
-    environment:
-      name: latest
-      url: https://hub.docker.com/r/wayofdev/php-base/tags?page=1&name=latest
-
-    steps:
-      - name: 📦 Check out the codebase
-        uses: actions/checkout@v3
-
-      - name: 🛠️ Install goss and dgoss
-        uses: e1himself/goss-installation-action@v1.1.0
-
-      - name: 🌎 Set environment variables
-        env:
-          IMAGE_NAMESPACE: wayofdev/php-base
-          IMAGE_TEMPLATE: ${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_name }}
-          IMAGE_TAG: wayofdev/php-base:${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_name }}-latest
-        run: |
-          echo "IMAGE_NAMESPACE=${IMAGE_NAMESPACE}" >> $GITHUB_ENV
-          echo "IMAGE_TEMPLATE=${IMAGE_TEMPLATE}" >> $GITHUB_ENV
-          echo "IMAGE_TAG=${IMAGE_TAG}" >> $GITHUB_ENV
-
-      - name: 🤖 Generate dist files
-        run: make generate
-
-      - name: 🐳 Extract docker meta data
-        id: meta
-        uses: docker/metadata-action@v4
-        with:
-          images: ${{ env.IMAGE_NAMESPACE }}
-          tags: |
-            type=raw,event=branch,value=latest
-            type=ref,event=pr
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
-          flavor: |
-            latest=false
-            prefix=${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_name }}-
-
-      - name: 🔑 Login to docker-hub
-        if: github.event_name != 'pull_request'
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_TOKEN }}
-
-      - name: 🖥️ Setup QEMU
-        uses: docker/setup-qemu-action@v2
-        with:
-          platforms: arm64
-
-      - name: 🛠️ Setup docker Buildx
-        uses: docker/setup-buildx-action@v2
-        with:
-          install: true
-
-      - name: 🚀 Build image and push to docker-hub
-        uses: docker/build-push-action@v4
-        with:
-          context: ./dist/base/${{ env.IMAGE_TEMPLATE }}
-          platforms: linux/amd64,linux/arm64
-          push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.meta.outputs.tags }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-          labels: ${{ steps.meta.outputs.labels }}
-
-      - name: 🧪 Test Docker image with "latest" tag
-        run: IMAGE_TAG=${{ env.IMAGE_TAG }} make test
+        php_version: ["8.1", "8.2"]
+        php_type: ["fpm", "cli", "supervisord"]
+    uses: wayofdev/gh-actions/.github/workflows/build-image.yml@master
+    with:
+      os: "ubuntu-latest"
+      push-to-hub: ${{ github.event_name != 'pull_request' }}
+      image-namespace: "wayofdev/php-base"
+      image-template: ${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_name }}
+      image-version: latest
+    secrets:
+      docker-username: ${{ secrets.DOCKER_USERNAME }}
+      docker-password: ${{ secrets.DOCKER_TOKEN }}
 
 ...

@@ -1,8 +1,8 @@
 <br>
 
 <div align="center">
-<img width="456" src="https://raw.githubusercontent.com/wayofdev/docker-php-base/master/assets/logo.gh-light-mode-only.png#gh-light-mode-only">
-<img width="456" src="https://raw.githubusercontent.com/wayofdev/docker-php-base/master/assets/logo.gh-dark-mode-only.png#gh-dark-mode-only">
+<img width="456" src="https://raw.githubusercontent.com/wayofdev/docker-php-base/master/assets/logo.gh-light-mode-only.png#gh-light-mode-only" alt="WayOfDev Logo in light mode">
+<img width="456" src="https://raw.githubusercontent.com/wayofdev/docker-php-base/master/assets/logo.gh-dark-mode-only.png#gh-dark-mode-only" alt="WayOfDev logo in dark mode">
 </div>
 
 <br>
@@ -13,7 +13,7 @@
 <a href="https://actions-badge.atrox.dev/wayofdev/docker-php-base/goto"><img alt="Build Status" src="https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fwayofdev%2Fdocker-php-base%2Fbadge&style=flat-square"/></a>
 <a href="https://github.com/wayofdev/docker-php-base/tags"><img src="https://img.shields.io/github/v/tag/wayofdev/docker-php-base?sort=semver&style=flat-square" alt="Latest Version"></a>
 <a href="https://hub.docker.com/repository/docker/wayofdev/php-base"><img alt="Docker Pulls" src="https://img.shields.io/docker/pulls/wayofdev/php-base?style=flat-square"></a>
-<a href="LICENSE"><img src="https://img.shields.io/github/license/wayofdev/docker-php-base.svg?style=flat-square&color=blue" alt="Software License"/></a>
+<a href="LICENSE.md"><img src="https://img.shields.io/github/license/wayofdev/docker-php-base.svg?style=flat-square&color=blue" alt="Software License"/></a>
 <a href="#"><img alt="Commits since latest release" src="https://img.shields.io/github/commits-since/wayofdev/docker-php-base/latest?style=flat-square"></a>
 </div>
 
@@ -31,11 +31,20 @@ Enabled extensions by default:
 | [pcntl](https://www.php.net/manual/en/book.pcntl.php)        | Process control                                              | native |
 | [sockets](https://www.php.net/manual/en/book.sockets.php)    | Socket communication functions                               | native |
 | [pdo_pgsql](https://www.php.net/manual/en/ref.pdo-pgsql.php) | PostgreSQL functions                                         | native |
+| [pdo_mysql](https://www.php.net/manual/en/ref.pdo-mysql.php) | Mysql functions                                              | native |
 | [opcache](https://www.php.net/manual/en/book.opcache.php)    | Improves PHP performance by storing precompiled script bytecode in shared memory | native |
 | [zip](https://www.php.net/manual/en/book.zip.php)            | Read/write functions for ZIP archives                        | native |
 | [bcmath](https://www.php.net/manual/en/book.bc.php)          | For arbitrary precision mathematics                          | native |
+| [exif](https://www.php.net/manual/en/book.exif.php)          | Exchangeable image information                               | native |
+| [gd](https://www.php.net/manual/en/book.image.php)           | Image processing and manipulation library                    | native |
+| [soap](https://www.php.net/manual/en/book.soap.php)          | SOAP (Simple Object Access Protocol) functions               | native |
 | [redis](https://pecl.php.net/package/redis)                  | Functions for interfacing with Redis                         | pecl   |
 | [decimal](https://pecl.php.net/package/decimal)              | Arbitrary precision floating-point decimal                   | pecl   |
+| [imagick](https://pecl.php.net/package/imagick)              | ImageMagick library for image manipulation                   | pecl   |
+| [rdkafka](https://pecl.php.net/package/rdkafka)              | Kafka client library for PHP                                 | pecl   |
+| [amqp](https://pecl.php.net/package/amqp)                    | Advanced Message Queuing Protocol (AMQP) library             | pecl   |
+| [protobuf](https://pecl.php.net/package/protobuf)            | Protocol Buffers serialization format library                | pecl   |
+| [yaml](https://pecl.php.net/package/yaml)                    | YAML (YAML Ain't Markup Language) library                    | pecl   |
 
 <br>
 
@@ -67,18 +76,23 @@ ext_native_enabled:
   - intl
   - pcntl
   - sockets
+  - pdo_mysql
   - pdo_pgsql
   - OPcache
   - zip
   - bcmath
+  - exif
+  - gd
+  - soap
 
 ext_pecl_enabled:
   - redis
   - decimal
-
-ext_pecl_versions:
-  redis: "5.3.7"
-  decimal: "1.4.0"
+  - imagick
+  - rdkafka
+  - amqp
+  - protobuf
+  - yaml
 ```
 
 <br>
@@ -95,7 +109,7 @@ $ make generate
 
 To install dependencies and start development you can check contents of our `Makefile`
 
-### →  Requirments
+### →  Requirements
 
 For testing purposes we use **goss** and **dgoss**, follow installation instructions on  [their official README](https://github.com/aelsabbahy/goss/blob/master/extras/dgoss/README.md)
 
@@ -127,19 +141,25 @@ $ make
 Building all images:
 
 ```bash
-$ make build TEMPLATE="7.4-cli-alpine"
-$ make build TEMPLATE="7.4-fpm-alpine"
-$ make build TEMPLATE="8.0-cli-alpine"
-$ make build TEMPLATE="8.0-fpm-alpine"
-$ make build TEMPLATE="8.1-cli-alpine"
-$ make build TEMPLATE="8.1-fpm-alpine"
+$ make build IMAGE_TEMPLATE="7.4-cli-alpine"
+$ make build IMAGE_TEMPLATE="7.4-fpm-alpine"
+$ make build IMAGE_TEMPLATE="7.4-supervisord-alpine"
+$ make build IMAGE_TEMPLATE="8.0-cli-alpine"
+$ make build IMAGE_TEMPLATE="8.0-fpm-alpine"
+$ make build IMAGE_TEMPLATE="8.0-supervisord-alpine"
+$ make build IMAGE_TEMPLATE="8.1-cli-alpine"
+$ make build IMAGE_TEMPLATE="8.1-fpm-alpine"
+$ make build IMAGE_TEMPLATE="8.1-supervisord-alpine"
+$ make build IMAGE_TEMPLATE="8.2-cli-alpine"
+$ make build IMAGE_TEMPLATE="8.2-fpm-alpine"
+$ make build IMAGE_TEMPLATE="8.2-supervisord-alpine"
 ```
 
 <br>
 
 ## 🧪 Testing
 
-You can check `Makefile` to get full list of commands for local testing. For testing you can use these comands to test whole role or separate tasks:
+You can check `Makefile` to get full list of commands for local testing. For testing, you can use these commands to test whole role or separate tasks:
 
 Testing default image:
 
@@ -150,12 +170,18 @@ $ make test
 To test all images:
 
 ```bash
-$ make test TEMPLATE="7.4-cli-alpine"
-$ make test TEMPLATE="7.4-fpm-alpine"
-$ make test TEMPLATE="8.0-cli-alpine"
-$ make test TEMPLATE="8.0-fpm-alpine"
-$ make test TEMPLATE="8.1-cli-alpine"
-$ make test TEMPLATE="8.1-fpm-alpine"
+$ make test IMAGE_TEMPLATE="7.4-cli-alpine"
+$ make test IMAGE_TEMPLATE="7.4-fpm-alpine"
+$ make test IMAGE_TEMPLATE="7.4-supervisord-alpine"
+$ make test IMAGE_TEMPLATE="8.0-cli-alpine"
+$ make test IMAGE_TEMPLATE="8.0-fpm-alpine"
+$ make test IMAGE_TEMPLATE="8.0-supervisord-alpine"
+$ make test IMAGE_TEMPLATE="8.1-cli-alpine"
+$ make test IMAGE_TEMPLATE="8.1-fpm-alpine"
+$ make test IMAGE_TEMPLATE="8.1-supervisord-alpine"
+$ make test IMAGE_TEMPLATE="8.2-cli-alpine"
+$ make test IMAGE_TEMPLATE="8.2-fpm-alpine"
+$ make test IMAGE_TEMPLATE="8.2-supervisord-alpine"
 ```
 
 <br>
@@ -165,13 +191,19 @@ $ make test TEMPLATE="8.1-fpm-alpine"
 Run **yamllint** to validate all yaml files in project:
 
 ```bash
-$ make lint
+$ make lint-yaml
 ```
 
 Run hadolint to validate created Dockerfiles:
 
 ```bash
-$ make hadolint
+$ make lint-docker
+```
+
+Run ansible-lint to validate ansible project files:
+
+```bash
+$ make lint-ansible
 ```
 
 <br>
@@ -190,10 +222,10 @@ This repository was created in **2022** by [lotyp / wayofdev](https://github.com
 
 ## 🫡 Contributors
 
-<img align="left" src="https://img.shields.io/github/contributors-anon/wayofdev/docker-php-base?style=for-the-badge"/>
+<img align="left" src="https://img.shields.io/github/contributors-anon/wayofdev/docker-php-base?style=for-the-badge" alt="Contributors"/>
 
-<a href="https://github.com/wayofdev/docker-nginx/graphs/contributors">
-  <img src="https://opencollective.com/wod/contributors.svg?width=890&button=false">
+<a href="https://github.com/wayofdev/docker-php-base/graphs/contributors">
+  <img src="https://opencollective.com/wod/contributors.svg?width=890&button=false" alt="OpenCollective Contributors">
 </a>
 
 <br>

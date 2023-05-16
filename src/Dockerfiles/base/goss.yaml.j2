@@ -5,6 +5,24 @@ file:
   /usr/local/etc/php-fpm.conf:
     filetype: file
     exists: true
+  /usr/local/etc/php-fpm.d/docker.conf:
+    filetype: file
+    exists: true
+    contains:
+      - "Custom Config File"
+      - "log_limit = 8192"
+  /usr/local/etc/php-fpm.d/zz-docker.conf:
+    filetype: file
+    exists: true
+    contains:
+      - "Custom Config File"
+      - "daemonize = no"
+  /usr/local/etc/php-fpm.d/www.conf:
+    filetype: file
+    exists: true
+    contains:
+      - "Custom Config File"
+      - "pm.max_children = 5"
 {% endif %}
   /usr/local/etc/php/conf.d/php.ini:
     filetype: file
@@ -29,6 +47,18 @@ port:
 process:
   php-fpm:
     running: true
+{% endif %}
+{% if 'supervisord' == php_type %}
+  /etc/supervisord.conf:
+    filetype: file
+    exists: true
+    contains:
+      - "nodaemon = true"
+  /tmp/supervisord.pid:
+    filetype: file
+    exists: true
+    contains:
+      - "1"
 {% endif %}
 group:
   www-data:

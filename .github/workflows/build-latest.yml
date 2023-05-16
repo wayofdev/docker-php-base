@@ -24,7 +24,7 @@ jobs:
             "os_name": ["alpine"],
             "php_version": ["8.1", "8.2"],
             "php_type": ["fpm", "cli", "supervisord"]
-          }' >> $GITHUB_OUTPUT
+          }' | tr -d '\n' >> $GITHUB_OUTPUT
 
   build:
     needs: prepare

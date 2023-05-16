@@ -1,8 +1,8 @@
 <br>
 
 <div align="center">
-<img width="456" src="https://raw.githubusercontent.com/wayofdev/docker-php-base/master/assets/logo.gh-light-mode-only.png#gh-light-mode-only">
-<img width="456" src="https://raw.githubusercontent.com/wayofdev/docker-php-base/master/assets/logo.gh-dark-mode-only.png#gh-dark-mode-only">
+<img width="456" src="https://raw.githubusercontent.com/wayofdev/docker-php-base/master/assets/logo.gh-light-mode-only.png#gh-light-mode-only" alt="WayOfDev Logo in light mode">
+<img width="456" src="https://raw.githubusercontent.com/wayofdev/docker-php-base/master/assets/logo.gh-dark-mode-only.png#gh-dark-mode-only" alt="WayOfDev logo in dark mode">
 </div>
 
 <br>
@@ -13,7 +13,7 @@
 <a href="https://actions-badge.atrox.dev/wayofdev/docker-php-base/goto"><img alt="Build Status" src="https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fwayofdev%2Fdocker-php-base%2Fbadge&style=flat-square"/></a>
 <a href="https://github.com/wayofdev/docker-php-base/tags"><img src="https://img.shields.io/github/v/tag/wayofdev/docker-php-base?sort=semver&style=flat-square" alt="Latest Version"></a>
 <a href="https://hub.docker.com/repository/docker/wayofdev/php-base"><img alt="Docker Pulls" src="https://img.shields.io/docker/pulls/wayofdev/php-base?style=flat-square"></a>
-<a href="LICENSE"><img src="https://img.shields.io/github/license/wayofdev/docker-php-base.svg?style=flat-square&color=blue" alt="Software License"/></a>
+<a href="LICENSE.md"><img src="https://img.shields.io/github/license/wayofdev/docker-php-base.svg?style=flat-square&color=blue" alt="Software License"/></a>
 <a href="#"><img alt="Commits since latest release" src="https://img.shields.io/github/commits-since/wayofdev/docker-php-base/latest?style=flat-square"></a>
 </div>
 
@@ -93,15 +93,6 @@ ext_pecl_enabled:
   - amqp
   - protobuf
   - yaml
-
-ext_pecl_versions:
-  redis: "5.3.7"
-  decimal: "1.4.0"
-  imagick: "3.7.0"
-  rdkafka: "6.0.3"
-  amqp: "1.11.0"
-  protobuf: "3.22.5"
-  yaml: "2.2.3"
 ```
 
 <br>
@@ -118,7 +109,7 @@ $ make generate
 
 To install dependencies and start development you can check contents of our `Makefile`
 
-### →  Requirments
+### →  Requirements
 
 For testing purposes we use **goss** and **dgoss**, follow installation instructions on  [their official README](https://github.com/aelsabbahy/goss/blob/master/extras/dgoss/README.md)
 
@@ -168,7 +159,7 @@ $ make build IMAGE_TEMPLATE="8.2-supervisord-alpine"
 
 ## 🧪 Testing
 
-You can check `Makefile` to get full list of commands for local testing. For testing you can use these comands to test whole role or separate tasks:
+You can check `Makefile` to get full list of commands for local testing. For testing, you can use these commands to test whole role or separate tasks:
 
 Testing default image:
 
@@ -231,10 +222,10 @@ This repository was created in **2022** by [lotyp / wayofdev](https://github.com
 
 ## 🫡 Contributors
 
-<img align="left" src="https://img.shields.io/github/contributors-anon/wayofdev/docker-php-base?style=for-the-badge"/>
+<img align="left" src="https://img.shields.io/github/contributors-anon/wayofdev/docker-php-base?style=for-the-badge" alt="Contributors"/>
 
-<a href="https://github.com/wayofdev/docker-nginx/graphs/contributors">
-  <img src="https://opencollective.com/wod/contributors.svg?width=890&button=false">
+<a href="https://github.com/wayofdev/docker-php-base/graphs/contributors">
+  <img src="https://opencollective.com/wod/contributors.svg?width=890&button=false" alt="OpenCollective Contributors">
 </a>
 
 <br>

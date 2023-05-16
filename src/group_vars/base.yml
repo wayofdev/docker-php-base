@@ -98,13 +98,4 @@ ext_pecl_enabled:
   - protobuf
   - yaml
 
-ext_pecl_versions:
-  redis: "5.3.7"
-  decimal: "1.4.0"
-  imagick: "3.7.0"
-  rdkafka: "6.0.3"
-  amqp: "1.11.0"
-  protobuf: "3.22.5"
-  yaml: "2.2.3"
-
 ...

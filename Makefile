@@ -5,7 +5,7 @@ export DOCKER_BUILDKIT ?= 1
 export COMPOSE_DOCKER_CLI_BUILD ?= 1
 
 IMAGE_NAMESPACE ?= wayofdev/php-base
-IMAGE_TEMPLATE ?= 7.4-cli-alpine
+IMAGE_TEMPLATE ?= 8.2-fpm-alpine
 IMAGE_TAG ?= $(IMAGE_NAMESPACE):$(IMAGE_TEMPLATE)-latest
 
 DOCKERFILE_DIR ?= ./dist/base/$(IMAGE_TEMPLATE)
@@ -68,8 +68,13 @@ PHONY: all
 # ------------------------------------------------------------------------------------
 build: ## Build default docker image
 	cd $(CURRENT_DIR)$(DOCKERFILE_DIR); \
-	docker build . -t $(IMAGE_TAG)
+	docker build -t $(IMAGE_TAG) .
 PHONY: build
+
+analyze: ## Analyze docker image
+	cd $(CURRENT_DIR)$(DOCKERFILE_DIR); \
+	dive build -t $(IMAGE_TAG) .
+.PHONY: analyze
 
 build-from-cache: ## Build default docker image using cached layers
 	cd $(CURRENT_DIR)$(DOCKERFILE_DIR); \
@@ -97,7 +102,7 @@ ssh: ## Login into built image
 # Ansible Actions
 # ------------------------------------------------------------------------------------
 generate: ## Generates dockerfiles from ansible templates
-	ansible-playbook src/generate.yml
+	ansible-playbook src/playbook.yml
 PHONY: generate
 
 clean: ## Cleans up generated files

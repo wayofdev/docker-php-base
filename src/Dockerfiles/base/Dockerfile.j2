@@ -33,156 +33,31 @@ ENV PHP_MEMORY_LIMIT="{{ settings_php_ini.php_memory_limit }}"
 ENV PHPFPM_SLOWLOG_TIMEOUT="5s"
 {% endif %}
 
+COPY --chown=www-data ./configs/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
+COPY --chown=www-data ./configs/php.ini /usr/local/etc/php/conf.d/php.ini
+
 RUN set -eux; \
     apk -U upgrade -a \
-    # Add production dependencies
 {% if 'supervisord' == php_type %}
     && apk add --no-cache supervisor \
 {% endif %}
-    # Temporary build dependencies for compiling Pecl extensions
-    && apk add --no-cache --virtual .temp-build-deps \
-        $PHPIZE_DEPS \
-    # Intl - Internationalization; "icu-dev" is temporary build dependency
-{% if 'intl' in ext_native_enabled %}
-    && apk add --no-cache \
-        icu-libs \
-        icu-dev \
-    && docker-php-ext-install -j$(nproc) intl \
-    && apk del icu-dev \
-{% endif %}
-    # Pcntl - Process control support
-{% if 'pcntl' in ext_native_enabled %}
-    && docker-php-ext-install -j$(nproc) pcntl \
-{% endif %}
-{% if 'sockets' in ext_native_enabled %}
-    && docker-php-ext-install -j$(nproc) --ini-name docker-php-ext-00-sockets.ini sockets \
-{% endif %}
-    # MySQL
-{% if 'pdo_mysql' in ext_native_enabled %}
-    && docker-php-ext-install -j$(nproc) pdo_mysql \
-{% endif %}
-    # Postgres; "postgresql-dev" is temporary build dependency
-{% if 'pdo_pgsql' in ext_native_enabled %}
-    && apk add --no-cache -X https://dl-cdn.alpinelinux.org/alpine/{{ os_version }}/main postgresql-dev \
-    && apk add --no-cache -X https://dl-cdn.alpinelinux.org/alpine/{{ os_version }}/main postgresql-libs \
-    && docker-php-ext-install -j$(nproc) pdo_pgsql \
-    && apk del postgresql-dev \
-{% endif %}
-    # Opcache
-{% if 'OPcache' in ext_native_enabled %}
-    && docker-php-ext-install -j$(nproc) opcache \
-{% endif %}
-    # Zip
-{% if 'zip' in ext_native_enabled %}
-    && apk add --no-cache \
-        libzip \
-        libzip-dev zlib-dev \
-    && docker-php-ext-install -j$(nproc) zip \
-    && apk del libzip-dev zlib-dev \
-{% endif %}
-    # Bz2
-{% if 'bz2' in ext_native_enabled %}
-    && apk add --no-cache \
-        libbz2 \
-        bzip2-dev \
-    && docker-php-ext-install -j$(nproc) bz2 \
-    && apk del bzip2-dev \
-{% endif %}
-    # Bcmath - Arbitrary Precision Mathematics
-{% if 'bcmath' in ext_native_enabled %}
-    && docker-php-ext-install -j$(nproc) bcmath \
-{% endif %}
-    # Soap Messaging Protocol
-{% if 'soap' in ext_native_enabled %}
-    && apk add --no-cache libxml2-dev \
-    && docker-php-ext-install -j$(nproc) soap \
-    && apk del libxml2-dev \
-{% endif %}
-    ### Image Processing
-    # https://www.php.net/manual/en/refs.utilspec.image.php
-    # Exif - (Exchangeable image information) / Image Meta Data
-{% if 'exif' in ext_native_enabled %}
-    && docker-php-ext-install -j$(nproc) exif \
-{% endif %}
-    # GD
-{% if 'gd' in ext_native_enabled %}
-    && apk add --no-cache \
-        freetype libjpeg-turbo libpng libxpm libwebp \
-        freetype-dev libjpeg-turbo-dev libpng-dev libxpm-dev libwebp-dev \
-    && docker-php-ext-configure gd --enable-gd --with-webp --with-jpeg --with-xpm --with-freetype \
-    && docker-php-ext-install -j$(nproc) gd \
-    && apk del freetype-dev libjpeg-turbo-dev libpng-dev libxpm-dev libwebp-dev \
-{% endif %}
-    ####################################################################################################################
-    # Pecl Dependencies
-    # Redis - In-memory data structure store driver; zstd-dev is temporary build dependency
-{% if 'redis' in ext_pecl_enabled %}
-    && apk add --no-cache \
-        zstd-libs \
-        zstd-dev \
-    && pecl install redis-{{ ext_pecl_versions.redis }} \
-    && docker-php-ext-enable redis \
-    && apk del zstd-dev \
-{% endif %}
-    # Decimal - Correctly-rounded arbitrary precision decimal floating point arithmetic
-{% if 'decimal' in ext_pecl_enabled %}
-    && apk add --no-cache \
-        mpdecimal-dev \
-        mpdecimal \
-    && pecl install decimal-{{ ext_pecl_versions.decimal }} \
-    && docker-php-ext-enable decimal \
-    && apk del mpdecimal-dev \
-{% endif %}
-    # Imagick
-{% if 'imagick' in ext_pecl_enabled %}
-    && apk add --no-cache \
-        imagemagick libgomp \
-        imagemagick-dev \
-    && pecl install imagick-{{ ext_pecl_versions.imagick }} \
-    && docker-php-ext-enable imagick \
-    && apk del imagemagick-dev \
-{% endif %}
-    # Client for Apache Kafka
-{% if 'rdkafka' in ext_pecl_enabled %}
-    && apk add --no-cache \
-        librdkafka \
-        librdkafka-dev \
-    && pecl install rdkafka-{{ ext_pecl_versions.rdkafka }} \
-    && docker-php-ext-enable rdkafka \
-    && apk del librdkafka-dev \
-{% endif %}
-    # AMQP - Communicate with any amqp compliant server
-{% if 'amqp' in ext_pecl_enabled %}
-    && apk add --no-cache \
-        rabbitmq-c \
-        rabbitmq-c-dev \
-    && pecl install amqp-{{ ext_pecl_versions.amqp }} \
-    && docker-php-ext-enable amqp \
-    && apk del rabbitmq-c-dev \
-{% endif %}
-    # Protobuf - Google's extensible mechanism for serializing structured data.
-    # https://spiral.dev/docs/grpc-configuration#toolkit-installation-install-protobuf-extension-optional
-{% if 'protobuf' in ext_pecl_enabled %}
-    && pecl install protobuf-{{ ext_pecl_versions.protobuf }} \
-    && docker-php-ext-enable --ini-name docker-php-ext-10-protobuf.ini protobuf \
-{% endif %}
-    # Yaml parser and emitter
-{% if 'yaml' in ext_pecl_enabled %}
-    && apk add --no-cache \
-        yaml \
-        yaml-dev \
-    && pecl install yaml-{{ ext_pecl_versions.yaml }} \
-    && docker-php-ext-enable yaml \
-    && apk del yaml-dev \
-{% endif %}
+    && \
+    curl -sSLf \
+        -o /usr/local/bin/install-php-extensions \
+        https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions \
+    && chmod +x /usr/local/bin/install-php-extensions \
+    && install-php-extensions \
+{% for ext in (ext_native_enabled + ext_pecl_enabled) | unique | sort %}
+        {{ ext }} \
+{% endfor %}
+    && install-php-extensions --cleanup \
+    && rm -rf /var/cache/apk/* \
+    && rm -rf /tmp/* \
+    && rm -rf /var/log/* \
     && chown -R www-data:www-data /usr/local/etc/php/conf.d/ \
-    && apk del -f .temp-build-deps \
     && rm -rf /var/www/html \
     && mkdir /app \
     && chown www-data:www-data /app
-
-COPY --chown=www-data ./configs/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
-COPY --chown=www-data ./configs/php.ini /usr/local/etc/php/conf.d/php.ini
 
 {% if 'fpm' == php_type %}
 COPY ./configs/php-fpm.d/ /usr/local/etc/php-fpm.d/

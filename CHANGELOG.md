@@ -1,5 +1,27 @@
 # Changelog
 
+## [2.2.0](https://github.com/wayofdev/docker-php-base/compare/v2.1.0...v2.2.0) (2023-05-16)
+
+
+### Features
+
+* add reusable prod build ([6a1ba9e](https://github.com/wayofdev/docker-php-base/commit/6a1ba9e804eb21e8ee801db35289cc74623a3421))
+* add reusable prod build ([c9f2bc3](https://github.com/wayofdev/docker-php-base/commit/c9f2bc3f74dc952619e6eed0db61b5444ca47cef))
+* move to reusable workflow ([2be2b4d](https://github.com/wayofdev/docker-php-base/commit/2be2b4d4bc025267d764757113bbbf27ac30ebde))
+* move to reusable workflow ([1b2a677](https://github.com/wayofdev/docker-php-base/commit/1b2a6779335b9423ee8dafbba4a4292d9b1e6992))
+
+
+### Bug Fixes
+
+* **ci:** matrix as output ([da2f30f](https://github.com/wayofdev/docker-php-base/commit/da2f30f61997dee649d07491db4252847668bfe0))
+* **ci:** matrix as output ([ae6c357](https://github.com/wayofdev/docker-php-base/commit/ae6c357ebcd3dc7729f250c9063aa5043e9c03a9))
+
+
+### Miscellaneous
+
+* bump workflows ([772e4c9](https://github.com/wayofdev/docker-php-base/commit/772e4c9eccbd37536a679b4ff3a73f2234dd1398))
+* bump workflows ([fd06bae](https://github.com/wayofdev/docker-php-base/commit/fd06bae9c4839f9ffb1faaa5538c9e0838ac7253))
+
 ## [2.1.0](https://github.com/wayofdev/docker-php-base/compare/v2.0.1...v2.1.0) (2023-05-16)
 
 

@@ -37,11 +37,17 @@ jobs:
         env:
           IMAGE_NAMESPACE: wayofdev/php-base
           IMAGE_TEMPLATE: ${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_name }}
-          IMAGE_TAG: ${{ env.IMAGE_NAMESPACE }}:${{ env.IMAGE_TEMPLATE }}-latest
+          IMAGE_TAG: wayofdev/php-base:${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_name }}-latest
         run: |
           echo "IMAGE_NAMESPACE=${IMAGE_NAMESPACE}" >> $GITHUB_ENV
           echo "IMAGE_TEMPLATE=${IMAGE_TEMPLATE}" >> $GITHUB_ENV
           echo "IMAGE_TAG=${IMAGE_TAG}" >> $GITHUB_ENV
+
+      - name: Debug Vars
+        run: |
+          echo ${{ env.IMAGE_NAMESPACE }}
+          echo ${{ env.IMAGE_TEMPLATE }}
+          echo ${{ env.IMAGE_TAG }}
 
       - name: 🤖 Generate dist files
         run: make generate

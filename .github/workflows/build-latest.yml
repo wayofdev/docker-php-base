@@ -2,9 +2,6 @@
 
 on:  # yamllint disable-line rule:truthy
   workflow_dispatch:
-  push:
-    branches:
-      - master
   pull_request:
     branches:
       - master
@@ -18,7 +15,8 @@ jobs:
     outputs:
       matrix: ${{ steps.matrix.outputs.matrix }}
     steps:
-      - id: matrix
+      - name: ⚙️ Generate matrix
+        id: matrix
         run: |
           echo 'matrix={
             "os_name": ["alpine"],
@@ -33,8 +31,9 @@ jobs:
     uses: wayofdev/gh-actions/.github/workflows/build-image.yml@master
     with:
       os: "ubuntu-latest"
-      push-to-hub: ${{ github.event_name != 'pull_request' }}
+      push-to-hub: true
       image-namespace: "wayofdev/php-base"
+      image-template-path: "./dist/base"
       image-template: ${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_name }}
       image-version: latest
     secrets:

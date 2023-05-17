@@ -13,6 +13,7 @@ jobs:
     runs-on: "ubuntu-latest"
     outputs:
       matrix: ${{ steps.matrix.outputs.matrix }}
+      version: ${{ steps.version.outputs.version }}
     steps:
       - name: ⚙️ Generate matrix
         id: matrix
@@ -26,7 +27,9 @@ jobs:
       - name: ⚙️ Get version for image tag
         id: version
         run: |
-          echo "version=$(echo ${GITHUB_REF#refs/*/} | cut -c 2-)" >> $GITHUB_OUTPUT
+          version=${{ github.ref_name }}
+          version=${version#v}
+          echo "version=$version" >> $GITHUB_OUTPUT
 
   build:
     needs: prepare
@@ -37,6 +40,7 @@ jobs:
       os: "ubuntu-latest"
       push-to-hub: true
       image-namespace: "wayofdev/php-base"
+      image-template-path: "./dist/base"
       image-template: ${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_name }}
       image-version: ${{ needs.prepare.outputs.version }}
     secrets:

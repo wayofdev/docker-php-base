@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.1](https://github.com/wayofdev/docker-php-base/compare/v2.2.0...v2.2.1) (2023-05-17)
+
+
+### Bug Fixes
+
+* release tag ([f986dfa](https://github.com/wayofdev/docker-php-base/commit/f986dfa059143eafd99a8e8876a4bff1b4ddb6fd))
+
 ## [2.2.0](https://github.com/wayofdev/docker-php-base/compare/v2.1.0...v2.2.0) (2023-05-16)
 
 

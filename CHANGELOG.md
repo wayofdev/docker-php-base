@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.2.2](https://github.com/wayofdev/docker-php-base/compare/v2.2.1...v2.2.2) (2023-09-22)
+
+
+### Miscellaneous
+
+* **deps:** update actions/checkout action to v4 ([fcc445b](https://github.com/wayofdev/docker-php-base/commit/fcc445bb6d2f9a12923f2ea5f24ea5b84f62f626))
+* **deps:** update actions/checkout digest to 8ade135 ([a8f8298](https://github.com/wayofdev/docker-php-base/commit/a8f8298526d824747e89ed2119baded1f55fb1ef))
+
 ## [2.2.1](https://github.com/wayofdev/docker-php-base/compare/v2.2.0...v2.2.1) (2023-05-17)
 
 

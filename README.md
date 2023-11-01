@@ -25,26 +25,27 @@ Repository contains dist folder with generated basic PHP images and source code,
 
 Enabled extensions by default:
 
-| Extension                                                    | Description                                                  | Type   |
-| ------------------------------------------------------------ | ------------------------------------------------------------ | ------ |
-| [intl](https://www.php.net/manual/en/book.intl.php)          | Internationalization functions                               | native |
-| [pcntl](https://www.php.net/manual/en/book.pcntl.php)        | Process control                                              | native |
-| [sockets](https://www.php.net/manual/en/book.sockets.php)    | Socket communication functions                               | native |
-| [pdo_pgsql](https://www.php.net/manual/en/ref.pdo-pgsql.php) | PostgreSQL functions                                         | native |
-| [pdo_mysql](https://www.php.net/manual/en/ref.pdo-mysql.php) | Mysql functions                                              | native |
+| Extension                                                    | Description                                                                     | Type   |
+|--------------------------------------------------------------|---------------------------------------------------------------------------------|--------|
+| [intl](https://www.php.net/manual/en/book.intl.php)          | Internationalization functions                                                  | native |
+| [pcntl](https://www.php.net/manual/en/book.pcntl.php)        | Process control                                                                 | native |
+| [sockets](https://www.php.net/manual/en/book.sockets.php)    | Socket communication functions                                                  | native |
+| [pdo_pgsql](https://www.php.net/manual/en/ref.pdo-pgsql.php) | PostgreSQL functions                                                            | native |
+| [pdo_mysql](https://www.php.net/manual/en/ref.pdo-mysql.php) | Mysql functions                                                                 | native |
 | [opcache](https://www.php.net/manual/en/book.opcache.php)    | Improves PHP performance by storing precompiled script bytecode in shared memory | native |
-| [zip](https://www.php.net/manual/en/book.zip.php)            | Read/write functions for ZIP archives                        | native |
-| [bcmath](https://www.php.net/manual/en/book.bc.php)          | For arbitrary precision mathematics                          | native |
-| [exif](https://www.php.net/manual/en/book.exif.php)          | Exchangeable image information                               | native |
-| [gd](https://www.php.net/manual/en/book.image.php)           | Image processing and manipulation library                    | native |
-| [soap](https://www.php.net/manual/en/book.soap.php)          | SOAP (Simple Object Access Protocol) functions               | native |
-| [redis](https://pecl.php.net/package/redis)                  | Functions for interfacing with Redis                         | pecl   |
-| [decimal](https://pecl.php.net/package/decimal)              | Arbitrary precision floating-point decimal                   | pecl   |
-| [imagick](https://pecl.php.net/package/imagick)              | ImageMagick library for image manipulation                   | pecl   |
-| [rdkafka](https://pecl.php.net/package/rdkafka)              | Kafka client library for PHP                                 | pecl   |
-| [amqp](https://pecl.php.net/package/amqp)                    | Advanced Message Queuing Protocol (AMQP) library             | pecl   |
-| [protobuf](https://pecl.php.net/package/protobuf)            | Protocol Buffers serialization format library                | pecl   |
-| [yaml](https://pecl.php.net/package/yaml)                    | YAML (YAML Ain't Markup Language) library                    | pecl   |
+| [zip](https://www.php.net/manual/en/book.zip.php)            | Read/write functions for ZIP archives                                           | native |
+| [bcmath](https://www.php.net/manual/en/book.bc.php)          | For arbitrary precision mathematics                                             | native |
+| [exif](https://www.php.net/manual/en/book.exif.php)          | Exchangeable image information                                                  | native |
+| [gd](https://www.php.net/manual/en/book.image.php)           | Image processing and manipulation library                                       | native |
+| [soap](https://www.php.net/manual/en/book.soap.php)          | SOAP (Simple Object Access Protocol) functions                                  | native |
+| [redis](https://pecl.php.net/package/redis)                  | Functions for interfacing with Redis                                            | pecl   |
+| [memcached](https://pecl.php.net/package/memcached)          | Functions for interfacing with Memcached                                        | pecl   |
+| [decimal](https://pecl.php.net/package/decimal)              | Arbitrary precision floating-point decimal                                      | pecl   |
+| [imagick](https://pecl.php.net/package/imagick)              | ImageMagick library for image manipulation                                      | pecl   |
+| [rdkafka](https://pecl.php.net/package/rdkafka)              | Kafka client library for PHP                                                    | pecl   |
+| [amqp](https://pecl.php.net/package/amqp)                    | Advanced Message Queuing Protocol (AMQP) library                                | pecl   |
+| [protobuf](https://pecl.php.net/package/protobuf)            | Protocol Buffers serialization format library                                   | pecl   |
+| [yaml](https://pecl.php.net/package/yaml)                    | YAML (YAML Ain't Markup Language) library                                       | pecl   |
 
 <br>
 
@@ -87,12 +88,14 @@ ext_native_enabled:
 
 ext_pecl_enabled:
   - redis
+  - memcached
   - decimal
   - imagick
   - rdkafka
   - amqp
   - protobuf
   - yaml
+
 ```
 
 <br>

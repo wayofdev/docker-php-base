@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.0](https://github.com/wayofdev/docker-php-base/compare/v2.2.2...v2.3.0) (2023-11-02)
+
+
+### Features
+
+* add memcached ([855d1a6](https://github.com/wayofdev/docker-php-base/commit/855d1a615151910da71611fe89bad8d4fe6d7e5f))
+
 ## [2.2.2](https://github.com/wayofdev/docker-php-base/compare/v2.2.1...v2.2.2) (2023-09-22)
 
 

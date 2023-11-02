@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.1](https://github.com/wayofdev/docker-php-base/compare/v2.3.0...v2.3.1) (2023-11-02)
+
+
+### Miscellaneous
+
+* **deps:** update actions/checkout digest to b4ffde6 ([b81be9d](https://github.com/wayofdev/docker-php-base/commit/b81be9d74cd06bfd75e71dd715fa3612abf71f03))
+
 ## [2.3.0](https://github.com/wayofdev/docker-php-base/compare/v2.2.2...v2.3.0) (2023-11-02)
 
 

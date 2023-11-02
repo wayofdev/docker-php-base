@@ -91,6 +91,7 @@ ext_native_enabled:
 
 ext_pecl_enabled:
   - redis
+  - memcached
   - decimal
   - imagick
   - rdkafka

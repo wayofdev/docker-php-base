@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.4.0](https://github.com/wayofdev/docker-php-base/compare/v2.3.1...v2.4.0) (2023-12-18)
+
+
+### Features
+
+* add additional libraries ([bd7540f](https://github.com/wayofdev/docker-php-base/commit/bd7540fe53a7b0a61eebc6c6c4cb5d44fddda15c))
+
+
+### Bug Fixes
+
+* labeler ([c1c214b](https://github.com/wayofdev/docker-php-base/commit/c1c214be0009ac60c030182173053e3377353ddf))
+
 ## [2.3.1](https://github.com/wayofdev/docker-php-base/compare/v2.3.0...v2.3.1) (2023-11-02)
 
 

@@ -88,6 +88,8 @@ ext_native_enabled:
   - exif
   - gd
   - soap
+  - imap
+  - ldap
 
 ext_pecl_enabled:
   - redis

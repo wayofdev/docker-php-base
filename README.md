@@ -156,6 +156,9 @@ $ make build IMAGE_TEMPLATE="8.1-supervisord-alpine"
 $ make build IMAGE_TEMPLATE="8.2-cli-alpine"
 $ make build IMAGE_TEMPLATE="8.2-fpm-alpine"
 $ make build IMAGE_TEMPLATE="8.2-supervisord-alpine"
+$ make build IMAGE_TEMPLATE="8.3-cli-alpine"
+$ make build IMAGE_TEMPLATE="8.3-fpm-alpine"
+$ make build IMAGE_TEMPLATE="8.3-supervisord-alpine"
 ```
 
 <br>
@@ -185,6 +188,9 @@ $ make test IMAGE_TEMPLATE="8.1-supervisord-alpine"
 $ make test IMAGE_TEMPLATE="8.2-cli-alpine"
 $ make test IMAGE_TEMPLATE="8.2-fpm-alpine"
 $ make test IMAGE_TEMPLATE="8.2-supervisord-alpine"
+$ make test IMAGE_TEMPLATE="8.3-cli-alpine"
+$ make test IMAGE_TEMPLATE="8.3-fpm-alpine"
+$ make test IMAGE_TEMPLATE="8.3-supervisord-alpine"
 ```
 
 <br>

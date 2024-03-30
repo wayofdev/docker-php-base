@@ -21,6 +21,7 @@ jobs:
           echo 'matrix={
             "os_name": ["alpine"],
             "php_version": ["8.1", "8.2", "8.3"],
+            "php_platform": ["linux/amd64", "linux/arm64"],
             "php_type": ["fpm", "cli", "supervisord"]
           }' | tr -d '\n' >> $GITHUB_OUTPUT
 
@@ -36,6 +37,7 @@ jobs:
       image-template-path: "./dist/base"
       image-template: ${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_name }}
       image-version: latest
+      image-platform: ${{ matrix.php_platform }}
     secrets:
       docker-username: ${{ secrets.DOCKER_USERNAME }}
       docker-password: ${{ secrets.DOCKER_TOKEN }}

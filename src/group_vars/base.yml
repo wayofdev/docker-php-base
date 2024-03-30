@@ -87,18 +87,15 @@ ext_native_enabled:
   - bcmath
   - exif
   - gd
-  - soap
-  - imap
   - ldap
+  - curl
+  - openssl
 
 ext_pecl_enabled:
   - redis
   - memcached
   - decimal
-  - imagick
-  - rdkafka
   - amqp
-  - protobuf
   - yaml
 
 ...

@@ -50,22 +50,8 @@ RUN set -eux; \
     && chmod +x /usr/local/bin/install-php-extensions \
     && install-php-extensions \
 {% for ext in (ext_native_enabled + ext_pecl_enabled) | unique | sort %}
-    {% if php_version | float == 8.3 and ext == 'imagick' %}
-        {# Skip imagick for PHP 8.3 version #}
-    {% else %}
         {{ ext }} \
-    {% endif %}
 {% endfor %}
-{% if php_version == '8.3' %}
-    && curl -L -o /tmp/imagick.tar.gz https://github.com/Imagick/imagick/archive/refs/tags/${IMAGICK_VERSION}.tar.gz \
-    && tar --strip-components=1 -xf /tmp/imagick.tar.gz \
-    && phpize \
-    && ./configure \
-    && make \
-    && make install \
-    && echo "extension=imagick.so" > /usr/local/etc/php/conf.d/ext-imagick.ini \
-    && rm -rf /tmp/* \
-{% endif %}
     && install-php-extensions --cleanup \
     && rm -rf /var/cache/apk/* \
     && rm -rf /tmp/* \

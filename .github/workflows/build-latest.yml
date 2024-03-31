@@ -59,8 +59,8 @@ jobs:
       - name: Upload meta bake definition
         uses: actions/upload-artifact@v4
         with:
-          name: bake-meta
-          path: /tmp/bake-meta.json
+          name: ${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_name }}-${{ matrix.builder.arch }}-meta
+          path: ${{ steps.meta.outputs.bake-file }}
           if-no-files-found: error
           retention-days: 1
 
@@ -91,8 +91,7 @@ jobs:
         uses: docker/bake-action@v3
         with:
           files: |
-            ./docker-bake.hcl
-            /tmp/bake-meta.json
+            ${{ steps.meta.outputs.bake-file }}
           set: |
             *.tags=${{ steps.meta.outputs.tags }}
             *.platform=linux/${{ matrix.builder.arch }}

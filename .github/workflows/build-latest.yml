@@ -9,6 +9,9 @@ on:  # yamllint disable-line rule:truthy
   pull_request:
     branches:
       - master
+  push:
+    branches:
+      - master
 
 env:
   DOCKER_NAMESPACE: wayofdev/php-base
@@ -22,9 +25,9 @@ jobs:
       fail-fast: false
       matrix:
         os_name: ["alpine"]
-        php_version: ["8.1", "8.2", "8.3"]
-        php_type: ["fpm", "cli", "supervisord"]
-        builder: [{arch: "amd64", os: "ubuntu-latest"}, {arch: "arm64", os: "ubuntu-latest"}]
+        php_version: ["8.1"]
+        php_type: ["fpm"]
+        builder: [{arch: "amd64", os: "ubuntu-latest"}]
     runs-on: ${{ matrix.builder.os }}
     steps:
       - name: 📦 Check out the codebase
@@ -53,13 +56,13 @@ jobs:
         run: |
           mv "${{ steps.meta.outputs.bake-file }}" "/tmp/bake-meta.json"
 
-      - name: Upload meta bake definition
-        uses: actions/upload-artifact@v4
-        with:
-          name: bake-meta
-          path: /tmp/bake-meta.json
-          if-no-files-found: error
-          retention-days: 1
+#      - name: Upload meta bake definition
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: bake-meta
+#          path: /tmp/bake-meta.json
+#          if-no-files-found: error
+#          retention-days: 1
 
       - name: 🛠️ Setup docker BuildX
         uses: docker/setup-qemu-action@v3

@@ -52,10 +52,6 @@ jobs:
             latest=false
             prefix=${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_name }}-
 
-      - name: Rename meta bake definition file
-        run: |
-          mv "${{ steps.meta.outputs.bake-file }}" "/tmp/bake-meta.json"
-
       - name: Upload meta bake definition
         uses: actions/upload-artifact@v4
         with:

@@ -32,7 +32,7 @@ jobs:
     steps:
       - name: 🌎 Set environment variables
         run: |
-          tag=${{ php_version }}-${{ php_type }}-${{ os_name }}-${{ matrix.builder.arch }}
+          tag=${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_name }}-${{ matrix.builder.arch }}
           echo "PLATFORM_TAG=${tag}" >> $GITHUB_ENV
 
       - name: 📦 Check out the codebase

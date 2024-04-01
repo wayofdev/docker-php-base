@@ -30,6 +30,11 @@ jobs:
         builder: [{arch: "amd64", os: "ubuntu-latest"}]
     runs-on: ${{ matrix.builder.os }}
     steps:
+      - name: 🌎 Set environment variables
+        run: |
+          tag=${{ php_version }}-${{ php_type }}-${{ os_name }}-${{ matrix.builder.arch }}
+          echo "PLATFORM_TAG=${tag}" >> $GITHUB_ENV
+
       - name: 📦 Check out the codebase
         uses: actions/checkout@v4
 
@@ -62,7 +67,7 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: 🚀 Build image and push to docker-hub and GHCR
+      - name: 🚀 Bake image and push to docker-hub and GHCR
         id: bake
         uses: docker/bake-action@v3
         with:
@@ -72,7 +77,9 @@ jobs:
           set: |
             *.tags=${{ steps.meta.outputs.tags }}
             *.platform=linux/${{ matrix.builder.arch }}
-            *.output=type=image,"name=${{ env.DOCKERHUB_SLUG }},${{ env.GHCR_SLUG }}",push-by-digest=true,name-canonical=true,push=${{ github.event_name != 'pull_request' }}
+            *.cache-from=type=gha,scope=build-${{ env.PLATFORM_TAG }}
+            *.cache-to=type=gha,scope=build-${{ env.PLATFORM_TAG }}
+            *.output=type=image,"name=${{ env.DOCKER_NAMESPACE }},${{ env.GHCR_NAMESPACE }}",push-by-digest=true,name-canonical=true,push=${{ github.event_name != 'pull_request' }}
 
       - name: 🔍 Display tags built
         run: |

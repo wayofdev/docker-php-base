@@ -1,12 +1,12 @@
 variable "NAMESPACE" {default = "wayofdev/php-base"}
 variable "RELEASE_VERSION" {default = "2.9.0"}
-variable "IS_RELEASE" {default = "1"}
+variable "IS_RELEASE" {default = "0"}
 
 target "default" {
     args = {
+        IS_RELEASE = "${IS_RELEASE}",
         RELEASE_VERSION = "${RELEASE_VERSION}"
     }
-    # platforms = [BAKE_LOCAL_PLATFORM]
     pull = true
     output = ["type=docker"]
 }

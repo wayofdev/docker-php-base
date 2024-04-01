@@ -70,7 +70,6 @@ jobs:
           files: |
             ./docker-bake.hcl
           set: |
-            *.platform=linux/${{ matrix.builder.arch }}"
             *.tags=${{ steps.meta.outputs.tags }}
             *.platform=linux/${{ matrix.builder.arch }}
             *.output=type=image,"name=${{ env.DOCKERHUB_SLUG }},${{ env.GHCR_SLUG }}",push-by-digest=true,name-canonical=true,push=${{ github.event_name != 'pull_request' }}

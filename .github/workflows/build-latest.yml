@@ -34,33 +34,13 @@ jobs:
         uses: actions/checkout@v4
 
       - name: 🤖 Generate dist files
-        run: make generate
+        run: ansible-playbook src/playbook.yml -l ${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_name }}
 
-      - name: 🐳 Extract docker meta data
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: |
-            ${{ env.DOCKER_NAMESPACE }}
-            ${{ env.GHCR_NAMESPACE }}
-          tags: |
-            type=raw,event=branch,value=latest
-            type=ref,event=pr
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
-          flavor: |
-            latest=false
-            prefix=${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_name }}-
+      - name: 💻 Set up Docker for MacOS
+        if: ${{ matrix.builder.os == 'macos-latest' }}
+        uses: docker-practice/actions-setup-docker@master
 
-      - name: Upload meta bake definition
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_name }}-${{ matrix.builder.arch }}-meta
-          path: ${{ steps.meta.outputs.bake-file }}
-          if-no-files-found: error
-          retention-days: 1
-
-      - name: 🛠️ Setup docker BuildX
+      - name: 🛠️ Setup docker QEMU
         uses: docker/setup-qemu-action@v3
 
       - name: Set up Docker Buildx
@@ -74,7 +54,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_TOKEN }}
 
-      - name: Login to GHCR
+      - name: 🔑 Login to GHCR
         if: github.event_name != 'pull_request'
         uses: docker/login-action@v3
         with:
@@ -86,12 +66,18 @@ jobs:
         id: bake
         uses: docker/bake-action@v3
         with:
+          targets: php-81-${{ matrix.php_type }}-${{ matrix.os_name }}
           files: |
-            ${{ steps.meta.outputs.bake-file }}
+            ./docker-bake.hcl
           set: |
+            *.platform=linux/${{ matrix.builder.arch }}"
             *.tags=${{ steps.meta.outputs.tags }}
             *.platform=linux/${{ matrix.builder.arch }}
             *.output=type=image,"name=${{ env.DOCKERHUB_SLUG }},${{ env.GHCR_SLUG }}",push-by-digest=true,name-canonical=true,push=${{ github.event_name != 'pull_request' }}
+
+      - name: 🔍 Display tags built
+        run: |
+          docker image ls --filter="reference=${{ env.DOCKER_NAMESPACE }}"  --format "{{.CreatedAt}}\t{{.Size}}\t{{.Repository}}:{{.Tag}}"
 
       - name: Export digest
         run: |

@@ -78,13 +78,16 @@ tpl_docker_supervisor_tests:
 
 
 # Enabled extensions
+# These are added by default by install-php-extensions:
+#   - pdo
+#   - pdo_sqlite
+#   - curl
+#   - openssl
 #######################################
 ext_native_enabled:
   - intl
   - pcntl
   - sockets
-  - pdo
-  - pdo_sqlite
   - pdo_mysql
   - pdo_pgsql
   - OPcache
@@ -92,8 +95,6 @@ ext_native_enabled:
   - bcmath
   - exif
   - gd
-  - curl
-  - openssl
 
 ext_pecl_enabled:
   - redis

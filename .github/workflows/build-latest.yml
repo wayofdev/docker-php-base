@@ -75,7 +75,7 @@ jobs:
           files: |
             ./docker-bake.hcl
           set: |
-            *.tags=${{ steps.meta.outputs.tags }}
+            *.tags=
             *.platform=linux/${{ matrix.builder.arch }}
             *.cache-from=type=gha,scope=build-${{ env.PLATFORM_TAG }}
             *.cache-to=type=gha,scope=build-${{ env.PLATFORM_TAG }}
@@ -83,7 +83,7 @@ jobs:
 
       - name: 🔍 Display tags built
         run: |
-          docker image ls --filter="reference=${{ env.DOCKER_NAMESPACE }}"  --format "{{.CreatedAt}}\t{{.Size}}\t{{.Repository}}:{{.Tag}}"
+          docker image ls
 
       - name: Export digest
         run: |

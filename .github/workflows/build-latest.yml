@@ -127,7 +127,6 @@ jobs:
           else
             echo "Tag extracted: $tag"
             docker buildx imagetools inspect ${{ env.DOCKER_NAMESPACE }}:${tag}
-            docker buildx imagetools inspect ${{ env.GHCR_NAMESPACE }}:${tag}
           fi
 
       - name: 📥 Export digest

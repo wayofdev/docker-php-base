@@ -15,7 +15,7 @@ on:  # yamllint disable-line rule:truthy
 
 env:
   DOCKER_NAMESPACE: wayofdev/php-base
-  GHCR_NAMESPACE: ghcr.io/wayofdev/php-base
+  GHCR_NAMESPACE: ghcr.io/wayofdev/docker-php-base
 
 name: 🚀 Build docker images with latest tag
 
@@ -152,12 +152,6 @@ jobs:
 
   merge:
     needs: build
-    strategy:
-      fail-fast: false
-      matrix:
-        images:
-          - 8.1-fpm-alpine
-          - 8.2-fpm-alpine
     runs-on: ubuntu-latest
     steps:
 
@@ -192,5 +186,26 @@ jobs:
         uses: docker/setup-buildx-action@v3
         with:
           buildkitd-flags: "--debug"
+
+      - name: Create manifest list and push
+        run: |
+          # Aggregate all tags from the meta files
+          TAGS=$(jq -r '.target."docker-metadata-action".tags[]' /tmp/meta/bake-meta-*.json | sort -u)
+
+          # Loop through each tag and create a manifest list
+          for TAG in $TAGS; do
+            FULL_TAGS=()
+            for FILE in /tmp/meta/bake-meta-*.json; do
+              if jq -e --arg TAG "$TAG" '.target."docker-metadata-action".tags[] | select(. == $TAG)' $FILE > /dev/null; then
+                # Extract the repository and digest for the current platform
+                REPO=$(jq -r --arg TAG "$TAG" '.target."docker-metadata-action".tags[] | select(. == $TAG)' $FILE | cut -d':' -f1)
+                DIGEST=$(jq -r '.["'$REPO'"]["containerimage.digest"]' $FILE)
+                FULL_TAGS+=("$REPO@$DIGEST")
+              fi
+            done
+
+            # Create and push the manifest list for the current tag
+            docker buildx imagetools create "${FULL_TAGS[@]}" -t "$TAG"
+          done
 
 ...

@@ -9,9 +9,6 @@ on:  # yamllint disable-line rule:truthy
   pull_request:
     branches:
       - master
-  push:
-    branches:
-      - master
 
 env:
   DOCKER_NAMESPACE: wayofdev/php-base
@@ -25,7 +22,7 @@ jobs:
       fail-fast: false
       matrix:
         os_name: ["alpine"]
-        php_version: ["8.1", "8.2", "8.2"]
+        php_version: ["8.1", "8.2"]
         php_type: ["fpm", "cli", "supervisord"]
         builder: [{arch: "amd64", os: "ubuntu-latest"}, {arch: "arm64", os: "ubuntu-latest"}]
     runs-on: ${{ matrix.builder.os }}

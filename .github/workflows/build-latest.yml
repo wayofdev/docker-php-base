@@ -89,8 +89,8 @@ jobs:
         run: |
           mkdir -p /tmp/digests
           echo "Bake Metadata: ${{ steps.bake.outputs.metadata }}"
-          digest=$(echo '${{ steps.bake.outputs.metadata }}' | jq -r '.["php-81-fpm-alpine"].containerimage.digest' || echo '')
-          if [[ -z "$digest" ]]; then
+          digest=$(echo '${{ steps.bake.outputs.metadata }}' | jq -r '.["php-81-fpm-alpine"]["containerimage.digest"]')
+          if [[ -z "$digest" || "$digest" == "null" ]]; then
             echo "Digest not found."
             exit 1
           fi

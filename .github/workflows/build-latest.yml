@@ -81,14 +81,20 @@ jobs:
             *.cache-to=type=gha,scope=build-${{ env.PLATFORM_TAG }}
             *.output=type=image,"name=${{ env.DOCKER_NAMESPACE }},${{ env.GHCR_NAMESPACE }}",push-by-digest=true,name-canonical=true,push=${{ github.event_name != 'pull_request' }}
 
-      - name: 🔍 Display tags built
+      - name: Debug Bake Metadata Output
         run: |
-          docker image ls
+          echo "${{ steps.bake.outputs.metadata }}"
 
       - name: Export digest
         run: |
           mkdir -p /tmp/digests
-          digest="${{ fromJSON(steps.bake.outputs.metadata).image['containerimage.digest'] }}"
+          echo "Bake Metadata: ${{ steps.bake.outputs.metadata }}"
+          digest=$(echo '${{ steps.bake.outputs.metadata }}' | jq -r '.["php-81-fpm-alpine"].containerimage.digest' || echo '')
+          if [[ -z "$digest" ]]; then
+            echo "Digest not found."
+            exit 1
+          fi
+          echo "Digest: $digest"
           touch "/tmp/digests/${digest#sha256:}"
 
       - name: Upload digest

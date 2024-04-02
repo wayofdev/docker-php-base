@@ -64,7 +64,7 @@ jobs:
 
       - name: ⚙️ Rename meta bake definition file
         run: |
-          mv "${{ steps.meta.outputs.bake-file }}" "/tmp/bake-meta-${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_name }}--${{ matrix.builder.arch }}.json"
+          mv "${{ steps.meta.outputs.bake-file }}" "/tmp/bake-meta-${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_name }}-${{ matrix.builder.arch }}.json"
 
       - name: 💻 Set up Docker for MacOS
         if: ${{ matrix.builder.os == 'macos-latest' }}
@@ -99,7 +99,7 @@ jobs:
           targets: ${{ env.TARGET }}
           files: |
             ./docker-bake.hcl
-            /tmp/bake-meta-${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_name }}--${{ matrix.builder.arch }}.json
+            /tmp/bake-meta-${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_name }}-${{ matrix.builder.arch }}.json
           set: |
             *.tags=
             *.platform=linux/${{ matrix.builder.arch }}

@@ -15,21 +15,18 @@ target "php-81-cli-alpine" {
     inherits = ["docker-metadata-action"]
     context = "dist/base/8.1-cli-alpine"
     dockerfile = "./Dockerfile"
-    tags = tag("8.1", "cli", "alpine")
 }
 
 target "php-81-fpm-alpine" {
     inherits = ["docker-metadata-action"]
     context = "dist/base/8.1-fpm-alpine"
     dockerfile = "./Dockerfile"
-    tags = tag("8.1", "fpm", "alpine")
 }
 
 target "php-81-supervisord-alpine" {
     inherits = ["docker-metadata-action"]
     context = "dist/base/8.1-supervisord-alpine"
     dockerfile = "./Dockerfile"
-    tags = tag("8.1", "supervisord", "alpine")
 }
 
 ###########################
@@ -39,21 +36,18 @@ target "php-82-cli-alpine" {
     inherits = ["docker-metadata-action"]
     context = "dist/base/8.2-cli-alpine"
     dockerfile = "./Dockerfile"
-    tags = tag("8.2", "cli", "alpine")
 }
 
 target "php-82-fpm-alpine" {
     inherits = ["docker-metadata-action"]
     context = "dist/base/8.2-fpm-alpine"
     dockerfile = "./Dockerfile"
-    tags = tag("8.2", "fpm", "alpine")
 }
 
 target "php-82-supervisord-alpine" {
     inherits = ["docker-metadata-action"]
     context = "dist/base/8.2-supervisord-alpine"
     dockerfile = "./Dockerfile"
-    tags = tag("8.2", "supervisord", "alpine")
 }
 
 ###########################
@@ -63,33 +57,30 @@ target "php-83-cli-alpine" {
     inherits = ["docker-metadata-action"]
     context = "dist/base/8.3-cli-alpine"
     dockerfile = "./Dockerfile"
-    tags = tag("8.3", "cli", "alpine")
 }
 
 target "php-83-fpm-alpine" {
     inherits = ["docker-metadata-action"]
     context = "dist/base/8.3-fpm-alpine"
     dockerfile = "./Dockerfile"
-    tags = tag("8.3", "fpm", "alpine")
 }
 
 target "php-83-supervisord-alpine" {
     inherits = ["docker-metadata-action"]
     context = "dist/base/8.3-supervisord-alpine"
     dockerfile = "./Dockerfile"
-    tags = tag("8.3", "supervisord", "alpine")
 }
 
 group "all" {
     targets = [
-#        "php-81-cli-alpine",
-#        "php-81-fpm-alpine",
-#        "php-81-supervisord-alpine",
-#        "php-82-cli-alpine",
-#        "php-82-fpm-alpine",
-#        "php-82-supervisord-alpine",
-#        "php-83-cli-alpine",
-#        "php-83-fpm-alpine",
+        "php-81-cli-alpine",
+        "php-81-fpm-alpine",
+        "php-81-supervisord-alpine",
+        "php-82-cli-alpine",
+        "php-82-fpm-alpine",
+        "php-82-supervisord-alpine",
+        "php-83-cli-alpine",
+        "php-83-fpm-alpine",
         "php-83-supervisord-alpine",
     ]
 }

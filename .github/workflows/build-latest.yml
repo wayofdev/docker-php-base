@@ -162,13 +162,13 @@ jobs:
       - name: 📥 Download meta bake definitions
         uses: actions/download-artifact@v4
         with:
-          name: bake-meta-*
+          pattern: bake-meta-*
           path: /tmp
 
       - name: 📥 Download meta bake definitions
         uses: actions/download-artifact@v4
         with:
-          name: digests-*
+          pattern: digests-*
           path: /tmp/digests/*
 
       - name: Print all download artifact files

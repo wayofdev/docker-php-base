@@ -32,8 +32,9 @@ jobs:
     steps:
       - name: 🌎 Set environment variables
         run: |
-          tag=${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_name }}-${{ matrix.builder.arch }}
-          php_version_slug="${{ matrix.php_version //./ }}"
+          php_version="${{ matrix.php_version }}"
+          tag="${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_name }}-${{ matrix.builder.arch }}"
+          php_version_slug="${php_version//./}"
           target="php-${php_version_slug}-${{ matrix.php_type }}-${{ matrix.os_name }}"
           echo "TARGET=${target}" >> $GITHUB_ENV
           echo "PLATFORM_CACHE_TAG=${tag}" >> $GITHUB_ENV

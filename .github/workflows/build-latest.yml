@@ -64,8 +64,8 @@ jobs:
 
       - name: ⚙️ Rename meta bake definition file
         run: |
-          mv "${{ steps.meta.outputs.bake-file }}" "/tmp/bake-meta-${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_name }}-${{ matrix.builder.arch }}.json"
-          cat "/tmp/bake-meta-${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_name }}-${{ matrix.builder.arch }}.json"
+          mv "${{ steps.meta.outputs.bake-file }}" "/tmp/bake-meta-${{ env.PLATFORM_CACHE_TAG }}.json"
+          cat "/tmp/bake-meta-${{ env.PLATFORM_CACHE_TAG }}.json"
 
       - name: 💻 Set up Docker for MacOS
         if: ${{ matrix.builder.os == 'macos-latest' }}
@@ -100,7 +100,7 @@ jobs:
           targets: ${{ env.TARGET }}
           files: |
             ./docker-bake.hcl
-            /tmp/bake-meta-${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_name }}-${{ matrix.builder.arch }}.json
+            /tmp/bake-meta-${{ env.PLATFORM_CACHE_TAG }}.json
           set: |
             *.tags=
             *.platform=linux/${{ matrix.builder.arch }}
@@ -114,9 +114,14 @@ jobs:
 
       - name: 🔍 Debug baked image
         run: |
-          tag=$(jq -r '.target."docker-metadata-action".args.DOCKER_META_VERSION' /tmp/bake-meta-${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_name }}-${{ matrix.builder.arch }}.json)
-          docker buildx imagetools inspect ${{ env.DOCKERHUB_SLUG }}:${tag}
-          docker buildx imagetools inspect ${{ env.GHCR_SLUG }}:${tag}
+          tag=$(jq -r '.target."docker-metadata-action".args.DOCKER_META_VERSION' /tmp/bake-meta-${{ env.PLATFORM_CACHE_TAG }}.json)
+          if [ -z "$tag" ]; then
+            echo "Tag is empty, skipping inspect."
+          else
+            echo "Tag extracted: $tag"
+            docker buildx imagetools inspect ${{ env.DOCKERHUB_SLUG }}:${tag}
+            docker buildx imagetools inspect ${{ env.GHCR_SLUG }}:${tag}
+          fi
 
       - name: 📥 Export digest
         run: |

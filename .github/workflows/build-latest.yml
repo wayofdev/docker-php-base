@@ -43,6 +43,18 @@ jobs:
       - name: 🤖 Generate dist files
         run: ansible-playbook src/playbook.yml -l ${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_name }}
 
+      - name: 💻 Set up Docker for MacOS
+        if: ${{ matrix.builder.os == 'macos-latest' }}
+        uses: docker-practice/actions-setup-docker@master
+
+      - name: 🛠️ Setup docker QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: 🛠️ Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        with:
+          buildkitd-flags: "--debug"
+
       - name: 🐳 Extract docker meta data
         id: meta
         uses: docker/metadata-action@v5
@@ -71,18 +83,6 @@ jobs:
           path: /tmp/bake-meta-*.json
           if-no-files-found: error
           retention-days: 1
-
-      - name: 💻 Set up Docker for MacOS
-        if: ${{ matrix.builder.os == 'macos-latest' }}
-        uses: docker-practice/actions-setup-docker@master
-
-      - name: 🛠️ Setup docker QEMU
-        uses: docker/setup-qemu-action@v3
-
-      - name: 🛠️ Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-        with:
-          buildkitd-flags: "--debug"
 
       - name: 🔑 Login to docker-hub
         uses: docker/login-action@v3
@@ -162,7 +162,14 @@ jobs:
       - name: 📥 Download meta bake definitions
         uses: actions/download-artifact@v4
         with:
+          name: bake-meta-*
           path: /tmp
+
+      - name: 📥 Download meta bake definitions
+        uses: actions/download-artifact@v4
+        with:
+          name: digests-*
+          path: /tmp/digests/*
 
       - name: Print all download artifact files
         run: |

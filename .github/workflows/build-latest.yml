@@ -119,8 +119,8 @@ jobs:
             echo "Tag is empty, skipping inspect."
           else
             echo "Tag extracted: $tag"
-            docker buildx imagetools inspect ${{ env.DOCKERHUB_SLUG }}:${tag}
-            docker buildx imagetools inspect ${{ env.GHCR_SLUG }}:${tag}
+            docker buildx imagetools inspect ${{ env.DOCKER_NAMESPACE }}:${tag}
+            docker buildx imagetools inspect ${{ env.GHCR_NAMESPACE }}:${tag}
           fi
 
       - name: 📥 Export digest

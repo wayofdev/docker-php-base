@@ -30,6 +30,7 @@ jobs:
         builder: [{arch: "amd64", os: "ubuntu-latest"}]
     runs-on: ${{ matrix.builder.os }}
     steps:
+
       - name: 🌎 Set environment variables
         run: |
           php_version="${{ matrix.php_version }}"
@@ -44,6 +45,26 @@ jobs:
 
       - name: 🤖 Generate dist files
         run: ansible-playbook src/playbook.yml -l ${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_name }}
+
+      - name: 🐳 Extract docker meta data
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: |
+            ${{ env.DOCKER_NAMESPACE }}
+            ${{ env.GHCR_NAMESPACE }}
+          tags: |
+            type=raw,event=branch,value=latest
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+          flavor: |
+            latest=false
+            prefix=${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_name }}-
+
+      - name: ⚙️ Rename meta bake definition file
+        run: |
+          mv "${{ steps.meta.outputs.bake-file }}" "/tmp/bake-meta-${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_name }}--${{ matrix.builder.arch }}.json"
 
       - name: 💻 Set up Docker for MacOS
         if: ${{ matrix.builder.os == 'macos-latest' }}
@@ -78,6 +99,7 @@ jobs:
           targets: ${{ env.TARGET }}
           files: |
             ./docker-bake.hcl
+            /tmp/bake-meta-${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_name }}--${{ matrix.builder.arch }}.json
           set: |
             *.tags=
             *.platform=linux/${{ matrix.builder.arch }}
@@ -88,6 +110,10 @@ jobs:
       - name: 🔍 Debug Bake Metadata Output
         run: |
           echo "${{ steps.bake.outputs.metadata }}"
+
+      - name: 🔍 Debug baked image
+        run: |
+          docker buildx imagetools inspect "${{ steps.bake.outputs.metadata }}"
 
       - name: 📥 Export digest
         run: |

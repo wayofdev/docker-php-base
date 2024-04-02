@@ -144,7 +144,7 @@ jobs:
       - name: 📤 Upload digest
         uses: actions/upload-artifact@v4
         with:
-          name: digests-${{ github.run_id }}
+          name: digests-${{ env.PLATFORM_CACHE_TAG }}
           path: /tmp/digests/*
           if-no-files-found: error
           retention-days: 1
@@ -167,17 +167,10 @@ jobs:
         with:
           path: /tmp
 
-      - name: 📥 Download digests
-        uses: actions/download-artifact@v4
-        with:
-          name: digests-${{ github.run_id }}
-          path: /tmp/digests
-
-#      - name: 📥 Download digests
-#        uses: actions/download-artifact@v4
-#        with:
-#          name: digests
-#          path: /tmp/digests
+      - name: Print all download artifact files
+        run: |
+          ls -la /tmp
+          ls -la /tmp/digests
 
       - name: 🔑 Login to docker-hub
         uses: docker/login-action@v3

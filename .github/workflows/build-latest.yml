@@ -25,7 +25,7 @@ jobs:
       fail-fast: false
       matrix:
         os_name: ["alpine"]
-        php_version: ["8.1"]
+        php_version: ["8.1", "8.2"]
         php_type: ["fpm"]
         builder: [{arch: "amd64", os: "ubuntu-latest"}]
     runs-on: ${{ matrix.builder.os }}
@@ -67,6 +67,14 @@ jobs:
           mv "${{ steps.meta.outputs.bake-file }}" "/tmp/bake-meta-${{ env.PLATFORM_CACHE_TAG }}.json"
           cat "/tmp/bake-meta-${{ env.PLATFORM_CACHE_TAG }}.json"
 
+      - name: 📤 Upload meta bake definition
+        uses: actions/upload-artifact@v4
+        with:
+          name: bake-meta-${{ env.PLATFORM_CACHE_TAG }}
+          path: /tmp/bake-meta-*.json
+          if-no-files-found: error
+          retention-days: 1
+
       - name: 💻 Set up Docker for MacOS
         if: ${{ matrix.builder.os == 'macos-latest' }}
         uses: docker-practice/actions-setup-docker@master
@@ -94,7 +102,7 @@ jobs:
 
       - name: 🚀 Bake image and push to docker-hub and GHCR
         id: bake
-        uses: docker/bake-action@v3
+        uses: docker/bake-action@v4
         with:
           targets: ${{ env.TARGET }}
           files: |
@@ -141,5 +149,48 @@ jobs:
           path: /tmp/digests/*
           if-no-files-found: error
           retention-days: 1
+
+  merge:
+    needs: build
+    strategy:
+      fail-fast: false
+      matrix:
+        images:
+          - 8.1-fpm-alpine
+          - 8.2-fpm-alpine
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: 📥 Download meta bake definitions
+        uses: actions/download-artifact@v4
+        with:
+          path: /tmp
+
+      - name: 📥 Download digests
+        uses: actions/download-artifact@v4
+        with:
+          name: digests
+          path: /tmp/digests
+
+      - name: 🔑 Login to docker-hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: 🔑 Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 🛠️ Setup docker QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: 🛠️ Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        with:
+          buildkitd-flags: "--debug"
 
 ...

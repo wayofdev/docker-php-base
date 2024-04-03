@@ -83,7 +83,7 @@ PHONY: build-from-cache
 
 test: ## Run dgoss tests over docker images
 	set -eux
-	GOSS_FILES_STRATEGY=cp GOSS_FILES_PATH=$(DOCKERFILE_DIR) dgoss run -t $(IMAGE_TAG)
+	GOSS_WAIT_OPTS="-r 40s -s 2s > /dev/stdout" GOSS_FILES_STRATEGY=cp GOSS_FILES_PATH=$(DOCKERFILE_DIR) dgoss run -t $(IMAGE_TAG)
 .PHONY: test
 
 pull: ## Pulls docker image from upstream

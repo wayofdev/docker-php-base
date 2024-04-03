@@ -86,16 +86,23 @@ jobs:
             prefix=${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_name }}-
 
       - name: 🧪 Bake image for testing
-        uses: docker/build-push-action@v5
+        id: bake
+        uses: docker/bake-action@v4
         with:
-          context: ./dist/base/${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_name }}
-          platforms: linux/${{ matrix.builder.arch }}
-          push: false
-          load: true
-          tags: ${{ steps.meta.outputs.tags }}
-          cache-from: type=type=gha,scope=build-${{ env.PLATFORM_CACHE_TAG }}
-          cache-to: type=gha,scope=build-${{ env.PLATFORM_CACHE_TAG }}
-          labels: ${{ steps.meta.outputs.labels }}
+          targets: ${{ env.TARGET }}
+          files: |
+            ./docker-bake.hcl
+            ${{ steps.meta.outputs.bake-file }}
+          set: |
+            *.tags=
+            *.platform=linux/${{ matrix.builder.arch }}
+            *.cache-from=type=gha,scope=build-${{ env.PLATFORM_CACHE_TAG }}
+            *.cache-to=type=gha,scope=build-${{ env.PLATFORM_CACHE_TAG }}
+            *.output=type=docker,"name=${{ env.DOCKER_NAMESPACE }},${{ env.GHCR_NAMESPACE }}",name-canonical=true,push=false
+
+      - name: 💻 Display tags built
+        run: |
+          docker image ls --filter="reference=${{ env.DOCKER_NAMESPACE }}"  --format "{{.CreatedAt}}\t{{.Size}}\t{{.Repository}}:{{.Tag}}"
 
       - name: 🧪 Test Docker image
         run: |
@@ -232,14 +239,6 @@ jobs:
           path: /tmp/digests/*
           if-no-files-found: error
           retention-days: 1
-
-#      - name: 📤 Upload digest
-#        uses: actions/upload-artifact@v4
-#        with:
-#          name: digests
-#          path: /tmp/digests/*
-#          if-no-files-found: error
-#          retention-days: 1
 
   merge:
     needs: build

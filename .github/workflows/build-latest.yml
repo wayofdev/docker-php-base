@@ -91,6 +91,7 @@ jobs:
           context: ./dist/base/${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_name }}
           platforms: linux/${{ matrix.builder.arch }}
           push: false
+          load: true
           tags: ${{ steps.meta.outputs.tags }}
           cache-from: type=type=gha,scope=build-${{ env.PLATFORM_CACHE_TAG }}
           cache-to: type=gha,scope=build-${{ env.PLATFORM_CACHE_TAG }}

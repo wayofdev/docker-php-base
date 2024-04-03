@@ -72,8 +72,12 @@ tpl_docker_tests:
   - src: Dockerfiles/base/goss.yaml.j2
     dst: "../dist/base/{{ php_version }}-{{ php_type }}-{{ os_name }}/goss.yaml"
 
-tpl_docker_supervisor_tests:
-  - src: Dockerfiles/base/goss_wait.yaml
+tpl_docker_fpm_tests:
+  - src: Dockerfiles/base/goss_wait_fpm.yaml
+    dst: "../dist/base/{{ php_version }}-fpm-{{ os_name }}/goss_wait.yaml"
+
+tpl_docker_supervisord_tests:
+  - src: Dockerfiles/base/goss_wait_supervisord.yaml
     dst: "../dist/base/{{ php_version }}-supervisord-{{ os_name }}/goss_wait.yaml"
 
 

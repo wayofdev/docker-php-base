@@ -107,7 +107,7 @@ jobs:
       - name: 🧪 Test Docker image
         run: |
           export IMAGE_TEMPLATE=${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_name }}
-          export IMAGE_TAG=${{ env.DOCKER_NAMESPACE }}:${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_name }}-latest
+          export IMAGE_TAG=${{ env.DOCKER_NAMESPACE }}:latest
           make test
 
   build:

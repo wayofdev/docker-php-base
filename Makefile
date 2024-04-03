@@ -5,7 +5,7 @@ export DOCKER_BUILDKIT ?= 1
 export COMPOSE_DOCKER_CLI_BUILD ?= 1
 
 IMAGE_NAMESPACE ?= wayofdev/php-base
-IMAGE_TEMPLATE ?= 8.2-fpm-alpine
+IMAGE_TEMPLATE ?= 8.3-fpm-alpine
 IMAGE_TAG ?= $(IMAGE_NAMESPACE):$(IMAGE_TEMPLATE)-latest
 
 DOCKERFILE_DIR ?= ./dist/base/$(IMAGE_TEMPLATE)
@@ -83,7 +83,7 @@ PHONY: build-from-cache
 
 test: ## Run dgoss tests over docker images
 	set -eux
-	GOSS_FILES_STRATEGY=cp GOSS_FILES_PATH=$(DOCKERFILE_DIR) dgoss run -t $(IMAGE_TAG)
+	GOSS_WAIT_OPTS="-r 40s -s 2s > /dev/stdout" GOSS_FILES_STRATEGY=cp GOSS_FILES_PATH=$(DOCKERFILE_DIR) dgoss run -t $(IMAGE_TAG)
 .PHONY: test
 
 pull: ## Pulls docker image from upstream
@@ -138,4 +138,7 @@ lint-docker: ## Run hadolint linter over dist Dockerfiles
 	hadolint -V ./dist/base/8.2-cli-alpine/Dockerfile
 	hadolint -V ./dist/base/8.2-fpm-alpine/Dockerfile
 	hadolint -V ./dist/base/8.2-fpm-supervisord/Dockerfile
+	hadolint -V ./dist/base/8.3-cli-alpine/Dockerfile
+	hadolint -V ./dist/base/8.3-fpm-alpine/Dockerfile
+	hadolint -V ./dist/base/8.3-fpm-supervisord/Dockerfile
 .PHONY: lint-docker

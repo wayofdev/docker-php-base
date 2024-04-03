@@ -23,12 +23,14 @@ LABEL "org.opencontainers.image.description"="PHP-{{ php_type|upper }} {{ php_ve
 ENV LANG="en_US.UTF-8"
 ENV LC_ALL="en_US.UTF-8"
 ENV LANGUAGE="en_US.UTF-8"
+ENV IMAGICK_VERSION="3.7.0"
 
 ENV PHP_OPCACHE_ENABLE="{{ settings_opcache_ini.php_opcache_enable }}"
 ENV PHP_OPCACHE_ENABLE_CLI="{{ settings_opcache_ini.php_opcache_enable_cli }}"
 ENV PHP_TIMEZONE="{{ settings_php_ini.php_timezone }}"
 ENV PHP_POST_MAX_SIZE="{{ settings_php_ini.php_post_max_size }}"
 ENV PHP_MEMORY_LIMIT="{{ settings_php_ini.php_memory_limit }}"
+
 {% if php_type == 'fpm' %}
 ENV PHPFPM_SLOWLOG_TIMEOUT="5s"
 {% endif %}

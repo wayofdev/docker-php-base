@@ -8,19 +8,19 @@ file:
   /usr/local/etc/php-fpm.d/docker.conf:
     filetype: file
     exists: true
-    contains:
+    contents:
       - "Custom Config File"
       - "log_limit = 8192"
   /usr/local/etc/php-fpm.d/zz-docker.conf:
     filetype: file
     exists: true
-    contains:
+    contents:
       - "Custom Config File"
       - "daemonize = no"
   /usr/local/etc/php-fpm.d/www.conf:
     filetype: file
     exists: true
-    contains:
+    contents:
       - "Custom Config File"
       - "pm.max_children = 5"
 {% endif %}
@@ -29,14 +29,14 @@ file:
     exists: true
     owner: www-data
     group: www-data
-    contains:
+    contents:
       - "date.timezone = UTC"
   /usr/local/etc/php/conf.d/opcache.ini:
     filetype: file
     exists: true
     owner: www-data
     group: www-data
-    contains:
+    contents:
       - "opcache.memory_consumption = 256"
 {% if php_type == 'fpm' %}
 port:
@@ -52,12 +52,12 @@ process:
   /etc/supervisord.conf:
     filetype: file
     exists: true
-    contains:
+    contents:
       - "nodaemon = true"
   /tmp/supervisord.pid:
     filetype: file
     exists: true
-    contains:
+    contents:
       - "1"
 {% endif %}
 group:

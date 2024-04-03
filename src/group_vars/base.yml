@@ -71,10 +71,22 @@ tpl_supervisord_configs:
 tpl_docker_tests:
   - src: Dockerfiles/base/goss.yaml.j2
     dst: "../dist/base/{{ php_version }}-{{ php_type }}-{{ os_name }}/goss.yaml"
-  - src: Dockerfiles/base/goss_wait.yaml
+
+tpl_docker_fpm_tests:
+  - src: Dockerfiles/base/goss_wait_fpm.yaml
+    dst: "../dist/base/{{ php_version }}-fpm-{{ os_name }}/goss_wait.yaml"
+
+tpl_docker_supervisord_tests:
+  - src: Dockerfiles/base/goss_wait_supervisord.yaml
     dst: "../dist/base/{{ php_version }}-supervisord-{{ os_name }}/goss_wait.yaml"
 
+
 # Enabled extensions
+# These are added by default by install-php-extensions:
+#   - pdo
+#   - pdo_sqlite
+#   - curl
+#   - openssl
 #######################################
 ext_native_enabled:
   - intl
@@ -87,18 +99,12 @@ ext_native_enabled:
   - bcmath
   - exif
   - gd
-  - soap
-  - imap
-  - ldap
 
 ext_pecl_enabled:
   - redis
   - memcached
   - decimal
-  - imagick
-  - rdkafka
   - amqp
-  - protobuf
   - yaml
 
 ...

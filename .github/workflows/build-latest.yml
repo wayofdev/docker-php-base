@@ -1,43 +1,213 @@
 ---
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 on:  # yamllint disable-line rule:truthy
   workflow_dispatch:
   pull_request:
     branches:
       - master
 
+env:
+  DOCKER_NAMESPACE: wayofdev/php-base
+  GHCR_NAMESPACE: ghcr.io/wayofdev/docker-php-base
+
 name: 🚀 Build docker images with latest tag
 
 jobs:
-  # https://docs.github.com/en/enterprise-cloud@latest/actions/learn-github-actions/expressions#example-returning-a-json-object
-  prepare:
-    runs-on: "ubuntu-latest"
-    outputs:
-      matrix: ${{ steps.matrix.outputs.matrix }}
-    steps:
-      - name: ⚙️ Generate matrix
-        id: matrix
-        run: |
-          echo 'matrix={
-            "os_name": ["alpine"],
-            "php_version": ["8.1", "8.2"],
-            "php_type": ["fpm", "cli", "supervisord"]
-          }' | tr -d '\n' >> $GITHUB_OUTPUT
-
   build:
-    needs: prepare
     strategy:
-      matrix: ${{ fromJson(needs.prepare.outputs.matrix )}}
-    uses: wayofdev/gh-actions/.github/workflows/build-image.yml@master
-    with:
-      os: "ubuntu-latest"
-      push-to-hub: true
-      image-namespace: "wayofdev/php-base"
-      image-template-path: "./dist/base"
-      image-template: ${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_name }}
-      image-version: latest
-    secrets:
-      docker-username: ${{ secrets.DOCKER_USERNAME }}
-      docker-password: ${{ secrets.DOCKER_TOKEN }}
+      fail-fast: false
+      matrix:
+        os_name: ["alpine"]
+        php_version: ["8.1", "8.2"]
+        php_type: ["fpm", "cli", "supervisord"]
+        builder: [{arch: "amd64", os: "ubuntu-latest"}, {arch: "arm64", os: "ubuntu-latest"}]
+    runs-on: ${{ matrix.builder.os }}
+    steps:
+
+      - name: 🌎 Set environment variables
+        run: |
+          php_version="${{ matrix.php_version }}"
+          tag="${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_name }}-${{ matrix.builder.arch }}"
+          php_version_slug="${php_version//./}"
+          target="php-${php_version_slug}-${{ matrix.php_type }}-${{ matrix.os_name }}"
+          echo "TARGET=${target}" >> $GITHUB_ENV
+          echo "PLATFORM_CACHE_TAG=${tag}" >> $GITHUB_ENV
+
+      - name: 📦 Check out the codebase
+        uses: actions/checkout@v4
+
+      - name: 🤖 Generate dist files
+        run: ansible-playbook src/playbook.yml -l ${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_name }}
+
+      - name: 💻 Set up Docker for MacOS
+        if: ${{ matrix.builder.os == 'macos-latest' }}
+        uses: docker-practice/actions-setup-docker@master
+
+      - name: 🖥️ Setup docker QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: 🛠️ Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        with:
+          buildkitd-flags: "--debug"
+
+      - name: 🐳 Extract docker meta data
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: |
+            ${{ env.DOCKER_NAMESPACE }}
+            ${{ env.GHCR_NAMESPACE }}
+          tags: |
+            type=raw,event=branch,value=latest
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+          flavor: |
+            latest=false
+            prefix=${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_name }}-
+
+      - name: ⚙️ Rename meta bake definition file
+        run: |
+          mv "${{ steps.meta.outputs.bake-file }}" "/tmp/bake-meta-${{ env.PLATFORM_CACHE_TAG }}.json"
+          cat "/tmp/bake-meta-${{ env.PLATFORM_CACHE_TAG }}.json"
+
+      - name: 📤 Upload meta bake definition
+        uses: actions/upload-artifact@v4
+        with:
+          name: bake-meta-${{ env.PLATFORM_CACHE_TAG }}
+          path: /tmp/bake-meta-*.json
+          if-no-files-found: error
+          retention-days: 1
+
+      - name: 🔑 Login to docker-hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: 🔑 Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 🚀 Bake image and push to docker-hub and GHCR
+        id: bake
+        uses: docker/bake-action@v4
+        with:
+          targets: ${{ env.TARGET }}
+          files: |
+            ./docker-bake.hcl
+            /tmp/bake-meta-${{ env.PLATFORM_CACHE_TAG }}.json
+          set: |
+            *.tags=
+            *.platform=linux/${{ matrix.builder.arch }}
+            *.cache-from=type=gha,scope=build-${{ env.PLATFORM_CACHE_TAG }}
+            *.cache-to=type=gha,scope=build-${{ env.PLATFORM_CACHE_TAG }}
+            *.output=type=image,"name=${{ env.DOCKER_NAMESPACE }},${{ env.GHCR_NAMESPACE }}",push-by-digest=true,name-canonical=true,push=${{ github.event_name != 'pull_request' }}
+
+      - name: 🔍 Debug Bake Metadata Output
+        run: |
+          echo "${{ steps.bake.outputs.metadata }}"
+
+      - name: 🔍 Debug baked image
+        run: |
+          tag=$(jq -r '.target."docker-metadata-action".args.DOCKER_META_VERSION' /tmp/bake-meta-${{ env.PLATFORM_CACHE_TAG }}.json)
+          if [ -z "$tag" ]; then
+            echo "Tag is empty, skipping inspect."
+          else
+            echo "Tag extracted: $tag"
+            docker buildx imagetools inspect ${{ env.DOCKER_NAMESPACE }}:${tag}
+          fi
+
+      - name: 📥 Export digest
+        run: |
+          mkdir -p /tmp/digests
+          echo "Bake Metadata: ${{ steps.bake.outputs.metadata }}"
+          digest=$(echo '${{ steps.bake.outputs.metadata }}' | jq -r '.["${{ env.TARGET }}"]["containerimage.digest"]')
+          if [[ -z "$digest" || "$digest" == "null" ]]; then
+            echo "Digest not found."
+            exit 1
+          fi
+          echo "Digest: $digest"
+          touch "/tmp/digests/${digest#sha256:}"
+
+      - name: 📤 Upload digest
+        uses: actions/upload-artifact@v4
+        with:
+          name: digests-${{ env.PLATFORM_CACHE_TAG }}
+          path: /tmp/digests/*
+          if-no-files-found: error
+          retention-days: 1
+
+  merge:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: 📥 Download meta bake definitions
+        uses: actions/download-artifact@v4
+        with:
+          pattern: bake-meta-*
+          path: /tmp
+
+      - name: 📥 Download meta bake definitions
+        uses: actions/download-artifact@v4
+        with:
+          pattern: digests-*
+          path: /tmp/digests/*
+
+      - name: Print all download artifact files
+        run: |
+          ls -la /tmp
+          ls -la /tmp/digests
+
+      - name: 🔑 Login to docker-hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: 🔑 Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 🖥️ Setup docker QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: 🛠️ Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        with:
+          buildkitd-flags: "--debug"
+
+      - name: Create manifest list and push
+        run: |
+          # Aggregate all tags from the meta files
+          TAGS=$(jq -r '.target."docker-metadata-action".tags[]' /tmp/meta/bake-meta-*.json | sort -u)
+
+          # Loop through each tag and create a manifest list
+          for TAG in $TAGS; do
+            FULL_TAGS=()
+            for FILE in /tmp/meta/bake-meta-*.json; do
+              if jq -e --arg TAG "$TAG" '.target."docker-metadata-action".tags[] | select(. == $TAG)' $FILE > /dev/null; then
+                # Extract the repository and digest for the current platform
+                REPO=$(jq -r --arg TAG "$TAG" '.target."docker-metadata-action".tags[] | select(. == $TAG)' $FILE | cut -d':' -f1)
+                DIGEST=$(jq -r '.["'$REPO'"]["containerimage.digest"]' $FILE)
+                FULL_TAGS+=("$REPO@$DIGEST")
+              fi
+            done
+
+            # Create and push the manifest list for the current tag
+            docker buildx imagetools create "${FULL_TAGS[@]}" -t "$TAG"
+          done
 
 ...

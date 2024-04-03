@@ -83,7 +83,7 @@ jobs:
       - name: 🧪 Bake image for testing
         uses: docker/build-push-action@v5
         with:
-          context: ./dist/base/${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_name }
+          context: ./dist/base/${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_name }}
           platforms: linux/${{ matrix.builder.arch }}
           push: false
           tags: ${{ steps.meta.outputs.tags }}

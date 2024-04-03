@@ -92,7 +92,6 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: 🧪 Test Docker image
-        if: ${{ inputs.image-platform == 'linux/amd64' }}
         run: |
           export IMAGE_TEMPLATE=${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_name }}
           export IMAGE_TAG=${{ env.PLATFORM_CACHE_TAG }}

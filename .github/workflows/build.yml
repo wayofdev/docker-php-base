@@ -27,7 +27,7 @@ jobs:
         os_name: ["alpine"]
         php_version: ["8.1", "8.2", "8.3"]
         php_type: ["fpm", "cli", "supervisord"]
-        builder: [{arch: "amd64", os: "ubuntu-latest"}, {arch: "arm64", os: "macos-latest"}]
+        builder: [{arch: "amd64", os: "ubuntu-latest"}, {arch: "arm64", os: "ubuntu-latest"}]
     runs-on: ${{ matrix.builder.os }}
     steps:
 
@@ -43,18 +43,8 @@ jobs:
       - name: 📦 Check out the codebase
         uses: actions/checkout@v4
 
-      - name: 💻 Set up Ansible for MacOS
-        if: ${{ matrix.builder.os == 'macos-latest' }}
-        run: |
-          sudo pip3 install --upgrade pip
-          sudo pip3 install ansible
-
       - name: 🤖 Generate dist files
         run: ansible-playbook src/playbook.yml -l ${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_name }}
-
-      - name: 💻 Set up Docker for MacOS
-        if: ${{ matrix.builder.os == 'macos-latest' }}
-        uses: docker-practice/actions-setup-docker@master
 
       - name: 🖥️ Setup docker QEMU
         uses: docker/setup-qemu-action@v3
@@ -123,7 +113,7 @@ jobs:
             *.platform=linux/${{ matrix.builder.arch }}
             *.cache-from=type=gha,scope=build-${{ env.PLATFORM_CACHE_TAG }}
             *.cache-to=type=gha,scope=build-${{ env.PLATFORM_CACHE_TAG }}
-            *.output=type=image,"name=${{ env.DOCKER_NAMESPACE }},${{ env.GHCR_NAMESPACE }}",push-by-digest=true,name-canonical=true,push=${{ github.event_name != 'pull_request' && github.event_name != 'release' || (github.event_name == 'release' && github.event.action == 'published') }}
+            *.output=type=image,"name=${{ env.DOCKER_NAMESPACE }},${{ env.GHCR_NAMESPACE }}",push-by-digest=true,name-canonical=true,push=${{ github.event_name != 'pull_request' && github.event_name != 'release' || (github.event_name == 'release' && github.event.action == 'released') }}
 
       - name: 🔍 Debug Bake Metadata Output
         run: |

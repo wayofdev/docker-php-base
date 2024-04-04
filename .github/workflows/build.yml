@@ -113,7 +113,7 @@ jobs:
             *.platform=linux/${{ matrix.builder.arch }}
             *.cache-from=type=gha,scope=build-${{ env.PLATFORM_CACHE_TAG }}
             *.cache-to=type=gha,scope=build-${{ env.PLATFORM_CACHE_TAG }}
-            *.output=type=image,"name=${{ env.DOCKER_NAMESPACE }},${{ env.GHCR_NAMESPACE }}",push-by-digest=true,name-canonical=true,push=${{ github.event_name != 'pull_request' && github.event_name != 'release' || (github.event_name == 'release' && github.event.action == 'released') }}
+            *.output=type=image,"name=${{ env.DOCKER_NAMESPACE }},${{ env.GHCR_NAMESPACE }}",push-by-digest=true,name-canonical=true,push=true
 
       - name: 🔍 Debug Bake Metadata Output
         run: |

@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.5.0](https://github.com/wayofdev/docker-php-base/compare/v2.4.0...v2.5.0) (2024-04-04)
+
+
+### Features
+
+* support for 8.3 php images ([#37](https://github.com/wayofdev/docker-php-base/issues/37)) ([4a690fb](https://github.com/wayofdev/docker-php-base/commit/4a690fb775a95011c36d6a16a5b8cd113625ba8b))
+
 ## [2.4.0](https://github.com/wayofdev/docker-php-base/compare/v2.3.1...v2.4.0) (2023-12-18)
 
 

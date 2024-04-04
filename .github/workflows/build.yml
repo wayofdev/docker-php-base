@@ -188,12 +188,12 @@ jobs:
       - name: Create manifest list and push
         run: |
           # Aggregate all tags from the meta files
-          TAGS=$(jq -r '.target."docker-metadata-action".tags[]' /tmp/meta/bake-meta-*.json | sort -u)
+          TAGS=$(jq -r '.target."docker-metadata-action".tags[]' /tmp/bake-meta-*.json | sort -u)
 
           # Loop through each tag and create a manifest list
           for TAG in $TAGS; do
             FULL_TAGS=()
-            for FILE in /tmp/meta/bake-meta-*.json; do
+            for FILE in /tmp/bake-meta-*.json; do
               if jq -e --arg TAG "$TAG" '.target."docker-metadata-action".tags[] | select(. == $TAG)' $FILE > /dev/null; then
                 # Extract the repository and digest for the current platform
                 REPO=$(jq -r --arg TAG "$TAG" '.target."docker-metadata-action".tags[] | select(. == $TAG)' $FILE | cut -d':' -f1)

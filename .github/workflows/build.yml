@@ -6,7 +6,7 @@ concurrency:
 
 on:  # yamllint disable-line rule:truthy
   workflow_dispatch:
-  pull_request:
+  push:
     branches:
       - master
 
@@ -114,7 +114,7 @@ jobs:
 
       - name: 🔍 Debug Bake Metadata Output
         run: |
-          echo "${{ steps.bake.outputs.metadata }}"
+          echo /tmp/bake-meta-${{ env.PLATFORM_CACHE_TAG }}.json
 
       - name: 🔍 Debug baked image
         run: |

@@ -116,16 +116,6 @@ jobs:
         run: |
           echo /tmp/bake-meta-${{ env.PLATFORM_CACHE_TAG }}.json
 
-      - name: 🔍 Debug baked image
-        run: |
-          tag=$(jq -r '.target."docker-metadata-action".args.DOCKER_META_VERSION' /tmp/bake-meta-${{ env.PLATFORM_CACHE_TAG }}.json)
-          if [ -z "$tag" ]; then
-            echo "Tag is empty, skipping inspect."
-          else
-            echo "Tag extracted: $tag"
-            docker buildx imagetools inspect ${{ env.GHCR_NAMESPACE }}:${tag}
-          fi
-
       - name: 📥 Export digest
         run: |
           mkdir -p /tmp/digests

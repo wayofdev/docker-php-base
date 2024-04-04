@@ -9,6 +9,9 @@ on:  # yamllint disable-line rule:truthy
   push:
     branches:
       - master
+  release:
+    types:
+      - published
 
 env:
   DOCKER_NAMESPACE: wayofdev/php-base
@@ -22,7 +25,7 @@ jobs:
       fail-fast: false
       matrix:
         os_name: ["alpine"]
-        php_version: ["8.1", "8.2"]
+        php_version: ["8.1", "8.2", "8.3"]
         php_type: ["fpm", "cli", "supervisord"]
         builder: [{arch: "amd64", os: "ubuntu-latest"}, {arch: "arm64", os: "ubuntu-latest"}]
     runs-on: ${{ matrix.builder.os }}
@@ -65,6 +68,7 @@ jobs:
           tags: |
             type=raw,event=branch,value=latest
             type=ref,event=pr
+            type=ref,event=tag
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
           flavor: |
@@ -110,7 +114,7 @@ jobs:
             *.platform=linux/${{ matrix.builder.arch }}
             *.cache-from=type=gha,scope=build-${{ env.PLATFORM_CACHE_TAG }}
             *.cache-to=type=gha,scope=build-${{ env.PLATFORM_CACHE_TAG }}
-            *.output=type=image,"name=${{ env.DOCKER_NAMESPACE }},${{ env.GHCR_NAMESPACE }}",push-by-digest=true,name-canonical=true,push=${{ github.event_name != 'pull_request' }}
+            *.output=type=image,"name=${{ env.DOCKER_NAMESPACE }},${{ env.GHCR_NAMESPACE }}",push-by-digest=true,name-canonical=true,push=${{ github.event_name != 'pull_request' && github.event_name != 'release' || (github.event_name == 'release' && github.event.action == 'published') }}
 
       - name: 🔍 Debug Bake Metadata Output
         run: |

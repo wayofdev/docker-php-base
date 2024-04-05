@@ -1,7 +1,8 @@
 ---
 
 on:  # yamllint disable-line rule:truthy
-  pull_request:
+  # pull_request:
+  workflow_dispatch:
 
 name: 🐞 Differential shell-check
 

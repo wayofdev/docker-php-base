@@ -194,37 +194,71 @@ jobs:
 
       - name: Create manifest list and push
         run: |
-          # Debug: List all matching meta files
-          echo "Listing all bake-meta-*.json files for debugging:"
-          ls -la /tmp/bake-meta-*.json
+          for FILE in $(find /tmp -name 'bake-meta-*.json'); do
+            echo "Processing file: $FILE"
+            cat "$FILE" | jq
+          done
 
-          # Aggregate all tags from the meta files
-          TAGS=$(jq -r '.target."docker-metadata-action".tags[]' /tmp/bake-meta-*.json | sort -u)
-          echo "Found tags: $TAGS"
-
-          # Loop through each tag and create a manifest list
           for TAG in $TAGS; do
             echo "Processing tag: $TAG"
             FULL_TAGS=()
-            for FILE in /tmp/bake-meta-*.json; do
-              if [ -d "$FILE" ]; then
-                echo "$FILE is a directory, skipping..."
+            for FILE in $(find /tmp -name 'bake-meta-*.json'); do
+              echo "Processing file: $FILE"
+              # Debug: Print the structure of the JSON file
+              cat "$FILE" | jq
+
+              REPO=$(jq -r --arg TAG "$TAG" '.target."docker-metadata-action".tags[] | select(. == $TAG)' $FILE | cut -d':' -f1)
+              DIGEST=$(jq -r --arg REPO "$REPO" '.["'$REPO'"]["containerimage.digest"]' $FILE)
+
+              if [ "$DIGEST" == "null" ] || [ -z "$DIGEST" ]; then
+                echo "Digest not found for $REPO in $FILE"
+                continue # Skip adding this to FULL_TAGS
+              fi
+
+              echo "Adding $REPO@$DIGEST to FULL_TAGS"
+                FULL_TAGS+=("$REPO@$DIGEST")
+              done
+
+              if [ ${#FULL_TAGS[@]} -eq 0 ]; then
+                echo "No valid digests found for tag $TAG, skipping..."
                 continue
               fi
-              if jq -e --arg TAG "$TAG" '.target."docker-metadata-action".tags[] | select(. == $TAG)' $FILE > /dev/null; then
-                # Extract the repository and digest for the current platform
-                REPO=$(jq -r --arg TAG "$TAG" '.target."docker-metadata-action".tags[] | select(. == $TAG)' $FILE | cut -d':' -f1)
-                DIGEST=$(jq -r '.["'$REPO'"]["containerimage.digest"]' $FILE)
-                echo "Adding $REPO@$DIGEST to FULL_TAGS"
-                FULL_TAGS+=("$REPO@$DIGEST")
-              fi
-            done
 
-            # Debug: Print FULL_TAGS before creating the manifest
-            echo "FULL_TAGS for $TAG: ${FULL_TAGS[@]}"
-
-            # Create and push the manifest list for the current tag
-            docker buildx imagetools create "${FULL_TAGS[@]}" -t "$TAG"
+              echo "FULL_TAGS for $TAG: ${FULL_TAGS[@]}"
+              docker buildx imagetools create "${FULL_TAGS[@]}" -t "$TAG"
           done
+
+#          # Debug: List all matching meta files
+#          echo "Listing all bake-meta-*.json files for debugging:"
+#          ls -la /tmp/bake-meta-*.json
+#
+#          # Aggregate all tags from the meta files
+#          TAGS=$(jq -r '.target."docker-metadata-action".tags[]' /tmp/bake-meta-*.json | sort -u)
+#          echo "Found tags: $TAGS"
+#
+#          # Loop through each tag and create a manifest list
+#          for TAG in $TAGS; do
+#            echo "Processing tag: $TAG"
+#            FULL_TAGS=()
+#            for FILE in /tmp/bake-meta-*.json; do
+#              if [ -d "$FILE" ]; then
+#                echo "$FILE is a directory, skipping..."
+#                continue
+#              fi
+#              if jq -e --arg TAG "$TAG" '.target."docker-metadata-action".tags[] | select(. == $TAG)' $FILE > /dev/null; then
+#                # Extract the repository and digest for the current platform
+#                REPO=$(jq -r --arg TAG "$TAG" '.target."docker-metadata-action".tags[] | select(. == $TAG)' $FILE | cut -d':' -f1)
+#                DIGEST=$(jq -r '.["'$REPO'"]["containerimage.digest"]' $FILE)
+#                echo "Adding $REPO@$DIGEST to FULL_TAGS"
+#                FULL_TAGS+=("$REPO@$DIGEST")
+#              fi
+#            done
+#
+#            # Debug: Print FULL_TAGS before creating the manifest
+#            echo "FULL_TAGS for $TAG: ${FULL_TAGS[@]}"
+#
+#            # Create and push the manifest list for the current tag
+#            docker buildx imagetools create "${FULL_TAGS[@]}" -t "$TAG"
+#          done
 
 ...

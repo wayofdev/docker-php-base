@@ -159,6 +159,7 @@ jobs:
         with:
           pattern: digests-*
           path: /tmp/digests/*
+          merge-multiple: true
 
       - name: Print downloaded bake meta files
         run: |

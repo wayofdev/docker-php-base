@@ -28,8 +28,8 @@ jobs:
       fail-fast: false
       matrix:
         os_name: ["alpine"]
-        php_version: ["8.1", "8.2", "8.3"]
-        php_type: ["fpm", "cli", "supervisord"]
+        php_version: ["8.1"] # , "8.2", "8.3"
+        php_type: ["fpm"] # , "cli", "supervisord"
         builder: [{arch: "amd64", os: "ubuntu-latest"}, {arch: "arm64", os: "ubuntu-latest"}]
     runs-on: ${{ matrix.builder.os }}
     steps:
@@ -137,7 +137,7 @@ jobs:
       - name: 📤 Upload digest
         uses: actions/upload-artifact@v4
         with:
-          name: digests-${{ env.PLATFORM_CACHE_TAG }}.json
+          name: digests-${{ env.PLATFORM_CACHE_TAG }}
           path: /tmp/digests/*
           if-no-files-found: error
           retention-days: 1
@@ -159,74 +159,90 @@ jobs:
         with:
           pattern: digests-*
           path: /tmp/digests/*
-          merge-multiple: true
 
       - name: Print downloaded bake meta files
         run: |
           echo "Listing /tmp directory contents:"
           ls -lah /tmp
+
+      - name: Print downloaded digest files
+        run: |
           echo "Listing /tmp/digests directory contents:"
           ls -lah /tmp/digests
 
-      - name: 🔑 Login to docker-hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_TOKEN }}
-
-      - name: 🔑 Login to GHCR
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: 🖥️ Setup docker QEMU
-        uses: docker/setup-qemu-action@v3
-        with:
-          platforms: linux/amd64,linux/arm64
-
-      - name: 🛠️ Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-        with:
-          platforms: linux/amd64,linux/arm64
-          buildkitd-flags: "--debug"
-
-      - name: Create manifest list and push
+      - name: Print downloaded digest files
         run: |
-          for FILE in $(find /tmp -name 'bake-meta-*.json'); do
-            echo "Processing file: $FILE"
-            cat "$FILE" | jq
-          done
+          echo "Listing /tmp/digests directory contents:"
+          ls -lah /tmp/digests/digests-8.1-fpm-alpine-amd64/
+          ls -lah /tmp/digests/digests-8.1-fpm-alpine-arm64/
 
-          for TAG in $TAGS; do
-            echo "Processing tag: $TAG"
-            FULL_TAGS=()
-            for FILE in $(find /tmp -name 'bake-meta-*.json'); do
-              echo "Processing file: $FILE"
-              # Debug: Print the structure of the JSON file
-              cat "$FILE" | jq
+#      - name: 🔑 Login to docker-hub
+#        uses: docker/login-action@v3
+#        with:
+#          username: ${{ secrets.DOCKER_USERNAME }}
+#          password: ${{ secrets.DOCKER_TOKEN }}
+#
+#      - name: 🔑 Login to GHCR
+#        uses: docker/login-action@v3
+#        with:
+#          registry: ghcr.io
+#          username: ${{ github.repository_owner }}
+#          password: ${{ secrets.GITHUB_TOKEN }}
+#
+#      - name: 🖥️ Setup docker QEMU
+#        uses: docker/setup-qemu-action@v3
+#        with:
+#          platforms: linux/amd64,linux/arm64
+#
+#      - name: 🛠️ Set up Docker Buildx
+#        uses: docker/setup-buildx-action@v3
+#        with:
+#          platforms: linux/amd64,linux/arm64
+#          buildkitd-flags: "--debug"
 
-              REPO=$(jq -r --arg TAG "$TAG" '.target."docker-metadata-action".tags[] | select(. == $TAG)' $FILE | cut -d':' -f1)
-              DIGEST=$(jq -r --arg REPO "$REPO" '.["'$REPO'"]["containerimage.digest"]' $FILE)
-
-              if [ "$DIGEST" == "null" ] || [ -z "$DIGEST" ]; then
-                echo "Digest not found for $REPO in $FILE"
-                continue # Skip adding this to FULL_TAGS
-              fi
-
-              echo "Adding $REPO@$DIGEST to FULL_TAGS"
-                FULL_TAGS+=("$REPO@$DIGEST")
-              done
-
-              if [ ${#FULL_TAGS[@]} -eq 0 ]; then
-                echo "No valid digests found for tag $TAG, skipping..."
-                continue
-              fi
-
-              echo "FULL_TAGS for $TAG: ${FULL_TAGS[@]}"
-              docker buildx imagetools create "${FULL_TAGS[@]}" -t "$TAG"
-          done
+#      - name: Create manifest list and push
+#        working-directory: /tmp/digests
+#        run: |
+#          docker buildx imagetools create $(jq -cr '.target."docker-metadata-action".tags | map(select(startswith("${{ env.DOCKER_NAMESPACE }}")) | "-t " + .) | join(" ")' /tmp/bake-meta.json) \
+#            $(printf '${{ env.DOCKERHUB_SLUG }}@sha256:%s ' *)
+#          docker buildx imagetools create $(jq -cr '.target."docker-metadata-action".tags | map(select(startswith("${{ env.GHCR_NAMESPACE }}")) | "-t " + .) | join(" ")' /tmp/bake-meta.json) \
+#            $(printf '${{ env.GHCR_SLUG }}@sha256:%s ' *)
+#
+#      - name: Create manifest list and push
+#        run: |
+#          for FILE in $(find /tmp -name 'bake-meta-*.json'); do
+#            echo "Processing file: $FILE"
+#            cat "$FILE" | jq
+#          done
+#
+#          for TAG in $TAGS; do
+#            echo "Processing tag: $TAG"
+#            FULL_TAGS=()
+#            for FILE in $(find /tmp -name 'bake-meta-*.json'); do
+#              echo "Processing file: $FILE"
+#              # Debug: Print the structure of the JSON file
+#              cat "$FILE" | jq
+#
+#              REPO=$(jq -r --arg TAG "$TAG" '.target."docker-metadata-action".tags[] | select(. == $TAG)' $FILE | cut -d':' -f1)
+#              DIGEST=$(jq -r --arg REPO "$REPO" '.["'$REPO'"]["containerimage.digest"]' $FILE)
+#
+#              if [ "$DIGEST" == "null" ] || [ -z "$DIGEST" ]; then
+#                echo "Digest not found for $REPO in $FILE"
+#                continue # Skip adding this to FULL_TAGS
+#              fi
+#
+#              echo "Adding $REPO@$DIGEST to FULL_TAGS"
+#                FULL_TAGS+=("$REPO@$DIGEST")
+#              done
+#
+#              if [ ${#FULL_TAGS[@]} -eq 0 ]; then
+#                echo "No valid digests found for tag $TAG, skipping..."
+#                continue
+#              fi
+#
+#              echo "FULL_TAGS for $TAG: ${FULL_TAGS[@]}"
+#              docker buildx imagetools create "${FULL_TAGS[@]}" -t "$TAG"
+#          done
 
 #          # Debug: List all matching meta files
 #          echo "Listing all bake-meta-*.json files for debugging:"

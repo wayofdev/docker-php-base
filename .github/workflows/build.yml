@@ -28,8 +28,8 @@ jobs:
       fail-fast: false
       matrix:
         os_name: ["alpine"]
-        php_version: ["8.1", "8.2", "8.3"]
-        php_type: ["fpm", "cli", "supervisord"]
+        php_version: ["8.1", "8.2"] # , "8.3"
+        php_type: ["fpm"] # , "cli", "supervisord"
         builder: [{arch: "amd64", os: "ubuntu-latest"}, {arch: "arm64", os: "ubuntu-latest"}]
     runs-on: ${{ matrix.builder.os }}
     steps:
@@ -192,9 +192,9 @@ jobs:
 
       - name: Create manifest list and push
         run: |
-          # Debug: List all matching meta files
+          # Debug: List all matching meta files more clearly
           echo "Listing all bake-meta-*.json files for debugging:"
-          ls -la /tmp/bake-meta-*.json
+          find /tmp -name 'bake-meta-*.json' -exec ls -l {} \;
 
           # Aggregate all tags from the meta files
           TAGS=$(jq -r '.target."docker-metadata-action".tags[]' /tmp/bake-meta-*.json | sort -u)
@@ -204,11 +204,7 @@ jobs:
           for TAG in $TAGS; do
             echo "Processing tag: $TAG"
             FULL_TAGS=()
-            for FILE in /tmp/bake-meta-*.json; do
-              if [ -d "$FILE" ]; then
-                echo "$FILE is a directory, skipping..."
-                continue
-              fi
+            for FILE in $(find /tmp -name 'bake-meta-*.json'); do
               if jq -e --arg TAG "$TAG" '.target."docker-metadata-action".tags[] | select(. == $TAG)' $FILE > /dev/null; then
                 # Extract the repository and digest for the current platform
                 REPO=$(jq -r --arg TAG "$TAG" '.target."docker-metadata-action".tags[] | select(. == $TAG)' $FILE | cut -d':' -f1)

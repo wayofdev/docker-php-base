@@ -185,8 +185,9 @@ jobs:
           buildkitd-flags: "--debug"
 
       - name: 🚀 Create manifest list and push
+        working-directory: /tmp
         run: |
-          variants=($(ls /tmp/bake-meta-*.json | sed -E 's/bake-meta-//; s/-amd64.json|-arm64.json//g' | sort -u))
+          variants=($(ls bake-meta-*.json | sed -E 's/bake-meta-//; s/-amd64.json|-arm64.json//g' | sort -u))
           for variant in "${variants[@]}"; do
 
             # Fetch digests for amd64 and arm64 architectures

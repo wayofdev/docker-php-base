@@ -106,15 +106,12 @@ jobs:
           export IMAGE_TAG=${{ env.DOCKER_NAMESPACE }}:latest
           make test
 
-      - name: Print Extracted Tags
-        run: echo ${{ steps.meta.outputs.tags }}
-
       - name: 🔍 Run Docker Scout
         id: docker-scout
         uses: docker/scout-action@v1
         with:
           command: quickview,compare,cves,recommendations
-          image: ${{ env.DOCKER_NAMESPACE }}:latest
+          image: ${{ env.DOCKER_NAMESPACE }}:${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_name }}-latest
           to-latest: true
           organization: wayofdev
           only-severities: critical,high

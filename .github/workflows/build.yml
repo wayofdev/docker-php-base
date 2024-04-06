@@ -203,8 +203,8 @@ jobs:
       - name: 🚀 Create manifest list and push
         run: |
           # Fetch digests for amd64 and arm64 architectures
-          DIGEST_AMD64=$(ls /tmp/digests/digests-8.1-fpm-alpine-amd64/*)
-          DIGEST_ARM64=$(ls /tmp/digests/digests-8.1-fpm-alpine-arm64/*)
+          DIGEST_AMD64=$(basename $(ls /tmp/digests/digests-8.1-fpm-alpine-amd64/*))
+          DIGEST_ARM64=$(basename $(ls /tmp/digests/digests-8.1-fpm-alpine-arm64/*))
           echo "Digest AMD64: $DIGEST_AMD64"
           echo "Digest ARM64: $DIGEST_ARM64"
 

@@ -111,7 +111,7 @@ jobs:
         uses: docker/scout-action@v1
         with:
           command: cves,recommendations,compare
-          image: ${{ steps.meta.outputs.tags }}
+          image: ${{ env.DOCKER_NAMESPACE }}:latest
           only-severities: critical,high
           exit-code: true
           write-comment: true

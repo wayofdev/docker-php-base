@@ -126,19 +126,13 @@ lint-ansible: ## Lint ansible files inside project
 .PHONY: lint-ansible
 
 lint-docker: ## Run hadolint linter over dist Dockerfiles
-	hadolint -V ./dist/base/7.4-cli-alpine/Dockerfile
-	hadolint -V ./dist/base/7.4-fpm-alpine/Dockerfile
-	hadolint -V ./dist/base/7.4-fpm-supervisord/Dockerfile
-	hadolint -V ./dist/base/8.0-cli-alpine/Dockerfile
-	hadolint -V ./dist/base/8.0-fpm-alpine/Dockerfile
-	hadolint -V ./dist/base/8.0-fpm-supervisord/Dockerfile
 	hadolint -V ./dist/base/8.1-cli-alpine/Dockerfile
 	hadolint -V ./dist/base/8.1-fpm-alpine/Dockerfile
-	hadolint -V ./dist/base/8.1-fpm-supervisord/Dockerfile
+	hadolint -V ./dist/base/8.1-supervisord-alpine/Dockerfile
 	hadolint -V ./dist/base/8.2-cli-alpine/Dockerfile
 	hadolint -V ./dist/base/8.2-fpm-alpine/Dockerfile
-	hadolint -V ./dist/base/8.2-fpm-supervisord/Dockerfile
+	hadolint -V ./dist/base/8.2-supervisord-alpine/Dockerfile
 	hadolint -V ./dist/base/8.3-cli-alpine/Dockerfile
 	hadolint -V ./dist/base/8.3-fpm-alpine/Dockerfile
-	hadolint -V ./dist/base/8.3-fpm-supervisord/Dockerfile
+	hadolint -V ./dist/base/8.3-supervisord-alpine/Dockerfile
 .PHONY: lint-docker

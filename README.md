@@ -194,7 +194,7 @@ Run ansible-lint to validate ansible project files:
 $ make lint-ansible
 ```
 
-Run dive command to analyze image:
+Run [dive](https://github.com/wagoodman/dive) command to analyze image:
 
 ```bash
 $ make analyze

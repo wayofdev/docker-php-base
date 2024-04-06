@@ -5,10 +5,9 @@ concurrency:
   cancel-in-progress: true
 
 on:
-  workflow_dispatch:
-#  pull_request:
-#    paths-ignore:
-#      - '**.md'
+  pull_request:
+    paths-ignore:
+      - '**.md'
 
 env:
   DOCKER_NAMESPACE: wayofdev/php-base

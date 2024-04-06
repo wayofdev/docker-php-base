@@ -9,9 +9,6 @@ on:  # yamllint disable-line rule:truthy
   push:
     branches:
       - master
-  pull_request:
-    branches:
-      - master
   release:
     types:
       - released
@@ -69,7 +66,6 @@ jobs:
             ${{ env.GHCR_NAMESPACE }}
           tags: |
             type=raw,event=branch,value=latest
-            type=ref,event=pr
             type=ref,event=tag
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}

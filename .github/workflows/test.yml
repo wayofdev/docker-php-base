@@ -112,10 +112,9 @@ jobs:
         with:
           command: cves,recommendations,compare
           image: ${{ env.DOCKER_NAMESPACE }}:latest
-          organization: wayofdev
+          organization: wayofdev/php-base
           only-severities: critical,high
           exit-code: true
-          write-comment: true
           to: ${{ env.DOCKER_NAMESPACE }}:${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_name }}-latest
           ignore-unchanged: true
           only-fixed: true

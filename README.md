@@ -37,14 +37,10 @@ Enabled extensions by default:
 | [bcmath](https://www.php.net/manual/en/book.bc.php)          | For arbitrary precision mathematics                                              | native |
 | [exif](https://www.php.net/manual/en/book.exif.php)          | Exchangeable image information                                                   | native |
 | [gd](https://www.php.net/manual/en/book.image.php)           | Image processing and manipulation library                                        | native |
-| [soap](https://www.php.net/manual/en/book.soap.php)          | SOAP (Simple Object Access Protocol) functions                                   | native |
 | [redis](https://pecl.php.net/package/redis)                  | Functions for interfacing with Redis                                             | pecl   |
 | [memcached](https://pecl.php.net/package/memcached)          | Functions for interfacing with Memcached                                         | pecl   |
 | [decimal](https://pecl.php.net/package/decimal)              | Arbitrary precision floating-point decimal                                       | pecl   |
-| [imagick](https://pecl.php.net/package/imagick)              | ImageMagick library for image manipulation                                       | pecl   |
-| [rdkafka](https://pecl.php.net/package/rdkafka)              | Kafka client library for PHP                                                     | pecl   |
 | [amqp](https://pecl.php.net/package/amqp)                    | Advanced Message Queuing Protocol (AMQP) library                                 | pecl   |
-| [protobuf](https://pecl.php.net/package/protobuf)            | Protocol Buffers serialization format library                                    | pecl   |
 | [yaml](https://pecl.php.net/package/yaml)                    | YAML (YAML Ain't Markup Language) library                                        | pecl   |
 
 <br>
@@ -84,18 +80,13 @@ ext_native_enabled:
   - bcmath
   - exif
   - gd
-  - soap
 
 ext_pecl_enabled:
   - redis
   - memcached
   - decimal
-  - imagick
-  - rdkafka
   - amqp
-  - protobuf
   - yaml
-
 ```
 
 <br>
@@ -144,12 +135,6 @@ $ make
 Building all images:
 
 ```bash
-$ make build IMAGE_TEMPLATE="7.4-cli-alpine"
-$ make build IMAGE_TEMPLATE="7.4-fpm-alpine"
-$ make build IMAGE_TEMPLATE="7.4-supervisord-alpine"
-$ make build IMAGE_TEMPLATE="8.0-cli-alpine"
-$ make build IMAGE_TEMPLATE="8.0-fpm-alpine"
-$ make build IMAGE_TEMPLATE="8.0-supervisord-alpine"
 $ make build IMAGE_TEMPLATE="8.1-cli-alpine"
 $ make build IMAGE_TEMPLATE="8.1-fpm-alpine"
 $ make build IMAGE_TEMPLATE="8.1-supervisord-alpine"
@@ -176,12 +161,6 @@ $ make test
 To test all images:
 
 ```bash
-$ make test IMAGE_TEMPLATE="7.4-cli-alpine"
-$ make test IMAGE_TEMPLATE="7.4-fpm-alpine"
-$ make test IMAGE_TEMPLATE="7.4-supervisord-alpine"
-$ make test IMAGE_TEMPLATE="8.0-cli-alpine"
-$ make test IMAGE_TEMPLATE="8.0-fpm-alpine"
-$ make test IMAGE_TEMPLATE="8.0-supervisord-alpine"
 $ make test IMAGE_TEMPLATE="8.1-cli-alpine"
 $ make test IMAGE_TEMPLATE="8.1-fpm-alpine"
 $ make test IMAGE_TEMPLATE="8.1-supervisord-alpine"
@@ -215,6 +194,12 @@ Run ansible-lint to validate ansible project files:
 $ make lint-ansible
 ```
 
+Run dive command to analyze image:
+
+```bash
+$ make analyze
+```
+
 <br>
 
 ## 🤝 License
@@ -232,9 +217,5 @@ This repository was created in **2022** by [lotyp / wayofdev](https://github.com
 ## 🫡 Contributors
 
 <img align="left" src="https://img.shields.io/github/contributors-anon/wayofdev/docker-php-base?style=for-the-badge" alt="Contributors"/>
-
-<a href="https://github.com/wayofdev/docker-php-base/graphs/contributors">
-  <img src="https://opencollective.com/wod/contributors.svg?width=890&button=false" alt="OpenCollective Contributors">
-</a>
 
 <br>

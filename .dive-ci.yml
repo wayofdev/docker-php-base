@@ -1,3 +1,5 @@
+---
+
 rules:
   # If the efficiency is measured below X%, mark as failed.
   # Expressed as a ratio between 0-1.
@@ -11,3 +13,5 @@ rules:
   # Note: the base image layer is NOT included in the total image size.
   # Expressed as a ratio between 0-1; fails if the threshold is met or crossed.
   highestUserWastedPercent: 0.20
+
+...

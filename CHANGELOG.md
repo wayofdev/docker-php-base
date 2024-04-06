@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.6.0](https://github.com/wayofdev/docker-php-base/compare/v2.5.0...v2.6.0) (2024-04-06)
+
+
+### Features
+
+* new ci build workflow ([8bebd4a](https://github.com/wayofdev/docker-php-base/commit/8bebd4a7eae67a8ea8a4a07de284e92996cf7a03))
+
 ## [2.5.0](https://github.com/wayofdev/docker-php-base/compare/v2.4.0...v2.5.0) (2024-04-04)
 
 

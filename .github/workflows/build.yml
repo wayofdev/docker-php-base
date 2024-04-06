@@ -66,7 +66,6 @@ jobs:
             ${{ env.GHCR_NAMESPACE }}
           tags: |
             type=raw,event=branch,value=latest
-            type=ref,event=pr
             type=ref,event=tag
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
@@ -134,7 +133,7 @@ jobs:
       - name: 📤 Upload digest
         uses: actions/upload-artifact@v4
         with:
-          name: digests-${{ env.PLATFORM_CACHE_TAG }}.json
+          name: digests-${{ env.PLATFORM_CACHE_TAG }}
           path: /tmp/digests/*
           if-no-files-found: error
           retention-days: 1
@@ -149,20 +148,13 @@ jobs:
         with:
           pattern: bake-meta-*
           path: /tmp
+          merge-multiple: true
 
       - name: 📥 Download meta bake definitions
         uses: actions/download-artifact@v4
         with:
           pattern: digests-*
-          path: /tmp/digests/*
-
-      - name: Print downloaded bake meta files
-        run: |
-          ls -la /tmp
-
-      - name: Print downloaded digests
-        run: |
-          ls -la /tmp/digests
+          path: /tmp/digests
 
       - name: 🔑 Login to docker-hub
         uses: docker/login-action@v3
@@ -188,25 +180,28 @@ jobs:
           platforms: linux/amd64,linux/arm64
           buildkitd-flags: "--debug"
 
-      - name: Create manifest list and push
+      - name: 🚀 Create manifest list and push
+        working-directory: /tmp
         run: |
-          # Aggregate all tags from the meta files
-          TAGS=$(jq -r '.target."docker-metadata-action".tags[]' /tmp/bake-meta-*.json | sort -u)
+          variants=($(ls bake-meta-*.json | sed -E 's/bake-meta-//; s/-amd64.json|-arm64.json//g' | sort -u))
+          for variant in "${variants[@]}"; do
 
-          # Loop through each tag and create a manifest list
-          for TAG in $TAGS; do
-            FULL_TAGS=()
-            for FILE in /tmp/bake-meta-*.json; do
-              if jq -e --arg TAG "$TAG" '.target."docker-metadata-action".tags[] | select(. == $TAG)' $FILE > /dev/null; then
-                # Extract the repository and digest for the current platform
-                REPO=$(jq -r --arg TAG "$TAG" '.target."docker-metadata-action".tags[] | select(. == $TAG)' $FILE | cut -d':' -f1)
-                DIGEST=$(jq -r '.["'$REPO'"]["containerimage.digest"]' $FILE)
-                FULL_TAGS+=("$REPO@$DIGEST")
-              fi
-            done
+            # Fetch digests for amd64 and arm64 architectures
+            DIGEST_AMD64=$(basename $(ls /tmp/digests/digests-${variant}-amd64/*))
+            DIGEST_ARM64=$(basename $(ls /tmp/digests/digests-${variant}-arm64/*))
+            echo "Digest AMD64: $DIGEST_AMD64"
+            echo "Digest ARM64: $DIGEST_ARM64"
 
-            # Create and push the manifest list for the current tag
-            docker buildx imagetools create "${FULL_TAGS[@]}" -t "$TAG"
+            # Create the manifest list for Docker Hub
+            docker buildx imagetools create $(jq -cr ".target.\"docker-metadata-action\".tags | map(select(startswith(\"${DOCKER_NAMESPACE}\")) | \"-t \" + .) | join(\" \")" /tmp/bake-meta-${variant}-amd64.json) \
+              "${DOCKER_NAMESPACE}@sha256:${DIGEST_AMD64}" \
+              "${DOCKER_NAMESPACE}@sha256:${DIGEST_ARM64}"
+
+            # Create the manifest list for GHCR
+            docker buildx imagetools create $(jq -cr ".target.\"docker-metadata-action\".tags | map(select(startswith(\"${GHCR_NAMESPACE}\")) | \"-t \" + .) | join(\" \")" /tmp/bake-meta-${variant}-amd64.json) \
+              "${GHCR_NAMESPACE}@sha256:${DIGEST_AMD64}" \
+              "${GHCR_NAMESPACE}@sha256:${DIGEST_ARM64}"
+
           done
 
 ...

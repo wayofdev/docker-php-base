@@ -111,7 +111,7 @@ jobs:
         uses: docker/scout-action@v1
         with:
           command: cves,recommendations,compare
-          to-latest: true
+          to: ${{ env.DOCKER_NAMESPACE }}:${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_name }}-latest
           ignore-base: true
           ignore-unchanged: true
           only-fixed: true

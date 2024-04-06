@@ -41,7 +41,7 @@ COPY --chown=www-data ./configs/php.ini /usr/local/etc/php/conf.d/php.ini
 RUN set -eux; \
     apk -U upgrade -a \
 {% if 'supervisord' == php_type %}
-    && apk add --no-cache supervisor \
+    && apk add --no-cache supervisor=4.2.5-r4 \
 {% endif %}
     && \
     curl -sSLf \

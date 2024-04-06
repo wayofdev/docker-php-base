@@ -110,13 +110,10 @@ jobs:
         id: docker-scout
         uses: docker/scout-action@v1
         with:
-          command: quickview,compare,cves,recommendations
+          command: quickview,cves,recommendations
           image: ${{ env.DOCKER_NAMESPACE }}:${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_name }}-latest
-          to-latest: true
           organization: wayofdev
           only-severities: critical,high
           github-token: ${{ secrets.GITHUB_TOKEN }}
           dockerhub-user: ${{ secrets.DOCKER_USERNAME }}
           dockerhub-password: ${{ secrets.DOCKER_TOKEN }}
-
-

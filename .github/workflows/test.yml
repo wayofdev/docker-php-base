@@ -110,9 +110,7 @@ jobs:
         id: docker-scout
         uses: docker/scout-action@v1
         with:
-          command: cves,recommendations,compare
-          to: php:${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_name }}
-          ignore-base: true
+          command: cves,recommendations
           ignore-unchanged: true
           only-fixed: true
           only-severities: critical,high

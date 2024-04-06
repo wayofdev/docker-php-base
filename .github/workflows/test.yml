@@ -111,12 +111,11 @@ jobs:
         uses: docker/scout-action@v1
         with:
           command: cves,recommendations,compare
-          to: ${{ env.DOCKER_NAMESPACE }}:${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_name }}-latest
+          to: php:${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_name }}
           ignore-base: true
           ignore-unchanged: true
           only-fixed: true
           only-severities: critical,high
-          organization: wayofdev
           github-token: ${{ secrets.GITHUB_TOKEN }}
           dockerhub-user: ${{ secrets.DOCKER_USERNAME }}
           dockerhub-password: ${{ secrets.DOCKER_TOKEN }}

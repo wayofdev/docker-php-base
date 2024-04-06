@@ -110,9 +110,11 @@ jobs:
         id: docker-scout
         uses: docker/scout-action@v1
         with:
-          command: quickview,cves,recommendations
-          image: ${{ env.DOCKER_NAMESPACE }}:${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_name }}-latest
-          organization: wayofdev
+          command: cves,recommendations,compare
+          to-latest: true
+          ignore-base: true
+          ignore-unchanged: true
+          only-fixed: true
           only-severities: critical,high
           github-token: ${{ secrets.GITHUB_TOKEN }}
           dockerhub-user: ${{ secrets.DOCKER_USERNAME }}

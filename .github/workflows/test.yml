@@ -105,3 +105,19 @@ jobs:
           export IMAGE_TEMPLATE=${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_name }}
           export IMAGE_TAG=${{ env.DOCKER_NAMESPACE }}:latest
           make test
+
+      - name: 🔍 Run Docker Scout
+        id: docker-scout
+        uses: docker/scout-action@v1
+        with:
+          command: cves,recommendations,compare
+          image: ${{ steps.meta.outputs.tags }}
+          only-severities: critical,high
+          exit-code: true
+          write-comment: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          to-latest: true
+          ignore-unchanged: true
+          only-fixed: true
+          dockerhub-user: ${{ secrets.DOCKER_USERNAME }}
+          dockerhub-password: ${{ secrets.DOCKER_TOKEN }}

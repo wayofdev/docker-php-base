@@ -4,6 +4,9 @@
 export DOCKER_BUILDKIT ?= 1
 export COMPOSE_DOCKER_CLI_BUILD ?= 1
 
+# Docker binary to use, when executing docker tasks
+DOCKER ?= docker
+
 IMAGE_NAMESPACE ?= wayofdev/php-base
 IMAGE_TEMPLATE ?= 8.3-fpm-alpine
 IMAGE_TAG ?= $(IMAGE_NAMESPACE):$(IMAGE_TEMPLATE)-latest
@@ -13,7 +16,26 @@ CACHE_FROM ?= $(IMAGE_TAG)
 OS ?= $(shell uname)
 CURRENT_DIR ?= $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 
+# Yamllint docker image
+YAML_LINT_RUNNER ?= $(DOCKER) run --rm $$(tty -s && echo "-it" || echo) \
+	-v $(PWD):/data \
+	cytopia/yamllint:latest \
+	-c ./.github/.yamllint.yaml \
+	-f colored .
 
+ACTION_LINT_RUNNER ?= $(DOCKER) run --rm $$(tty -s && echo "-it" || echo) \
+	-v $(shell pwd):/repo \
+	 --workdir /repo \
+	 rhysd/actionlint:latest \
+	 -color
+
+MARKDOWN_LINT_RUNNER ?= $(DOCKER) run --rm $$(tty -s && echo "-it" || echo) \
+	-v $(shell pwd):/app \
+	--workdir /app \
+	davidanson/markdownlint-cli2-rules:latest \
+	--config ".github/.markdownlint.json"
+
+#
 # Self documenting Makefile code
 # ------------------------------------------------------------------------------------
 ifneq ($(TERM),)

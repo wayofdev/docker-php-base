@@ -1,13 +1,13 @@
-<br>
-
-<div align="center">
-<img width="456" src="https://raw.githubusercontent.com/wayofdev/docker-php-base/master/assets/logo.gh-light-mode-only.png#gh-light-mode-only" alt="WayOfDev Logo in light mode">
-<img width="456" src="https://raw.githubusercontent.com/wayofdev/docker-php-base/master/assets/logo.gh-dark-mode-only.png#gh-dark-mode-only" alt="WayOfDev logo in dark mode">
-</div>
-
-<br>
-
-<br>
+<p align="center">
+    <br>
+    <a href="https://wayof.dev" target="_blank">
+        <picture>
+            <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/wayofdev/.github/master/assets/logo.gh-dark-mode-only.png">
+            <img width="400" src="https://raw.githubusercontent.com/wayofdev/.github/master/assets/logo.gh-light-mode-only.png" alt="WayOfDev Logo">
+        </picture>
+    </a>
+    <br>
+</p>
 
 <div align="center">
 <a href="https://actions-badge.atrox.dev/wayofdev/docker-php-base/goto"><img alt="Build Status" src="https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fwayofdev%2Fdocker-php-base%2Fbadge&style=flat-square"/></a>
@@ -41,7 +41,9 @@ Enabled extensions by default:
 | [memcached](https://pecl.php.net/package/memcached)          | Functions for interfacing with Memcached                                         | pecl   |
 | [decimal](https://pecl.php.net/package/decimal)              | Arbitrary precision floating-point decimal                                       | pecl   |
 | [amqp](https://pecl.php.net/package/amqp)                    | Advanced Message Queuing Protocol (AMQP) library                                 | pecl   |
-| [yaml](https://pecl.php.net/package/yaml)                    | YAML (YAML Ain't Markup Language) library                                        | pecl   |
+| [yaml](https://pecl.php.net/package/yaml)                    | YAML library                                                                     | pecl   |
+| [grpc](https://pecl.php.net/package/grpc)                    | gRPC library                                                                     | pecl   |
+| [protobuf](https://pecl.php.net/package/protobuf)            | Protocol Buffers library                                                         | pecl   |
 
 <br>
 

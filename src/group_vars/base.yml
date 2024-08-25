@@ -106,5 +106,7 @@ ext_pecl_enabled:
   - decimal
   - amqp
   - yaml
+  - grpc
+  - protobuf
 
 ...

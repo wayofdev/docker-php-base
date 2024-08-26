@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.7.3](https://github.com/wayofdev/docker-php-base/compare/v2.7.2...v2.7.3) (2024-08-26)
+
+
+### Bug Fixes
+
+* registry address ([f2629f4](https://github.com/wayofdev/docker-php-base/commit/f2629f4ca654846cfcf0b2ac8d70c49c3d3b24b6))
+
 ## [2.7.2](https://github.com/wayofdev/docker-php-base/compare/v2.7.1...v2.7.2) (2024-08-26)
 
 

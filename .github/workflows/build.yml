@@ -175,8 +175,14 @@ jobs:
           platforms: linux/amd64,linux/arm64
           buildkitd-flags: "--debug"
 
+      - name: 📦 Check out the codebase
+        uses: actions/checkout@v4.1.7
+
       - name: 🚀 Create manifest list and push
         shell: bash
         run: .github/scripts/build-images.sh
+        env:
+          DOCKER_NAMESPACE: ${{ secrets.DOCKER_NAMESPACE }}
+          GHCR_NAMESPACE: ${{ secrets.GHCR_NAMESPACE }}
 
 ...

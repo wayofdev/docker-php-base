@@ -181,8 +181,5 @@ jobs:
       - name: 🚀 Create manifest list and push
         shell: bash
         run: .github/scripts/build-images.sh
-        env:
-          DOCKER_NAMESPACE: ${{ secrets.DOCKER_NAMESPACE }}
-          GHCR_NAMESPACE: ${{ secrets.GHCR_NAMESPACE }}
 
 ...

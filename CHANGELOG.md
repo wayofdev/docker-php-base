@@ -1,5 +1,31 @@
 # Changelog
 
+## [2.7.0](https://github.com/wayofdev/docker-php-base/compare/v2.6.0...v2.7.0) (2024-08-26)
+
+
+### Features
+
+* add protobuf and grpc ([77d6fee](https://github.com/wayofdev/docker-php-base/commit/77d6fee46d5927ebcd7df903678a00b3aca0493b))
+
+
+### Documentation
+
+* minor fixes ([65cef53](https://github.com/wayofdev/docker-php-base/commit/65cef53d6d5eaeefe781a84573bd859a7da4f02a))
+* updating readme, style changes ([f3a3ce3](https://github.com/wayofdev/docker-php-base/commit/f3a3ce371bfa6905e7d21744f24fad58d9377578))
+
+
+### Dependencies
+
+* update versions ([7f5127f](https://github.com/wayofdev/docker-php-base/commit/7f5127f60002d868ec2d513ebc6963f5427809fd))
+
+
+### Continuous Integration
+
+* add docker scout ([#53](https://github.com/wayofdev/docker-php-base/issues/53)) ([2678375](https://github.com/wayofdev/docker-php-base/commit/26783759af4ee123984b8b258ad165431f121158))
+* keep comments ([a392ee8](https://github.com/wayofdev/docker-php-base/commit/a392ee8721b9a31f07a082a7150d9d037c5a956a))
+* move build into bash file ([417bc4b](https://github.com/wayofdev/docker-php-base/commit/417bc4bec48a96246e98c64c0516809516c24a8d))
+* update structure ([b99c1e9](https://github.com/wayofdev/docker-php-base/commit/b99c1e98200374f646297bd559ac64948220ab72))
+
 ## [2.6.0](https://github.com/wayofdev/docker-php-base/compare/v2.5.0...v2.6.0) (2024-04-06)
 
 

@@ -37,11 +37,11 @@ jobs:
           tag="${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_name }}-${{ matrix.builder.arch }}"
           php_version_slug="${php_version//./}"
           target="php-${php_version_slug}-${{ matrix.php_type }}-${{ matrix.os_name }}"
-          echo "TARGET=${target}" >> $GITHUB_ENV
-          echo "PLATFORM_CACHE_TAG=${tag}" >> $GITHUB_ENV
+          echo "TARGET=${target}" >> "$GITHUB_ENV"
+          echo "PLATFORM_CACHE_TAG=${tag}" >> "$GITHUB_ENV"
 
       - name: 📦 Check out the codebase
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.1.7
 
       - name: 🤖 Generate dist files
         run: ansible-playbook src/playbook.yml -l ${{ matrix.php_version }}-${{ matrix.php_type }}-${{ matrix.os_name }}
@@ -100,7 +100,7 @@ jobs:
 
       - name: 🚀 Bake image and push to docker-hub and GHCR
         id: bake
-        uses: docker/bake-action@v4
+        uses: docker/bake-action@v5.7.0
         with:
           targets: ${{ env.TARGET }}
           files: |
@@ -176,27 +176,7 @@ jobs:
           buildkitd-flags: "--debug"
 
       - name: 🚀 Create manifest list and push
-        working-directory: /tmp
-        run: |
-          variants=($(ls bake-meta-*.json | sed -E 's/bake-meta-//; s/-amd64.json|-arm64.json//g' | sort -u))
-          for variant in "${variants[@]}"; do
-
-            # Fetch digests for amd64 and arm64 architectures
-            DIGEST_AMD64=$(basename $(ls /tmp/digests/digests-${variant}-amd64/*))
-            DIGEST_ARM64=$(basename $(ls /tmp/digests/digests-${variant}-arm64/*))
-            echo "Digest AMD64: $DIGEST_AMD64"
-            echo "Digest ARM64: $DIGEST_ARM64"
-
-            # Create the manifest list for Docker Hub
-            docker buildx imagetools create $(jq -cr ".target.\"docker-metadata-action\".tags | map(select(startswith(\"${DOCKER_NAMESPACE}\")) | \"-t \" + .) | join(\" \")" /tmp/bake-meta-${variant}-amd64.json) \
-              "${DOCKER_NAMESPACE}@sha256:${DIGEST_AMD64}" \
-              "${DOCKER_NAMESPACE}@sha256:${DIGEST_ARM64}"
-
-            # Create the manifest list for GHCR
-            docker buildx imagetools create $(jq -cr ".target.\"docker-metadata-action\".tags | map(select(startswith(\"${GHCR_NAMESPACE}\")) | \"-t \" + .) | join(\" \")" /tmp/bake-meta-${variant}-amd64.json) \
-              "${GHCR_NAMESPACE}@sha256:${DIGEST_AMD64}" \
-              "${GHCR_NAMESPACE}@sha256:${DIGEST_ARM64}"
-
-          done
+        shell: bash
+        run: .github/scripts/build-images.sh
 
 ...

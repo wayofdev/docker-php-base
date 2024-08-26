@@ -1,8 +1,7 @@
 ---
 
-extends: "default"
+extends: default
 
-# Overwrite above default rules
 rules:
   braces:
     # Defaults
@@ -48,9 +47,5 @@ rules:
     min-spaces-from-content: 1
 
   line-length: disable
-
-yaml-files:
-  - "*.yaml"
-  - "*.yml"
 
 ...

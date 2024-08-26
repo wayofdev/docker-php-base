@@ -96,7 +96,7 @@ ext_pecl_enabled:
 To generate dist files use ansible command:
 
 ```bash
-$ make generate
+make generate
 ```
 
 <br>
@@ -116,7 +116,7 @@ For testing purposes we use **goss** and **dgoss**, follow installation instruct
 Generating distributable Dockerfiles from yaml source code:
 
 ```bash
-$ make generate
+make generate
 ```
 
 <br>
@@ -124,28 +124,28 @@ $ make generate
 Building default image:
 
 ```bash
-$ git clone git@github.com:wayofdev/docker-php-base.git
-$ make build
+git clone git@github.com:wayofdev/docker-php-base.git
+make build
 ```
 
 To **build** image, **test** it and then **clean** temporary files run:
 
 ```bash
-$ make
+make
 ```
 
 Building all images:
 
 ```bash
-$ make build IMAGE_TEMPLATE="8.1-cli-alpine"
-$ make build IMAGE_TEMPLATE="8.1-fpm-alpine"
-$ make build IMAGE_TEMPLATE="8.1-supervisord-alpine"
-$ make build IMAGE_TEMPLATE="8.2-cli-alpine"
-$ make build IMAGE_TEMPLATE="8.2-fpm-alpine"
-$ make build IMAGE_TEMPLATE="8.2-supervisord-alpine"
-$ make build IMAGE_TEMPLATE="8.3-cli-alpine"
-$ make build IMAGE_TEMPLATE="8.3-fpm-alpine"
-$ make build IMAGE_TEMPLATE="8.3-supervisord-alpine"
+make build IMAGE_TEMPLATE="8.1-cli-alpine"
+make build IMAGE_TEMPLATE="8.1-fpm-alpine"
+make build IMAGE_TEMPLATE="8.1-supervisord-alpine"
+make build IMAGE_TEMPLATE="8.2-cli-alpine"
+make build IMAGE_TEMPLATE="8.2-fpm-alpine"
+make build IMAGE_TEMPLATE="8.2-supervisord-alpine"
+make build IMAGE_TEMPLATE="8.3-cli-alpine"
+make build IMAGE_TEMPLATE="8.3-fpm-alpine"
+make build IMAGE_TEMPLATE="8.3-supervisord-alpine"
 ```
 
 <br>
@@ -157,21 +157,21 @@ You can check `Makefile` to get full list of commands for local testing. For tes
 Testing default image:
 
 ```bash
-$ make test
+make test
 ```
 
 To test all images:
 
 ```bash
-$ make test IMAGE_TEMPLATE="8.1-cli-alpine"
-$ make test IMAGE_TEMPLATE="8.1-fpm-alpine"
-$ make test IMAGE_TEMPLATE="8.1-supervisord-alpine"
-$ make test IMAGE_TEMPLATE="8.2-cli-alpine"
-$ make test IMAGE_TEMPLATE="8.2-fpm-alpine"
-$ make test IMAGE_TEMPLATE="8.2-supervisord-alpine"
-$ make test IMAGE_TEMPLATE="8.3-cli-alpine"
-$ make test IMAGE_TEMPLATE="8.3-fpm-alpine"
-$ make test IMAGE_TEMPLATE="8.3-supervisord-alpine"
+make test IMAGE_TEMPLATE="8.1-cli-alpine"
+make test IMAGE_TEMPLATE="8.1-fpm-alpine"
+make test IMAGE_TEMPLATE="8.1-supervisord-alpine"
+make test IMAGE_TEMPLATE="8.2-cli-alpine"
+make test IMAGE_TEMPLATE="8.2-fpm-alpine"
+make test IMAGE_TEMPLATE="8.2-supervisord-alpine"
+make test IMAGE_TEMPLATE="8.3-cli-alpine"
+make test IMAGE_TEMPLATE="8.3-fpm-alpine"
+make test IMAGE_TEMPLATE="8.3-supervisord-alpine"
 ```
 
 <br>
@@ -181,25 +181,25 @@ $ make test IMAGE_TEMPLATE="8.3-supervisord-alpine"
 Run **yamllint** to validate all yaml files in project:
 
 ```bash
-$ make lint-yaml
+make lint-yaml
 ```
 
 Run hadolint to validate created Dockerfiles:
 
 ```bash
-$ make lint-docker
+make lint-docker
 ```
 
 Run ansible-lint to validate ansible project files:
 
 ```bash
-$ make lint-ansible
+make lint-ansible
 ```
 
 Run [dive](https://github.com/wagoodman/dive) command to analyze image:
 
 ```bash
-$ make analyze
+make analyze
 ```
 
 <br>

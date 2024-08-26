@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.7.1](https://github.com/wayofdev/docker-php-base/compare/v2.7.0...v2.7.1) (2024-08-26)
+
+
+### Bug Fixes
+
+* checkout repository to access build script ([dd1ccd0](https://github.com/wayofdev/docker-php-base/commit/dd1ccd0d0b8c289daba3fc7448d7254515116e2c))
+
 ## [2.7.0](https://github.com/wayofdev/docker-php-base/compare/v2.6.0...v2.7.0) (2024-08-26)
 
 

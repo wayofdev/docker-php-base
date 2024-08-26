@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.7.2](https://github.com/wayofdev/docker-php-base/compare/v2.7.1...v2.7.2) (2024-08-26)
+
+
+### Bug Fixes
+
+* namespace ([08bc5aa](https://github.com/wayofdev/docker-php-base/commit/08bc5aa3f1fbe6aba8eb541ce61f66a4aaf5d2bc))
+
 ## [2.7.1](https://github.com/wayofdev/docker-php-base/compare/v2.7.0...v2.7.1) (2024-08-26)
 
 

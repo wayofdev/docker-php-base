@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.7.4](https://github.com/wayofdev/docker-php-base/compare/v2.7.3...v2.7.4) (2024-08-27)
+
+
+### Continuous Integration
+
+* revert build action ([4fd98c8](https://github.com/wayofdev/docker-php-base/commit/4fd98c852fcaf38926ffa1c8dbf7e28f1daff109))
+
 ## [2.7.3](https://github.com/wayofdev/docker-php-base/compare/v2.7.2...v2.7.3) (2024-08-26)
 
 

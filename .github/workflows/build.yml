@@ -12,6 +12,8 @@ on:  # yamllint disable-line rule:truthy
   release:
     types:
       - released
+  schedule:
+    - cron: "30 8 * * *"
 
 env:
   DOCKER_NAMESPACE: wayofdev/php-base

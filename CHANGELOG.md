@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.7.5](https://github.com/wayofdev/docker-php-base/compare/v2.7.4...v2.7.5) (2024-09-05)
+
+
+### Continuous Integration
+
+* auto-merge releases ([78abb86](https://github.com/wayofdev/docker-php-base/commit/78abb8639fcd5c7b932ec67cb59afe1f4aa8d615))
+* build latest images every day at 8:30 ([116d93a](https://github.com/wayofdev/docker-php-base/commit/116d93a53ae513c985703ce98dadd020379e2283))
+* workflows ([4c8fb11](https://github.com/wayofdev/docker-php-base/commit/4c8fb11852849aa58e3a4ba267e01ae348935bae))
+
 ## [2.7.4](https://github.com/wayofdev/docker-php-base/compare/v2.7.3...v2.7.4) (2024-08-27)
 
 

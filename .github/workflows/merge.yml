@@ -16,8 +16,13 @@ jobs:
     if: >
       github.event.workflow_run.event == 'pull_request' &&
       github.event.workflow_run.conclusion == 'success' &&
-      github.actor == 'renovate[bot]' && (
-        startsWith(github.event.workflow_run.head_commit.message, 'deps(deps)')
+      (
+        (github.actor == 'renovate[bot]' &&
+          startsWith(github.event.workflow_run.head_commit.message, 'deps(deps)')
+        ) ||
+        (github.actor == 'lotyp' &&
+          startsWith(github.head_ref, 'release-please--')
+        )
       )
     steps:
       - name: 🙋‍♂️ Request reviewer from @way-finder-bot

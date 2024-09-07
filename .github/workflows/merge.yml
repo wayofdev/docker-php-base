@@ -21,7 +21,7 @@ jobs:
           startsWith(github.event.workflow_run.head_commit.message, 'deps(deps)')
         ) ||
         (github.actor == 'lotyp' &&
-          startsWith(github.head_ref, 'release-please--')
+          startsWith(github.event.workflow_run.head_commit.message, 'chore(master)')
         )
       )
     steps:

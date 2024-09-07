@@ -16,11 +16,12 @@ CACHE_FROM ?= $(IMAGE_TAG)
 OS ?= $(shell uname)
 CURRENT_DIR ?= $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 
-# Yamllint docker image
+YAML_CONFIG_PATH ?= .github/.yamllint.yaml
+
 YAML_LINT_RUNNER ?= $(DOCKER) run --rm $$(tty -s && echo "-it" || echo) \
 	-v $(PWD):/data \
 	cytopia/yamllint:latest \
-	-c ./.github/.yamllint.yaml \
+	-c $(YAML_CONFIG_PATH) \
 	-f colored .
 
 ACTION_LINT_RUNNER ?= $(DOCKER) run --rm $$(tty -s && echo "-it" || echo) \
@@ -34,6 +35,13 @@ MARKDOWN_LINT_RUNNER ?= $(DOCKER) run --rm $$(tty -s && echo "-it" || echo) \
 	--workdir /app \
 	davidanson/markdownlint-cli2-rules:latest \
 	--config ".github/.markdownlint.json"
+
+ANSIBLE_LINT_RUNNER ?= $(DOCKER) run --rm $$(tty -s && echo "-it" || echo) \
+	-v $(shell pwd):/code \
+	-e YAMLLINT_CONFIG_FILE=$(YAML_CONFIG_PATH) \
+	--workdir /code \
+	pipelinecomponents/ansible-lint:latest \
+	ansible-lint --show-relpath --config-file ".github/.ansible-lint.yml"
 
 #
 # Self documenting Makefile code
@@ -91,7 +99,7 @@ PHONY: all
 # ------------------------------------------------------------------------------------
 build: ## Build default docker image
 	cd $(CURRENT_DIR)$(DOCKERFILE_DIR); \
-	docker build -t $(IMAGE_TAG) .
+	$(DOCKER) build -t $(IMAGE_TAG) .
 PHONY: build
 
 analyze: ## Analyze docker image
@@ -101,19 +109,19 @@ analyze: ## Analyze docker image
 
 build-from-cache: ## Build default docker image using cached layers
 	cd $(CURRENT_DIR)$(DOCKERFILE_DIR); \
-	docker build --cache-from $(CACHE_FROM) . -t $(IMAGE_TAG)
+	$(DOCKER) build --cache-from $(CACHE_FROM) . -t $(IMAGE_TAG)
 PHONY: build-from-cache
 
 pull: ## Pulls docker image from upstream
-	docker pull $(IMAGE_TAG)
+	$(DOCKER) pull $(IMAGE_TAG)
 .PHONY: pull
 
 push: ## Pushes image to upstream
-	docker push $(IMAGE_TAG)
+	$(DOCKER) push $(IMAGE_TAG)
 .PHONY: push
 
 ssh: ## Login into built image
-	docker run --rm -it -v $(PWD)/:/opt/docker-php-base $(IMAGE_TAG) sh
+	$(DOCKER) run --rm -it -v $(PWD)/:/opt/docker-php-base $(IMAGE_TAG) sh
 .PHONY: ssh
 
 #
@@ -144,7 +152,7 @@ hooks: ## Install git hooks from pre-commit-config
 	pre-commit autoupdate
 .PHONY: hooks
 
-lint: lint-yaml lint-actions lint-md ## Runs all linting commands
+lint: lint-yaml lint-actions lint-md lint-ansible ## Runs all linting commands
 .PHONY: lint
 
 lint-yaml: ## Lints yaml files inside project
@@ -164,20 +172,8 @@ lint-md-dry: ## Lint all markdown files using markdownlint-cli2 in dry-run mode
 .PHONY: lint-md-dry
 
 lint-ansible: ## Lint ansible files inside project
-	ansible-lint .
+	@$(ANSIBLE_LINT_RUNNER) . | tee -a $(MAKE_LOGFILE)
 .PHONY: lint-ansible
-
-lint-docker: ## Run hadolint linter over dist Dockerfiles
-	hadolint -V ./dist/base/8.1-cli-alpine/Dockerfile
-	hadolint -V ./dist/base/8.1-fpm-alpine/Dockerfile
-	hadolint -V ./dist/base/8.1-supervisord-alpine/Dockerfile
-	hadolint -V ./dist/base/8.2-cli-alpine/Dockerfile
-	hadolint -V ./dist/base/8.2-fpm-alpine/Dockerfile
-	hadolint -V ./dist/base/8.2-supervisord-alpine/Dockerfile
-	hadolint -V ./dist/base/8.3-cli-alpine/Dockerfile
-	hadolint -V ./dist/base/8.3-fpm-alpine/Dockerfile
-	hadolint -V ./dist/base/8.3-supervisord-alpine/Dockerfile
-.PHONY: lint-docker
 
 #
 # Release

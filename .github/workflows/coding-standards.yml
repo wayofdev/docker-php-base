@@ -66,3 +66,20 @@ jobs:
           globs: |
             **/*.md
             !CHANGELOG.md
+
+  ansible-linting:
+    timeout-minutes: 4
+    runs-on: ubuntu-latest
+    concurrency:
+      cancel-in-progress: true
+      group: ansible-linting-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+    steps:
+      - name: 📦 Check out the codebase
+        uses: actions/checkout@v4.1.7
+
+      - name: 🧐 Lint Ansible files
+        uses: ansible/ansible-lint@v24.7.0
+        with:
+          args: '-c .github/.ansible-lint.yml'
+        env:
+          YAML_CONFIG_PATH: '.github/.yamllint.yaml'

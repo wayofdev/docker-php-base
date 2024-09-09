@@ -74,7 +74,7 @@ jobs:
       cancel-in-progress: true
       group: ansible-linting-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
     env:
-      YAML_CONFIG_PATH: '.github/.yamllint.yaml'
+      YAMLLINT_CONFIG_FILE: '${{ github.workspace }}/.github/.yamllint.yaml'
     steps:
       - name: 📦 Check out the codebase
         uses: actions/checkout@v4.1.7

@@ -82,4 +82,4 @@ jobs:
       - name: 🧐 Lint Ansible files
         uses: ansible/ansible-lint@v24.7.0
         with:
-          args: '-c .github/.ansible-lint.yml'
+          args: '-c ${{ github.workspace }}/.github/.ansible-lint.yml'

@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.7.6](https://github.com/wayofdev/docker-php-base/compare/v2.7.5...v2.7.6) (2024-09-09)
+
+
+### Bug Fixes
+
+* coding standards ([5cdf393](https://github.com/wayofdev/docker-php-base/commit/5cdf39324a6e55f37217328c2cceebf84b351ad9))
+
+
+### Continuous Integration
+
+* add ansible-lint job ([bb6597e](https://github.com/wayofdev/docker-php-base/commit/bb6597e64d0a36e2bfca39025d15773f0d761b21))
+* fix yamllint location ([44a1337](https://github.com/wayofdev/docker-php-base/commit/44a1337f43c9034145cdb3b695c1c38ef166ef01))
+* use absolute path for config ([a3d1b26](https://github.com/wayofdev/docker-php-base/commit/a3d1b26e58ca517b8d5633e95d38e55934e21185))
+
 ## [2.7.5](https://github.com/wayofdev/docker-php-base/compare/v2.7.4...v2.7.5) (2024-09-05)
 
 

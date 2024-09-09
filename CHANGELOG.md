@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.7.8](https://github.com/wayofdev/docker-php-base/compare/v2.7.7...v2.7.8) (2024-09-09)
+
+
+### Documentation
+
+* update README.md ([3475739](https://github.com/wayofdev/docker-php-base/commit/3475739bc7b5c0d316f34932f41edce60d5077d5))
+
 ## [2.7.7](https://github.com/wayofdev/docker-php-base/compare/v2.7.6...v2.7.7) (2024-09-09)
 
 

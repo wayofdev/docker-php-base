@@ -51,7 +51,7 @@
     src: "{{ item.src }}"
     dest: "{{ item.dst }}"
     force: true
-    mode: 0644
+    mode: "0644"
   with_items:
     - "{{ tpl_fpm_configs }}"
 
@@ -61,7 +61,7 @@
     src: "{{ item.src }}"
     dest: "{{ item.dst }}"
     force: true
-    mode: 0644
+    mode: "0644"
   with_items:
     - "{{ tpl_supervisord_configs }}"
 

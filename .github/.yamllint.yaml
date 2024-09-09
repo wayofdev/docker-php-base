@@ -46,6 +46,12 @@ rules:
     require-starting-space: true
     min-spaces-from-content: 1
 
+  comments-indentation: false
+
   line-length: disable
+
+  octal-values:
+    forbid-implicit-octal: true
+    forbid-explicit-octal: true
 
 ...

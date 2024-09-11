@@ -4,6 +4,16 @@
         "config:base",
         ":semanticCommitTypeAll(deps)"
     ],
+    "regexManagers": [
+        {
+            "fileMatch": ["^src/inventory\\.yml$"],
+            "matchStrings": [
+                "os_version:\\s*(?<currentValue>\\d+\\.\\d+)"
+            ],
+            "depNameTemplate": "alpine",
+            "datasourceTemplate": "docker"
+        }
+    ],
     "prHourlyLimit": 0,
     "automerge": true,
     "platformAutomerge": true,

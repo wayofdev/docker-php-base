@@ -47,17 +47,12 @@ Optional tools:
 
 ## 🚀 Quick Project Setup
 
-1. Clone this repository:
+Clone the repository:
 
-   ```bash
-   git clone git@github.com:wayofdev/docker-php-base.git && cd docker-php-base
-   ```
-
-2. Install dependencies and set up the project:
-
-   ```bash
-   make env install
-   ```
+```bash
+git clone git@github.com:wayofdev/docker-php-base.git && \
+cd docker-php-base
+```
 
 <br>
 
@@ -182,7 +177,52 @@ We use various tools to maintain code quality:
 
 Run `make lint-yaml`, `make lint-docker`, and `make lint-ansible` to check your code.
 
-Thank you for contributing to docker-php-base!
+Here's a list of tools we use:
+
+### → Yaml Lint
+
+We use [`yamllint`](https://github.com/adrienverge/yamllint) to enforce coding standards in YAML files.
+
+To lint yaml files run:
+
+```bash
+make lint-yaml
+```
+
+by default, [`cytopia/yamllint`](https://github.com/cytopia/docker-yamllint) Docker image will be used to run linter.
+
+### → Action Lint
+
+We use [`actionlint`](https://github.com/rhysd/actionlint) to enforce coding standards in GitHub Actions workflows.
+
+To lint GitHub Actions run:
+
+```bash
+make lint-actions
+```
+
+by default, [`rhysd/actionlint`](https://hub.docker.com/r/rhysd/actionlint/tags) Docker image will be used to run linter.
+
+### → Markdown Lint
+
+We use [`markdownlint-cli2`](https://github.com/davidanson/markdownlint-cli2) to enforce coding standards in Markdown files.
+
+To lint markdown files run:
+
+```bash
+make lint-md-dry
+make lint-md
+```
+
+### → Ansible Lint
+
+We use [`ansible-lint`](https://github.com/ansible/ansible-lint) to check Ansible playbooks for practices and behavior that could potentially be improved.
+
+To lint Ansible files, run:
+
+```bash
+make lint-ansible
+```
 
 <br>
 

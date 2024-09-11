@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.7.10](https://github.com/wayofdev/docker-php-base/compare/v2.7.9...v2.7.10) (2024-09-11)
+
+
+### Dependencies
+
+* **deps:** update ansible/ansible-lint action to v24.9.0 ([ebdcaec](https://github.com/wayofdev/docker-php-base/commit/ebdcaec9ecfccb10b3878dd5a7280ab3a0213f31))
+
 ## [2.7.9](https://github.com/wayofdev/docker-php-base/compare/v2.7.8...v2.7.9) (2024-09-11)
 
 

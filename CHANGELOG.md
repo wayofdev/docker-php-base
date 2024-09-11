@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.7.11](https://github.com/wayofdev/docker-php-base/compare/v2.7.10...v2.7.11) (2024-09-11)
+
+
+### Continuous Integration
+
+* updating docs and renovate bot config ([ed83040](https://github.com/wayofdev/docker-php-base/commit/ed83040d0bcf6f878e670b8e6bd0028a300a18fc))
+
 ## [2.7.10](https://github.com/wayofdev/docker-php-base/compare/v2.7.9...v2.7.10) (2024-09-11)
 
 

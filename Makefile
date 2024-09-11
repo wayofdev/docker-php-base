@@ -81,7 +81,7 @@ help:
 	@echo '    📑 Logs are stored in      $(MAKE_LOGFILE)'
 	@echo
 	@echo '    📦 Package                 docker-php-base (github.com/wayofdev/docker-php-base)'
-	@echo '    🤠 Author                  Andrij Orlenko (github.com/lotyp)'
+	@echo '    🤠 Author                  the dev (github.com/lotyp)'
 	@echo '    🏢 ${YELLOW}Org                     wayofdev (github.com/wayofdev)${RST}'
 .PHONY: help
 

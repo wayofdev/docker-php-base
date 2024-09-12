@@ -21,7 +21,7 @@ body:
 
   - type: markdown
     attributes:
-      value: 'To create a new advisory, go to: [Create Security Advisory](https://github.com/wayofdev/spiral-starter-tpl/security/advisories/new)'
+      value: 'To create a new advisory, go to: [Create Security Advisory](https://github.com/wayofdev/docker-php-base/security/advisories/new)'
 
   - type: textarea
     id: github-advisory-url

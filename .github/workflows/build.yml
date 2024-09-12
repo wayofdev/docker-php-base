@@ -1,9 +1,5 @@
 ---
 
-concurrency:
-  group: "${{ github.workflow }}-${{ github.ref }}"
-  cancel-in-progress: true
-
 on:  # yamllint disable-line rule:truthy
   workflow_dispatch:
   push:
@@ -20,6 +16,10 @@ env:
   GHCR_NAMESPACE: ghcr.io/wayofdev/docker-php-base
 
 name: 🚀 Build docker images with latest tag
+
+concurrency:
+  group: "${{ github.workflow }}-${{ github.ref }}"
+  cancel-in-progress: true
 
 jobs:
   build:

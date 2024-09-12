@@ -11,6 +11,10 @@ name: 🐞 Differential shell-check
 permissions:
   contents: read
 
+concurrency:
+  group: "${{ github.workflow }}-${{ github.ref }}"
+  cancel-in-progress: true
+
 jobs:
   shellcheck:
     uses: wayofdev/gh-actions/.github/workflows/shellcheck.yml@v3.2.0

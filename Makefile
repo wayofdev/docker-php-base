@@ -83,6 +83,7 @@ help:
 	@echo '    📦 Package                 docker-php-base (github.com/wayofdev/docker-php-base)'
 	@echo '    🤠 Author                  the dev (github.com/lotyp)'
 	@echo '    🏢 ${YELLOW}Org                     wayofdev (github.com/wayofdev)${RST}'
+	@echo
 .PHONY: help
 
 .EXPORT_ALL_VARIABLES:

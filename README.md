@@ -339,7 +339,7 @@ Thank you for considering contributing to the wayofdev community! We are open to
 - 🤔 [Suggest a feature](https://github.com/wayofdev/docker-php-base/issues/new?assignees=&labels=type%3A+enhancement&projects=&template=2-feature-request.yml&title=%5BFeature%5D%3A+)
 - 🐛 [Report an issue](https://github.com/wayofdev/docker-php-base/issues/new?assignees=&labels=type%3A+documentation%2Ctype%3A+maintenance&projects=&template=1-bug-report.yml&title=%5BBug%5D%3A+)
 - 📖 [Improve documentation](https://github.com/wayofdev/docker-php-base/issues/new?assignees=&labels=type%3A+documentation%2Ctype%3A+maintenance&projects=&template=4-docs-bug-report.yml&title=%5BDocs%5D%3A+)
-- 👨‍💻 [Contribute to the code](./github/CONTRIBUTING.md)
+- 👨‍💻 [Contribute to the code](./.github/CONTRIBUTING.md)
 
 You are more than welcome. Before contributing, kindly check our [contribution guidelines](.github/CONTRIBUTING.md).
 

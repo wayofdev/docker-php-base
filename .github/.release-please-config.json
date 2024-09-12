@@ -42,16 +42,16 @@
         {
             "type": "test",
             "section": "Tests",
-            "hidden": false
-        },
-        {
-            "type": "ci",
-            "section": "Continuous Integration",
-            "hidden": false
+            "hidden": true
         },
         {
             "type": "build",
             "section": "Build System",
+            "hidden": true
+        },
+        {
+            "type": "ci",
+            "section": "Continuous Integration",
             "hidden": true
         },
         {

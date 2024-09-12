@@ -1,9 +1,5 @@
 ---
 
-concurrency:
-  group: "${{ github.workflow }}-${{ github.ref }}"
-  cancel-in-progress: true
-
 on:  # yamllint disable-line rule:truthy
   pull_request:
     paths-ignore:
@@ -14,6 +10,10 @@ env:
   GHCR_NAMESPACE: ghcr.io/wayofdev/docker-php-base
 
 name: 🧪 Test Docker images
+
+concurrency:
+  group: "${{ github.workflow }}-${{ github.ref }}"
+  cancel-in-progress: true
 
 jobs:
   test:

@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.7.16](https://github.com/wayofdev/docker-php-base/compare/v2.7.15...v2.7.16) (2024-10-07)
+
+
+### Dependencies
+
+* **deps:** update actions/checkout action to v4.2.1 ([cf25903](https://github.com/wayofdev/docker-php-base/commit/cf25903156e497129caf84c974563e02d0ee5235))
+
 ## [2.7.15](https://github.com/wayofdev/docker-php-base/compare/v2.7.14...v2.7.15) (2024-10-02)
 
 

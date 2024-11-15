@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.7.18](https://github.com/wayofdev/docker-php-base/compare/v2.7.17...v2.7.18) (2024-11-15)
+
+
+### Dependencies
+
+* **deps:** update actions/checkout action to v4.2.2 ([332f496](https://github.com/wayofdev/docker-php-base/commit/332f49613716be2971a5ad4df1b68af404db0455))
+* **deps:** update ansible/ansible-lint action to v24.10.0 ([#100](https://github.com/wayofdev/docker-php-base/issues/100)) ([f30b822](https://github.com/wayofdev/docker-php-base/commit/f30b822ff6956ed85bc7f535bcd5a6f2f23b0521))
+
 ## [2.7.17](https://github.com/wayofdev/docker-php-base/compare/v2.7.16...v2.7.17) (2024-11-15)
 
 

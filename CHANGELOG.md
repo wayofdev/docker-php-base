@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.7.19](https://github.com/wayofdev/docker-php-base/compare/v2.7.18...v2.7.19) (2024-11-16)
+
+
+### Bug Fixes
+
+* updates ([4bdada8](https://github.com/wayofdev/docker-php-base/commit/4bdada8130d2231d8c2e6352d0db09b73dd7e999))
+
 ## [2.7.18](https://github.com/wayofdev/docker-php-base/compare/v2.7.17...v2.7.18) (2024-11-15)
 
 

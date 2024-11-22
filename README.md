@@ -23,7 +23,7 @@
 
 The `docker-php-base` project is a **system** for creating and maintaining **PHP Docker images**.
 
-It uses **Ansible** to generate **Dockerfiles** for multiple PHP versions (7.4, 8.0, **8.1, 8.2, 8.3**) and types (**CLI, FPM, Supervisord**) on **Alpine Linux**.
+It uses **Ansible** to generate **Dockerfiles** for multiple PHP versions (7.4, 8.0, **8.1, 8.2, 8.3, 8.4**) and types (**CLI, FPM, Supervisord**) on **Alpine Linux**.
 
 The project automates the build process using **GitHub Actions**, creating multi-architecture images (**AMD64** and **ARM64**) that are tested with [goss](https://github.com/goss-org/goss).
 
@@ -37,7 +37,7 @@ If you **like/use** this package, please consider ⭐️ **starring** it. Thanks
 
 ## 🚀 Features
 
-- **Multiple PHP Versions:** Supports PHP 7.4, 8.0, 8.1, 8.2, and 8.3.
+- **Multiple PHP Versions:** Supports PHP 7.4, 8.0, 8.1, 8.2, 8.3 and **8.4**.
 - **Various PHP Types:** Includes CLI, FPM, and Supervisord configurations.
 - **Alpine-based:** Lightweight images built on Alpine Linux.
 - **Pre-configured Extensions:** Comes with a wide range of pre-installed PHP extensions.
@@ -57,7 +57,7 @@ If you **like/use** this package, please consider ⭐️ **starring** it. Thanks
 - **GitHub Actions:** CI/CD pipeline for automated building, testing, and publishing.
 - **dgoss:** For Docker image testing.
 - **Alpine Linux:** Base OS for the Docker images.
-- **PHP:** Core language with multiple versions (7.4, 8.0, 8.1, 8.2, 8.3).
+- **PHP:** Core language with multiple versions (7.4, 8.0, 8.1, 8.2, 8.3, 8.4).
 
 <br>
 
@@ -109,7 +109,7 @@ Replace `8.3-fpm-alpine-latest` with your desired PHP version, type, and tag.
 
 The images are available in various combinations of PHP versions, types, and architectures:
 
-- **PHP Versions:** 8.1, 8.2, 8.3
+- **PHP Versions:** 8.1, 8.2, 8.3, 8.4
 - **Types:** cli, fpm, supervisord
 - **Architectures:** amd64, arm64
 
@@ -203,6 +203,9 @@ make generate
   make build IMAGE_TEMPLATE="8.3-cli-alpine"
   make build IMAGE_TEMPLATE="8.3-fpm-alpine"
   make build IMAGE_TEMPLATE="8.3-supervisord-alpine"
+  make build IMAGE_TEMPLATE="8.4-cli-alpine"
+  make build IMAGE_TEMPLATE="8.4-fpm-alpine"
+  make build IMAGE_TEMPLATE="8.4-supervisord-alpine"
   ```
 
   These commands will build all supported image variants.
@@ -303,6 +306,9 @@ You can run tests using the following commands:
   make test IMAGE_TEMPLATE="8.3-cli-alpine"
   make test IMAGE_TEMPLATE="8.3-fpm-alpine"
   make test IMAGE_TEMPLATE="8.3-supervisord-alpine"
+  make test IMAGE_TEMPLATE="8.4-cli-alpine"
+  make test IMAGE_TEMPLATE="8.4-fpm-alpine"
+  make test IMAGE_TEMPLATE="8.4-supervisord-alpine"
   ```
 
 ### → Test Configuration

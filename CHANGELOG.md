@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.8.0](https://github.com/wayofdev/docker-php-base/compare/v2.7.20...v2.8.0) (2024-11-22)
+
+
+### Features
+
+* add php 8.4 support ([9e32d8e](https://github.com/wayofdev/docker-php-base/commit/9e32d8e580152ccc2309c8e9ef4e8c78cc7b8521))
+
 ## [2.7.20](https://github.com/wayofdev/docker-php-base/compare/v2.7.19...v2.7.20) (2024-11-22)
 
 

@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.7.20](https://github.com/wayofdev/docker-php-base/compare/v2.7.19...v2.7.20) (2024-11-22)
+
+
+### Bug Fixes
+
+* schedule builds on mondays ([79e9d0c](https://github.com/wayofdev/docker-php-base/commit/79e9d0cfb3cf1438f9b856dd21b4e28ad39b0dcd))
+
 ## [2.7.19](https://github.com/wayofdev/docker-php-base/compare/v2.7.18...v2.7.19) (2024-11-16)
 
 

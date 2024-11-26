@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.8.1](https://github.com/wayofdev/docker-php-base/compare/v2.8.0...v2.8.1) (2024-11-26)
+
+
+### Bug Fixes
+
+* auto-build every day at 8:30 ([a653ca6](https://github.com/wayofdev/docker-php-base/commit/a653ca6b756f45433e2390d11c1817c3c766c462))
+
 ## [2.8.0](https://github.com/wayofdev/docker-php-base/compare/v2.7.20...v2.8.0) (2024-11-22)
 
 

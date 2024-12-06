@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.8.3](https://github.com/wayofdev/docker-php-base/compare/v2.8.2...v2.8.3) (2024-12-06)
+
+
+### Dependencies
+
+* **deps:** update alpine docker tag to v3.21 ([#114](https://github.com/wayofdev/docker-php-base/issues/114)) ([722aa47](https://github.com/wayofdev/docker-php-base/commit/722aa47b9863d795f2cc777e4e00b49ea7aca082))
+
 ## [2.8.2](https://github.com/wayofdev/docker-php-base/compare/v2.8.1...v2.8.2) (2024-12-03)
 
 

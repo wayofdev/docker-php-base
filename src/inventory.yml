@@ -11,21 +11,21 @@ all:
           php_version: 7.4
           php_type: cli
           os_name: alpine
-          os_version: 3.20
+          os_version: 3.21
         7.4-fpm-alpine:
           ansible_connection: local
           level: base
           php_version: 7.4
           php_type: fpm
           os_name: alpine
-          os_version: 3.20
+          os_version: 3.21
         7.4-supervisord-alpine:
           ansible_connection: local
           level: base
           php_version: 7.4
           php_type: supervisord
           os_name: alpine
-          os_version: 3.20
+          os_version: 3.21
         # PHP 8.0
         8.0-cli-alpine:
           ansible_connection: local
@@ -33,21 +33,21 @@ all:
           php_version: 8.0
           php_type: cli
           os_name: alpine
-          os_version: 3.20
+          os_version: 3.21
         8.0-fpm-alpine:
           ansible_connection: local
           level: base
           php_version: 8.0
           php_type: fpm
           os_name: alpine
-          os_version: 3.20
+          os_version: 3.21
         8.0-supervisord-alpine:
           ansible_connection: local
           level: base
           php_version: 8.0
           php_type: supervisord
           os_name: alpine
-          os_version: 3.20
+          os_version: 3.21
         # PHP 8.1
         8.1-cli-alpine:
           ansible_connection: local
@@ -55,21 +55,21 @@ all:
           php_version: 8.1
           php_type: cli
           os_name: alpine
-          os_version: 3.20
+          os_version: 3.21
         8.1-fpm-alpine:
           ansible_connection: local
           level: base
           php_version: 8.1
           php_type: fpm
           os_name: alpine
-          os_version: 3.20
+          os_version: 3.21
         8.1-supervisord-alpine:
           ansible_connection: local
           level: base
           php_version: 8.1
           php_type: supervisord
           os_name: alpine
-          os_version: 3.20
+          os_version: 3.21
         # PHP 8.2
         8.2-cli-alpine:
           ansible_connection: local
@@ -77,21 +77,21 @@ all:
           php_version: 8.2
           php_type: cli
           os_name: alpine
-          os_version: 3.20
+          os_version: 3.21
         8.2-fpm-alpine:
           ansible_connection: local
           level: base
           php_version: 8.2
           php_type: fpm
           os_name: alpine
-          os_version: 3.20
+          os_version: 3.21
         8.2-supervisord-alpine:
           ansible_connection: local
           level: base
           php_version: 8.2
           php_type: supervisord
           os_name: alpine
-          os_version: 3.20
+          os_version: 3.21
         # PHP 8.3
         8.3-cli-alpine:
           ansible_connection: local
@@ -99,21 +99,21 @@ all:
           php_version: 8.3
           php_type: cli
           os_name: alpine
-          os_version: 3.20
+          os_version: 3.21
         8.3-fpm-alpine:
           ansible_connection: local
           level: base
           php_version: 8.3
           php_type: fpm
           os_name: alpine
-          os_version: 3.20
+          os_version: 3.21
         8.3-supervisord-alpine:
           ansible_connection: local
           level: base
           php_version: 8.3
           php_type: supervisord
           os_name: alpine
-          os_version: 3.20
+          os_version: 3.21
         # PHP 8.4
         8.4-cli-alpine:
           ansible_connection: local
@@ -121,20 +121,20 @@ all:
           php_version: 8.4
           php_type: cli
           os_name: alpine
-          os_version: 3.20
+          os_version: 3.21
         8.4-fpm-alpine:
           ansible_connection: local
           level: base
           php_version: 8.4
           php_type: fpm
           os_name: alpine
-          os_version: 3.20
+          os_version: 3.21
         8.4-supervisord-alpine:
           ansible_connection: local
           level: base
           php_version: 8.4
           php_type: supervisord
           os_name: alpine
-          os_version: 3.20
+          os_version: 3.21
 
 ...

@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.8.10](https://github.com/wayofdev/docker-php-base/compare/v2.8.9...v2.8.10) (2025-01-19)
+
+
+### Dependencies
+
+* **deps:** update davidanson/markdownlint-cli2-action action to v19.1.0 ([#129](https://github.com/wayofdev/docker-php-base/issues/129)) ([11b2afc](https://github.com/wayofdev/docker-php-base/commit/11b2afce74a7c8ebe5fd4944afe77e18ed12cd8b))
+
 ## [2.8.9](https://github.com/wayofdev/docker-php-base/compare/v2.8.8...v2.8.9) (2025-01-14)
 
 

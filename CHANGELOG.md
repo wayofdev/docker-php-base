@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.8.12](https://github.com/wayofdev/docker-php-base/compare/v2.8.11...v2.8.12) (2025-01-21)
+
+
+### Dependencies
+
+* **deps:** update docker/bake-action action to v5.12.0 ([#133](https://github.com/wayofdev/docker-php-base/issues/133)) ([0d711fb](https://github.com/wayofdev/docker-php-base/commit/0d711fb11eaebb7daf1077c3f08bbdb212e3ee82))
+
 ## [2.8.11](https://github.com/wayofdev/docker-php-base/compare/v2.8.10...v2.8.11) (2025-01-20)
 
 

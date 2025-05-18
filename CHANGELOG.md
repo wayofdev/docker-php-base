@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.8.18](https://github.com/wayofdev/docker-php-base/compare/v2.8.17...v2.8.18) (2025-05-18)
+
+
+### Dependencies
+
+* **deps:** update wayofdev/gh-actions action to v3.3.0 ([#148](https://github.com/wayofdev/docker-php-base/issues/148)) ([1e1568b](https://github.com/wayofdev/docker-php-base/commit/1e1568be6371d1c3c55d8a5ca19623c56658075f))
+
 ## [2.8.17](https://github.com/wayofdev/docker-php-base/compare/v2.8.16...v2.8.17) (2025-02-27)
 
 
